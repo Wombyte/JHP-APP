@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <RelativeLayout
+            android:id="@+id/container_homework_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tv_subject_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/homework_subject"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+                android:id="@+id/spinner_subject_homework"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_below="@+id/tv_subject_homework"
+                android:gravity="top"
+                android:textAlignment="center">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+
+            <TextView
+                android:id="@+id/tv_date_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/spinner_subject_homework"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="16dp"
+                android:text="@string/homework_date"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <mc.wombyte.marcu.jhp_app.DatePicker
+                android:id="@+id/spinner_date_homework"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_below="@+id/tv_date_homework" />
+
+            <TextView
+                android:id="@+id/tv_description_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/spinner_date_homework"
+                android:layout_marginBottom="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="16dp"
+                android:text="@string/homework_description"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/container_button_text_description_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/ed_description_homework"
+                android:layout_alignTop="@id/ed_description_homework"
+                android:layout_below="@id/tv_description_homework"
+                android:gravity="center"
+                android:paddingEnd="6dp"
+                android:paddingStart="6dp">
+
+                <ImageView
+                    android:id="@+id/imageview_text_description_homework"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@color/background"
+                    android:contentDescription="@string/homework_description"
+                    android:src="@drawable/symbol_homework_text"
+                    android:tint="@color/colorAccent" />
+
+            </RelativeLayout>
+
+            <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+                android:id="@+id/ed_description_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/tv_description_homework"
+                android:layout_toEndOf="@+id/container_button_text_description_homework"
+                android:ems="10"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/container_button_images_description_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/vs_description_homework"
+                android:layout_alignTop="@id/vs_description_homework"
+                android:layout_below="@id/container_button_text_description_homework"
+                android:gravity="center"
+                android:paddingEnd="6dp"
+                android:paddingStart="6dp">
+
+                <ImageButton
+                    android:id="@+id/b_images_description_homework"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@color/background"
+                    android:contentDescription="@string/homework_description"
+                    android:src="@drawable/symbol_add_image"
+                    android:tint="@color/colorAccent" />
+
+            </RelativeLayout>
+
+            <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+                android:id="@+id/vs_description_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/ed_description_homework"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@+id/container_button_text_description_homework"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/homework_description_image"
+                    android:textSize="14sp" />
+
+                <mc.wombyte.marcu.jhp_app.Reuseables.HorizontalImageListView.HorizontalImageListView
+                    android:id="@+id/listview_description_homework"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+                </mc.wombyte.marcu.jhp_app.Reuseables.HorizontalImageListView.HorizontalImageListView>
+
+            </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+
+            <TextView
+                android:id="@+id/tv_kind_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ed_misc_homework"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/container_button_images_description_homework"
+                android:gravity="center_vertical"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:text="@string/homework_kind"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup_kind_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vs_description_homework"
+                android:layout_marginTop="24dp"
+                android:layout_toEndOf="@id/tv_kind_homework"
+                android:paddingBottom="5dp">
+
+                <RadioButton
+                    android:id="@+id/radio_b_homework"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableLeft="@drawable/symbol_homework_homework"
+                    android:drawablePadding="10dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/homework_kind_homework" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_presentation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableLeft="@drawable/symbol_homework_presentation"
+                    android:drawablePadding="10dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/homework_kind_presentation" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableLeft="@drawable/symbol_homework_test"
+                    android:drawablePadding="10dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/homework_kind_test" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_exam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableLeft="@drawable/symbol_homework_exam"
+                    android:drawablePadding="10dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/homework_kind_exam" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_misc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableLeft="@drawable/symbol_grade_misc"
+                    android:drawablePadding="10dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/homework_kind_misc" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/ed_misc_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/radiogroup_kind_homework"
+                android:layout_toEndOf="@+id/tv_kind_homework"
+                android:ems="10" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

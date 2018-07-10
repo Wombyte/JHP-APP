@@ -1,0 +1,37 @@
+<resources>
+    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
+         (such as screen margins) for screens with more than 820dp of available width. This
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
+
+    <!-- scrolledBy fragment -->
+    <dimen name="scroll_option_radius">26dp</dimen>
+    <dimen name="scroll_option_stroke_size">2dp</dimen>
+    <dimen name="scroll_option_text_radius">40dp</dimen>
+    <dimen name="scroll_option_text_size">15sp</dimen>
+    <dimen name="scroll_text_size">20dp</dimen>
+    <dimen name="scroll_ring_width">3dp</dimen>
+
+    <!-- grade fragment -->
+
+    <!-- grade activity -->
+    <dimen name="grade_date_textview_padding_left">10dp</dimen>
+    <dimen name="grade_date_textview_size">7sp</dimen>
+
+    <!-- grade diagram -->
+    <dimen name="grade_diagram_padding_start">30dp</dimen>
+    <dimen name="grade_diagram_padding_end">10dp</dimen>
+    <dimen name="grade_diagram_axes_text_size">12sp</dimen>
+    <dimen name="grade_diagram_axes_width">1dp</dimen>
+    <dimen name="grade_diagram_line_width">0.5dp</dimen>
+    <dimen name="grade_diagram_grade_graph_width">1dp</dimen>
+    <dimen name="grade_diagram_average_graph_width">1.8dp</dimen>
+    <dimen name="grade_diagram_point_radius">3dp</dimen>
+
+    <!-- textare -->
+    <dimen name="textarea_padding">10dp</dimen>
+
+    <!-- setting menu fragments -->
+    <dimen name="setting_menu_fragment_circle_menu">20dp</dimen>
+    <dimen name="setting_menu_toolbar_height">60dp</dimen>
+
+</resources>

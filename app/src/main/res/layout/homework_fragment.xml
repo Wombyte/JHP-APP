@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_homework"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mc.wombyte.marcu.jhp_app.Homework_pl_fragment">
+
+    <ListView
+        android:id="@+id/list_homework"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/background"
+        android:paddingTop="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"/>
+
+</RelativeLayout>

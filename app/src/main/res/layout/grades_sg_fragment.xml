@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mc.wombyte.marcu.jhp_app.Grades_sg_fragment">
+
+    <mc.wombyte.marcu.jhp_app.Grades_diagram
+        android:id="@+id/diagram_grades_sg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
+
+    <ListView
+        android:id="@+id/list_grade_sg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/diagram_grades_sg"
+        android:background="@color/background"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"/>
+
+</RelativeLayout>

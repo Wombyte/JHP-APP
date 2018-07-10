@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/table_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingEnd="25dp"
+    android:paddingStart="10dp"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:id="@+id/row_headers_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_time_schedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/schedule_time"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_monday_schedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/schedule_monday"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_tuesday_schedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/schedule_tuesday"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_wednesday_schedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/schedule_wednesday"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_thursday_schedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/schedule_thursday"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_friday_schedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/schedule_friday"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/gridview_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/row_headers_schedule"
+        android:background="@color/background"
+        android:numColumns="6"
+        android:paddingBottom="10dp"
+        android:scrollbars="none" />
+
+</RelativeLayout>

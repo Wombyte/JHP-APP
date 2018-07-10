@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "235020927275",
+    "firebase_url": "https://jhp-app.firebaseio.com",
+    "project_id": "jhp-app",
+    "storage_bucket": "jhp-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235020927275:android:5d56196e5690b85f",
+        "android_client_info": {
+          "package_name": "mc.wombyte.marcu.jhp_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235020927275-1h4o1sr4hu6a3agc7mnvn9e7q63jqioj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mc.wombyte.marcu.jhp_app",
+            "certificate_hash": "1bb3e68b22b1bf2e0dc0b053be294a7841bdbae5"
+          }
+        },
+        {
+          "client_id": "235020927275-5it7dnqdq50fdnqd82orh6tlprtq3nvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQznzHdRfBZNbiiGi7OdMhFKH5BvvbDPc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235020927275-5it7dnqdq50fdnqd82orh6tlprtq3nvj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

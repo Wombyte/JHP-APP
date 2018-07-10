@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_archive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/heading"
+        android:clipToPadding="false"
+        android:elevation="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:translationZ="2dp">
+
+        <ImageButton
+            android:id="@+id/b_back_archive"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/symbol_back"
+            android:tint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/tv_heading_archive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/b_back_archive"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/b_back_archive"
+            android:layout_toStartOf="@+id/b_add_archive"
+            android:gravity="center_vertical"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:text="@string/archive_heading"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/b_add_archive"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/background"
+            android:src="@drawable/symbol_add" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listview_archive_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_archive"
+        android:background="@color/background" />
+
+    <RelativeLayout
+        android:id="@+id/archive_scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/transparent"
+        android:translationZ="11dp">
+
+    </RelativeLayout>
+
+</RelativeLayout>

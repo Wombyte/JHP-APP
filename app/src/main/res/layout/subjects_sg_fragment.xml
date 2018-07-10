@@ -1,0 +1,175 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mc.wombyte.marcu.jhp_app.Subjects_sg_fragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@color/background">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_abbreviation_subject_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:text="@string/subject_general_abbreviation"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/ed_abbreviation_subject_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/tv_abbreviation_subject_activity"
+                android:layout_marginStart="0dp"
+                android:gravity="bottom"
+                android:maxLength="3"
+                android:maxLines="1"
+                android:paddingTop="8dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_abbreviation_helper_subject_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ed_abbreviation_subject_activity"
+                android:paddingBottom="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="-1dp"
+                android:text="@string/subject_general_abbreviation_helper"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_teacher_subject_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_abbreviation_helper_subject_activity"
+                android:gravity="center_vertical"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="4dp"
+                android:text="@string/subject_general_teacher"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/ed_teacher_subject_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/tv_teacher_subject_activity"
+                android:layout_marginBottom="8dp"
+                android:gravity="bottom"
+                android:maxLines="1"
+                android:paddingTop="8dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_average_subject_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ed_teacher_subject_activity"
+                android:layout_marginBottom="5dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="8dp"
+                android:text="@string/subject_general_average"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_color1_subject_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_average_subject_activity"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:text="@string/subject_general_color1"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/b_color1_subject_activity"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_color1_subject_activity"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/tv_color1_subject_activity"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/button_color" />
+
+            <TextView
+                android:id="@+id/tv_color2_subject_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_color1_subject_activity"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:text="@string/subject_general_color2"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/b_color2_subject_activity"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_color2_subject_activity"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/tv_color2_subject_activity"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/button_color"
+                android:paddingTop="8dp" />
+
+            <TextView
+                android:id="@+id/tv_notice_subject_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_color2_subject_activity"
+                android:layout_marginTop="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:text="@string/subject_general_notice"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+                android:id="@+id/ed_notice_subject_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_notice_subject_activity"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

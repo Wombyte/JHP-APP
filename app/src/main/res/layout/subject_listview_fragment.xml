@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="0dp"
+    android:paddingStart="0dp"
+    tools:context="mc.wombyte.marcu.jhp_app.Subject_listview_adapter">
+
+    <TextView
+        android:id="@+id/tv_subjects_subject_average"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_marginEnd="5dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/tv_subjects_subject_grades" />
+
+    <TextView
+        android:id="@+id/tv_subjects_subject_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tv_subjects_subject_average"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:textStyle="bold"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:id="@+id/tv_subjects_subject_grades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tv_subjects_subject_average"
+        android:layout_below="@id/tv_subjects_subject_name"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:textSize="18sp"/>
+
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/subjects_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="mc.wombyte.marcu.jhp_app.Subjects_pl_fragment">
+
+    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vs_view_subjects"
+        android:paddingBottom="0dp"
+        android:paddingTop="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:layout_alignParentStart="true">
+
+        <ListView
+            android:id="@+id/container_list_subjects"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="none" />
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2"
+            android:horizontalSpacing="8dp"
+            android:verticalSpacing="8dp"/>
+
+    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+
+</RelativeLayout>

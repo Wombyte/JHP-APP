@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="mc.wombyte.marcu.jhp_app.MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/heading"
+        android:elevation="5dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="0dp"
+        android:paddingTop="5dp"
+        android:translationZ="5dp">
+
+        <TextView
+            android:id="@+id/tv_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/b_settings"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/b_archive"
+            android:background="@color/background"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="30dp"
+            android:text="@string/heading"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/b_settings"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/background"
+            android:src="@drawable/symbol_settings" />
+
+        <ImageButton
+            android:id="@+id/b_archive"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@id/b_settings"
+            android:background="@color/background"
+            android:src="@drawable/symbol_semesters" />
+
+        <!--Button
+            android:id="@+id/b_test"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@id/b_archive"/-->
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/heading"
+        android:elevation="5dp"
+        android:orientation="horizontal"
+        android:translationZ="5dp"
+        android:weightSum="4">
+
+        <RelativeLayout
+            android:id="@+id/menu_schedule_container"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:id="@+id/image_menu_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/symbol_schedule"
+                android:tint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tv_menu_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_menu_schedule"
+                android:layout_centerHorizontal="true"
+                android:text="@string/grades_menu"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/menu_subjects_container"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:id="@+id/image_menu_subjects"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/symbol_subjects"
+                android:tint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tv_menu_subjects"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_menu_subjects"
+                android:layout_centerHorizontal="true"
+                android:text="@string/subjects_menu"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/menu_homework_container"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:id="@+id/image_menu_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/symbol_homework"
+                android:tint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tv_menu_homework"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_menu_homework"
+                android:layout_centerHorizontal="true"
+                android:text="@string/homework_menu"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/menu_grades_container"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:id="@+id/image_menu_grades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/symbol_grades"
+                android:tint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tv_menu_grades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_menu_grades"
+                android:layout_centerHorizontal="true"
+                android:text="@string/grades_menu"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/menu_container"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/background">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/transparent"
+        android:translationZ="11dp">
+
+    </RelativeLayout>
+
+</RelativeLayout>

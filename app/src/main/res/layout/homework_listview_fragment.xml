@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
+
+    <TextView
+        android:id="@+id/tv_date_listview_homework"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_abbreviation_listview_homework"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_long_description_listview_homework"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_date_listview_homework"
+        android:gravity="center"
+        android:paddingEnd="10dp"
+        android:paddingStart="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/tv_short_description_listview_homework"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_date_listview_homework"
+        android:layout_toEndOf="@id/tv_abbreviation_listview_homework"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/image_state_listview_homework"
+        android:src="@drawable/symbol_homework_false"
+        android:layout_width="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_short_description_listview_homework"
+        android:layout_below="@+id/tv_date_listview_homework"
+        android:layout_toEndOf="@id/tv_short_description_listview_homework"/>
+
+    <TextView
+        android:id="@+id/tv_long_description_listview_homework"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tv_short_description_listview_homework"
+        android:layout_toEndOf="@+id/tv_abbreviation_listview_homework"/>
+
+</RelativeLayout>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/container_content_archive_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tv_heading_archive_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:text="@string/archive_dialog_heading"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_class_archive_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tv_heading_archive_dialog"
+            android:gravity="center_vertical"
+            android:paddingBottom="5dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/first_use_class"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinner_class_archive_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@+id/tv_class_archive_dialog"
+            android:gravity="top"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/tv_semester_archive_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/spinner_class_archive_dialog"
+            android:gravity="center_vertical"
+            android:paddingBottom="5dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:paddingTop="16dp"
+            android:text="@string/first_use_semester"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+            android:id="@+id/spinner_semester_archive_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@+id/tv_semester_archive_dialog"
+            android:gravity="center"
+            android:textAlignment="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+
+        <CheckBox
+            android:id="@+id/checkbox_with_subjects_archive_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/spinner_semester_archive_dialog"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:text="@string/archive_dialog_with_subjects"
+            android:textSize="14sp"
+            android:checked="true"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_with_schedule_archive_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/checkbox_with_subjects_archive_dialog"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:text="@string/archive_dialog_with_schedule"
+            android:textSize="14sp"
+            android:checked="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/container_content_archive_dialog"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="24dp"
+        android:paddingTop="8dp">
+
+        <Button
+            android:id="@+id/b_cancel_archive_dialog"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_boolean_dialog"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/archive_dialog_cancel"
+            android:textColor="@color/first_use_back_disabled"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/b_finish_archive_dialog"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_boolean_dialog"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/archive_dialog_create"
+            android:textColor="@color/first_use_next"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/tv_class_question_setup_fragment"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/first_use_class_question"
+        android:textAlignment="center"
+        android:paddingEnd="50dp"
+        android:paddingStart="50dp"
+        android:paddingTop="30dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/container_class_setup_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="50dp"
+        android:layout_below="@id/tv_class_question_setup_fragment">
+
+        <TextView
+            android:id="@+id/tv_class_setup_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/first_use_class"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp"
+            android:layout_alignTop="@+id/spinner_class_setup_fragment"
+            android:layout_alignBottom="@id/spinner_class_setup_fragment"
+            android:gravity="center_vertical"/>
+
+        <Spinner
+            android:id="@+id/spinner_class_setup_fragment"
+            android:layout_toEndOf="@id/tv_class_setup_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:id="@+id/space_setup_fragment"
+            android:layout_below="@id/tv_class_setup_fragment"/>
+
+        <TextView
+            android:id="@+id/tv_semester_setup_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/first_use_semester"
+            android:textStyle="bold"
+            android:layout_below="@id/space_setup_fragment"
+            android:textSize="14sp"
+            android:layout_alignTop="@+id/spinner_semester_setup_fragment"
+            android:layout_alignBottom="@id/spinner_semester_setup_fragment"
+            android:gravity="center_vertical"/>
+
+        <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+            android:id="@+id/spinner_semester_setup_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/space_setup_fragment"
+            android:layout_toEndOf="@+id/tv_class_setup_fragment" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/tv_rating_setup_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:paddingBottom="10dp"
+        android:paddingEnd="50dp"
+        android:paddingStart="50dp"
+        android:layout_below="@id/container_class_setup_fragment"
+        android:text="@string/first_use_rating"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/b_grades_setup_rating_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_rating_setup_fragment"
+        android:layout_toStartOf="@+id/divide_line_setup_rating_fragment"
+        android:background="@color/background"
+        android:text="@string/first_use_grades"
+        android:textAlignment="center"
+        android:textColor="@color/radio_button_inactive"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/divide_line_setup_rating_fragment"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_rating_setup_fragment"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/divide_line_rating_fragment" />
+
+    <Button
+        android:id="@+id/b_points_setup_rating_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tv_rating_setup_fragment"
+        android:layout_toEndOf="@+id/divide_line_setup_rating_fragment"
+        android:background="@color/background"
+        android:text="@string/first_use_points"
+        android:textAlignment="center"
+        android:textColor="@color/radio_button_inactive"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

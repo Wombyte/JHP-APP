@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_homework"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/heading"
+        android:clipToPadding="false"
+        android:paddingTop="0.5dp"
+        android:paddingBottom="0.5dp"
+        android:elevation="10dp"
+        android:translationZ="2dp">
+
+        <ImageButton
+            android:id="@+id/b_back_homework"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@+id/tv_heading_kind_homework"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/background"
+            android:src="@drawable/symbol_back"
+            android:tint="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv_heading_subject_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/b_fragment_homework"
+            android:layout_toEndOf="@+id/b_back_homework"
+            android:background="@color/background"
+            android:gravity="bottom"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:paddingTop="8dp"
+            android:text="@string/homework_heading_subject"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_heading_kind_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_heading_subject_homework"
+            android:layout_marginTop="-2.5dp"
+            android:layout_toEndOf="@+id/b_back_homework"
+            android:layout_toStartOf="@+id/b_fragment_homework"
+            android:background="@color/background"
+            android:gravity="top"
+            android:paddingBottom="12dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:text="@string/homework_kind_homework"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/b_fragment_homework"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/tv_heading_kind_homework"
+            android:layout_alignParentTop="true"
+            android:background="@color/background"
+            android:src="@drawable/symbol_edit" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_fragment_homework"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar_homework"
+        android:background="@color/transparent"
+        android:translationZ="11dp">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/homework_scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:background="@color/transparent"
+        android:translationZ="12dp">
+
+    </RelativeLayout>
+
+</RelativeLayout>

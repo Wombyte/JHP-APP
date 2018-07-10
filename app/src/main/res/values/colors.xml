@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4d4d4d</color>
+    <color name="colorPrimaryDark">#191919</color>
+    <color name="colorAccent">#a6a6a6</color>
+    <color name="font">#f9f9f9</color>
+
+    <color name="background">#ffffff</color>
+    <color name="transparent_background">#b4ffffff</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <!-- first use -->
+    <color name="first_use_back">#492bff</color>
+    <color name="first_use_back_disabled">#afa3ff</color>
+    <color name="first_use_next">#ffc91d</color>
+    <color name="first_use_next_disabled">#ffeaa3</color>
+
+    <!-- radio button -->
+    <color name="radio_button_inactive">#b3b3b3</color>
+
+    <!-- add subject -->
+
+    <!-- homework listview -->
+    <color name="homework_true">#6cc500</color>
+    <color name="homework_false">#c50000</color>
+
+    <!-- homework solution listview -->
+    <color name="homework_solution_images">#f44242</color>
+    <color name="homework_solution_images_light">#f5a6a6</color>
+    <color name="homework_solution_docs">#4285f4</color>
+    <color name="homework_solution_docs_light">#a6c4f5</color>
+    <color name="homework_solution_sheets">#0f9d58</color>
+    <color name="homework_solution_sheets_light">#7af5ba</color>
+    <color name="homework_solution_slides">#f4b400</color>
+    <color name="homework_solution_slides_light">#f5db93</color>
+
+    <!-- settings -->
+    <color name="settings_swtich_on">#ff8400</color>
+
+    <!-- schedule -->
+    <color name="schedule_lesson_count_active">#b9b9b9</color>
+    <color name="schedule_lesson_count_inactive">#eaeaea</color>
+
+    <!-- add subejct button -->
+    <color name="cancel_subject">#c50000</color>
+</resources>

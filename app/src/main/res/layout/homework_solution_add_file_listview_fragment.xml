@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_add_file_solution_listview_fragment"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="72dp"
+    android:gravity="center"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp">
+
+    <LinearLayout
+        android:id="@+id/b_add_file_solution_homework"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/image_file_solution_homework"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@color/background"
+            android:src="@drawable/symbol_homework_image"
+            android:contentDescription="@string/homework_solution_add_image"
+            />
+
+        <TextView
+            android:id="@+id/tv_file_solution_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/homework_solution_add_image"
+            android:textSize="16sp"
+            android:paddingStart="6dp"
+            android:paddingEnd="0dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

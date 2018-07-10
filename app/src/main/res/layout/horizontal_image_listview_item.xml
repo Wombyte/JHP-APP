@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mc.wombyte.marcu.jhp_app.Reuseables.HorizontalSquaredLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="0dp"
+    android:paddingEnd="6dp">
+
+    <ImageView
+        android:id="@+id/imageview_horizontal_image_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/symbol_homework_image"
+        />
+
+</mc.wombyte.marcu.jhp_app.Reuseables.HorizontalSquaredLinearLayout>

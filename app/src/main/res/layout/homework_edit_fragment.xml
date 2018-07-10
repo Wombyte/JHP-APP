@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:id="@+id/button_container_solution_homework"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="0dp"
+        android:paddingEnd="16dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/b_text_edit_homework"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/homework_option_edit_text"
+            android:background="@drawable/solution_button"
+            android:src="@drawable/symbol_homework_text"
+            android:tint="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/b_image_solution_homework"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/homework_option_edit_images"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/solution_button"
+            android:src="@drawable/symbol_homework_image"
+            android:tint="@color/colorPrimary" />
+
+
+        <ImageButton
+            android:id="@+id/b_docs_solution_homework"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/homework_option_edit_docs"
+            android:background="@drawable/solution_button"
+            android:src="@drawable/symbol_homework_docs"
+            android:tint="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/b_sheets_solution_homework"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@string/homework_option_edit_sheets"
+            android:layout_weight="1"
+            android:background="@drawable/solution_button"
+            android:src="@drawable/symbol_homework_table"
+            android:tint="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/b_slides_solution_homework"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@string/homework_option_edit_slides"
+            android:layout_weight="1"
+            android:background="@drawable/solution_button"
+            android:src="@drawable/symbol_homework_slides"
+            android:tint="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/b_finished_solution_homework"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="0.8"
+            android:background="@color/background"
+            android:src="@drawable/symbol_false" />
+
+    </LinearLayout>
+
+    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+        android:id="@+id/vs_solution_homework"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/button_container_solution_homework"
+        android:background="@drawable/solution_area"
+        android:padding="6dp">
+
+        <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:gravity="top|start"
+            android:textSize="16sp" />
+
+        <ListView
+            android:id="@+id/listview_files_solution_homework"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+        </ListView>
+
+    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+
+</RelativeLayout>

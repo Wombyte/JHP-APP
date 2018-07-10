@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/tv_question_boolean_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/background"
+        android:gravity="center"
+        android:padding="24dp"
+        android:text="@string/subject_delete_question"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_question_boolean_dialog"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="24dp"
+        android:paddingTop="8dp">
+
+        <Button
+            android:id="@+id/b_no_boolean_dialog"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_boolean_dialog"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/boolean_dialog_no"
+            android:textColor="@color/first_use_back_disabled"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/b_yes_boolean_dialog"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_boolean_dialog"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/boolean_dialog_yes"
+            android:textColor="@color/first_use_next"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

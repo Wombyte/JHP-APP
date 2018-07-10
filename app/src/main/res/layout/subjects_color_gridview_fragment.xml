@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp">
+
+    <mc.wombyte.marcu.jhp_app.Reuseables.VerticalSquaredLinearLayout
+        android:id="@+id/container_subject_color-gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </mc.wombyte.marcu.jhp_app.Reuseables.VerticalSquaredLinearLayout>
+</LinearLayout>

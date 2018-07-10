@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/container_content_subject_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tv_heading_subject_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:text="@string/subject_dialog_heading"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_name_subject_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_heading_subject_dialog"
+            android:gravity="center_vertical"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:paddingTop="4dp"
+            android:text="@string/subject_dialog_name"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/ed_name_subject_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tv_name_subject_dialog"
+            android:layout_marginBottom="8dp"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:inputType="textPersonName"/>
+
+        <TextView
+            android:id="@+id/tv_add_color_subjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ed_name_subject_dialog"
+            android:gravity="center_vertical"
+            android:paddingEnd="20dp"
+            android:paddingStart="5dp"
+            android:paddingTop="8dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_alignBottom="@+id/b_color_subjects_dialog"
+            android:text="@string/subject_dialog_color"/>
+
+        <Button
+            android:id="@+id/b_color_subjects_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/ed_name_subject_dialog"
+            android:layout_toEndOf="@+id/tv_add_color_subjects"
+            android:background="@drawable/button_color" />
+
+        <GridView
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/b_color_subjects_dialog"
+            android:id="@+id/gridview_color_subject_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="5">
+
+        </GridView>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/container_buttons_subject_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/container_content_subject_dialog"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="24dp"
+        android:paddingTop="8dp">
+
+        <Button
+            android:id="@+id/b_cancel_subject_dialog"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_boolean_dialog"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/subject_dialog_cancel"
+            android:textColor="@color/first_use_back_disabled"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/b_finish_subject_dialog"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_boolean_dialog"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/subject_dialog_create"
+            android:textColor="@color/first_use_next"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

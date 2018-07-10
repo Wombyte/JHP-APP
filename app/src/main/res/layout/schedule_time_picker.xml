@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_heading_time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="22sp"
+        android:paddingBottom="5dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_alignEnd="@+id/b_add_min_time_picker" />
+
+    <Button
+        android:id="@+id/b_add_h_time_picker"
+        android:text="+1h"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_heading_time_picker"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/tv_h_time_picker" />
+
+    <TextView
+        android:id="@+id/tv_h_time_picker"
+        android:text="00"
+        android:textSize="40sp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/b_add_h_time_picker"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/b_sub_h_time_picker"
+        android:text="-1h"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_h_time_picker"
+        android:layout_alignEnd="@+id/tv_h_time_picker" />
+
+    <TextView
+        android:layout_alignBottom="@+id/b_sub_h_time_picker"
+        android:text=":"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tv_h_time_picker"
+        android:id="@+id/tv_separator_time_picker"
+        android:layout_below="@+id/tv_heading_time_picker"/>
+
+    <Button
+        android:id="@+id/b_add_min_time_picker"
+        android:text="+5min"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_heading_time_picker"
+        android:layout_toEndOf="@+id/tv_separator_time_picker"
+        android:layout_alignEnd="@+id/tv_min_time_picker"/>
+
+    <TextView
+        android:id="@+id/tv_min_time_picker"
+        android:text="00"
+        android:textAllCaps="false"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/b_add_min_time_picker"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_above="@+id/b_sub_h_time_picker"
+        android:layout_toEndOf="@+id/tv_separator_time_picker" />
+
+    <Button
+        android:text="-5min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_min_time_picker"
+        android:layout_alignStart="@+id/tv_min_time_picker"
+        android:id="@+id/b_sub_min_time_picker"
+        android:layout_alignBottom="@+id/tv_separator_time_picker"
+        android:textAllCaps="false"
+        android:layout_alignEnd="@+id/tv_min_time_picker" />
+</RelativeLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="12dp">
+
+    <ImageView
+        android:id="@+id/image_settings_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp" />
+
+    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+        android:id="@+id/vs_view_settings_listview"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/symbol_continue" />
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:theme="@style/SwitchTheme"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/symbol_settings_dialog" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+
+    <TextView
+        android:id="@+id/tv_value_settings_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/vs_view_settings_listview"
+        android:paddingEnd="0dp"
+        android:paddingStart="8dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_description_settings_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@id/image_settings_listview"
+        android:layout_marginStart="24dp"
+        android:layout_toStartOf="@id/tv_value_settings_listview"
+        android:gravity="center_vertical|start"
+        android:paddingEnd="0dp"
+        android:paddingStart="32dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_long_description_settings_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_description_settings_listview"
+        android:layout_marginStart="24dp"
+        android:layout_toStartOf="@+id/vs_view_settings_listview"
+        android:gravity="center_vertical|start"
+        android:paddingEnd="0dp"
+        android:paddingStart="32dp"
+        android:textSize="14sp" />
+
+</RelativeLayout>

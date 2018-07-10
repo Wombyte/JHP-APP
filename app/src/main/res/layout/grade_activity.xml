@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_grade"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_grade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/heading"
+        android:clipToPadding="false"
+        android:paddingBottom="0.5dp"
+        android:elevation="10dp"
+        android:translationZ="2dp">
+
+        <ImageButton
+            android:id="@+id/b_back_grade"
+            style="@style/NoShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_alignBottom="@+id/tv_heading_kind_grade"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/background"
+            android:src="@drawable/symbol_back"
+            android:textColor="@color/font"
+            android:tint="@color/background" />
+
+        <TextView
+            android:id="@+id/tv_heading_subject_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/b_back_grade"
+            android:background="@color/background"
+            android:gravity="bottom"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/font"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_heading_kind_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/tv_heading_subject_grade"
+            android:layout_marginTop="-2.5dp"
+            android:layout_toEndOf="@+id/b_back_grade"
+            android:background="@color/background"
+            android:gravity="top"
+            android:paddingBottom="12dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
+            android:text="@string/grades_kind_test"
+            android:textColor="@color/font"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/toolbar_grade"
+        android:background="@color/background">
+
+        <RelativeLayout
+            android:id="@+id/container_swipe_grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tv_description_grades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:labelFor="@+id/ed_description_grade"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/grades_description"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+                android:id="@+id/ed_description_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/tv_description_grades"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_grade_grades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/container_grade_grades"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ed_description_grade"
+                android:gravity="center_vertical"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:text="@string/grades_grade"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/container_grade_grades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/ed_description_grade"
+                android:layout_toEndOf="@id/tv_grade_grades"
+                android:gravity="center_horizontal"
+                android:paddingBottom="8dp"
+                android:paddingTop="24dp">
+
+                <Button
+                    android:id="@+id/b_sub_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="-" />
+
+                <EditText
+                    android:id="@+id/ed_grade_grades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/b_sub_grade"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:paddingEnd="30dp"
+                    android:paddingStart="30dp" />
+
+                <Button
+                    android:id="@+id/b_add_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@id/ed_grade_grades"
+                    android:text="+" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_date_written_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_grade_grades"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="16dp"
+                android:text="@string/grades_date_written"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <mc.wombyte.marcu.jhp_app.DatePicker
+                android:id="@+id/spinner_date_written_grade"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_below="@id/tv_date_written_grade"/>
+
+            <TextView
+                android:id="@+id/tv_date_got_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/spinner_date_written_grade"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="16dp"
+                android:text="@string/grades_date_got"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <mc.wombyte.marcu.jhp_app.DatePicker
+                android:id="@+id/spinner_date_got_grade"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/tv_date_got_grade"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_kind_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ed_misc_grades"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/spinner_date_got_grade"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="5dp"
+                android:text="@string/grades_kind"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup_kind_grades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spinner_date_got_grade"
+                android:layout_marginTop="24dp"
+                android:layout_toEndOf="@id/tv_kind_grade">
+
+                <RadioButton
+                    android:id="@+id/radio_b_exam_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/symbol_grade_exam"
+                    android:button="@null"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/grades_kind_exam" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_test_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/symbol_grade_test"
+                    android:button="@null"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:checked="true"
+                    android:text="@string/grades_kind_test" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_oral_test_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/symbol_grade_oral_test"
+                    android:button="@null"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/grades_kind_oral_test" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_presentation_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/symbol_grade_presentation"
+                    android:button="@null"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/grades_kind_presentation" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_assesment_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/symbol_grade_assesment"
+                    android:button="@null"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/grades_kind_assesment" />
+
+                <RadioButton
+                    android:id="@+id/radio_b_misc_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/symbol_grade_misc"
+                    android:button="@null"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/grades_kind_misc" />
+
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/ed_misc_grades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/radiogroup_kind_grades"
+                android:layout_toEndOf="@id/tv_kind_grade"
+                android:enabled="false" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/grade_scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/transparent"
+        android:translationZ="11dp">
+
+    </RelativeLayout>
+
+</RelativeLayout>
