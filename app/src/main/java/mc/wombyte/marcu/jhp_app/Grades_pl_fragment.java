@@ -6,22 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-
-import java.util.ArrayList;
-
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
+import android.widget.ListView;
 
 public class Grades_pl_fragment extends FragmentMain {
 
-    GridView gridview;
+    ListView listview;
     Context context;
-
-    ArrayList<Grade> grades;
-    Grade_gridview_adapter adapter;
-    int columns;
 
     public Grades_pl_fragment() {}
 
@@ -29,11 +19,11 @@ public class Grades_pl_fragment extends FragmentMain {
         int subject_id = Storage.getLastSubjectId();
         //open Grade Activity
         if(subject_id != -1 && Storage.settings.grades_isSpecificGradePossible()) {
-            openGradeActivity(subject_id, -1);
+            openGradeActivity(subject_id);
         }
         //open Diagram of all subjects
         else {
-            openDiagrammDialog(Storage.ALL_SUBJECTS);
+            openDiagramDialog();
         }
     }
 
@@ -42,81 +32,34 @@ public class Grades_pl_fragment extends FragmentMain {
         View view = inflater.inflate(R.layout.grades_pl_fragment, container, false);
         context = container.getContext();
 
-        gridview = (GridView) view.findViewById(R.id.gridview_grades);
-
-        //content
-        columns = Storage.getMaxAmountGrades()+2;
-        gridview.setNumColumns(columns);
-        grades = Storage.getGradeGridViewList();
-        adapter = new Grade_gridview_adapter(context, android.R.layout.simple_list_item_1, grades, columns);
-        gridview.setAdapter(adapter);
-
-        //input_listener
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i%columns == 0) {
-                    openDiagrammDialog(i/columns);
-                }
-                else {
-                    if(grades.get(i) == null) {
-                        openGradeActivity(i/columns, -1);
-                    }
-                    else {
-                        openGradeActivity(grades.get(i).getSubjectindex(), grades.get(i).getIndex());
-                    }
-                }
-            }
-        });
-        gridview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                openBooleanDialog(i);
-                return true;
-            }
-        });
+        listview = view.findViewById(R.id.listview_grades_pl);
+        listview.setAdapter( new Grade_pl_vertical_list(context, android.R.layout.simple_list_item_1, Storage.grades));
 
         return view;
     }
 
-    /*
-     * opens a dialog with the diagramm about the curse of all grades fo the subject
+    /**
+     * opens a dialog with the diagram about the curse of all grades
+     * of all subjects, as {@link Grades_dialog#ALL_SUBJECTS} is transmitted
      */
-    private void openDiagrammDialog(int subject_index) {
-        Grades_dialog dialog = new Grades_dialog(context, subject_index);
-        dialog.show();
+    private void openDiagramDialog() {
+        Grades_dialog d = new Grades_dialog(context, Grades_dialog.ALL_SUBJECTS);
+        d.show();
     }
 
-    /*
-     * opens the activity for a grade
-     * if the second param is a -1, the activity is prepared to create a new grade
-     * else the information of the grade are shown
+    /**
+     * opens the GradeActivity for the transmitted Grade
+     * as this list is only used in MainActivity, the class and fragment index are fix
+     * as the user wants to create a new grade, -1 is transmitted as grade index
+     * @param subject_index: index of the subject, where a new grade should be created
      */
-    private void openGradeActivity(int subject_index, int index) {
+    private void openGradeActivity(int subject_index) {
         Intent toGradeActivity = new Intent();
         toGradeActivity.setClass(context, Grade_activity.class);
         toGradeActivity.putExtra("PREVIOUS_CLASS", MainActivity.class);
         toGradeActivity.putExtra("SUBJECT_INDEX", subject_index);
-        toGradeActivity.putExtra("INDEX", index);
+        toGradeActivity.putExtra("INDEX", -1);
+        toGradeActivity.putExtra("FRAGMENT_INDEX", 3);
         context.startActivity(toGradeActivity);
     }
-
-    /*
-     * opens a boolean dialog that asked whether the user is sure to delete this grade
-     */
-    private void openBooleanDialog(final int i) {
-        if(grades.get(i) != null && i%columns != 0) {
-            BooleanDialog dialog = new BooleanDialog(context, getResources().getString(R.string.grades_delete_question));
-            dialog.setAnswerListener(new BooleanDialog.AnswerListener() {
-                @Override public void onYes() {
-                    int subject_index = grades.get(i).getSubjectindex();
-                    int index = grades.get(i).getIndex();
-                    FileSaver.deleteGrade( Storage.grades.get(subject_index).get(index));
-                    grades = Storage.getGradeGridViewList();
-                    adapter.notifyDataSetChanged();
-                }
-                @Override public void onNo() {}
-            });
-            dialog.show();
-        }
-    }
-
 }

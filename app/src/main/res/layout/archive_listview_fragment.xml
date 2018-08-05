@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_height="25dp" />
+        android:layout_height="25dp"
+        android:clickable="false"/>
 
     <TextView
         android:id="@+id/tv_name_listview_archive"
@@ -50,7 +51,7 @@
         android:layout_height="24dp"
         android:id="@+id/image_average_listview_archive"
         android:layout_toStartOf="@id/tv_average_listview_archive"
-        android:background="@drawable/symbol_archive_average"/>
+        android:background="@drawable/symbol_average"/>
 
     <TextView
         android:layout_width="50dp"

@@ -1,5 +1,7 @@
 package mc.wombyte.marcu.jhp_app.Classes;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,52 +22,12 @@ public class Schedule implements Serializable {
     int[][][] times = new int[9][2][2]; //9 lessons, 2 times (start, end), 2 values (h, min)
     static Lesson[][] schedule = new Lesson[5][9];
 
-    /*
-     * Constructor
-     */
     public Schedule() {}
 
-    /*
-     * Getter
-     */
-    public Lesson getLesson(int day, int lessonCount) {
-        return schedule[day][lessonCount];
-    }
-    public Lesson[][] getLessons() { return schedule; }
-    public int getTime(int lessonCount, int when, int time_instance) { return times[lessonCount][when][time_instance]; }
-    public int[] getTime(int lessonCount, int when) {
-        return times[lessonCount][when];
-    }
-    public int[][] getTime(int lessonCount) { return times[lessonCount]; }
-    public int[][][] getTime() { return times; }
 
-    /*
-     * Setter
-     */
-    public void setLessons(Lesson[][] lessons) { schedule = lessons; }
-    public void setLesson(Lesson lesson) {
-        schedule[lesson.getDay()][lesson.getTime()] = lesson;
-    }
-    public void setLesson(int day, int lessonCount, Lesson lesson) { schedule[day][lessonCount] = lesson; }
-    public void setTime(int lessonCount, int when, int time_instance, int value) {
-        times[lessonCount][when][time_instance] = value;
-    }
-    public void setTime(int lessonCount, int when, int[] time) {
-        times[lessonCount][when] = time;
-    }
-    public void setTime(int lessonCount, int[] from, int[] to) {
-        times[lessonCount][0] = from;
-        times[lessonCount][1] = to;
-    }
-    public void setTimes(int[][][] times) {
-        for(int i = 0; i < 9; i++) {
-            setTime(i, times[i][0], times[i][1]);
-        }
-    }
-
-    public void setSchedule(Lesson[][] schedule) {
-        this.schedule = schedule;
-    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// methods ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /*
      * return the number today
@@ -217,7 +179,10 @@ public class Schedule implements Serializable {
         times = new int[9][2][2];
     }
 
-    //******************************************************* Saving *******************************************************//
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// saving methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * saves the time of 'schedule' to 'des' file
@@ -268,7 +233,10 @@ public class Schedule implements Serializable {
         bw.close();
     }
 
-    //******************************************************* reading *******************************************************//
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// reading methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * reads the schedule times from the transmitted file
@@ -329,6 +297,7 @@ public class Schedule implements Serializable {
                 l = new Lesson();
                 if(line_data[0].equals("NOT")) {
                     l = null;
+                    Log.d("Schedule", "reading lessons: " + day + "|" + lesson + " = null");
                 }
                 else {
                     l.setRoom( line_data[1]);
@@ -338,11 +307,102 @@ public class Schedule implements Serializable {
 
                     line_data = FileLoader.getLineData(br.readLine());
                     l.setTeacher( line_data[1]);
+
+                    l.setDay(day);
+                    l.setTime(lesson);
+
+                    Log.d("Schedule", "reading lessons: " + day + "|" + lesson
+                            + " = [" + l.getRoom() + ", " + l.getSubjectIndex() + ", " + l.getTeacher() + "]");
                 }
                 result[day][lesson] = l;
             }
         }
 
         return result;
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////// Lessons: Getter & Setter ///////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    public Lesson getLesson(int day, int lessonCount) {
+        return schedule[day][lessonCount];
+    }
+    public Lesson[][] getLessons() { return schedule; }
+
+    /**
+     * iterates through the schedule and sets the lessons
+     * via {@link this#setLesson(Lesson)} & {@link this#setLessonToNull(int, int)}
+     * @param lessons
+     */
+    public void setLessons(Lesson[][] lessons) {
+        for(int day = 0; day < 5; day++) {
+            for(int l = 0; l < 9; l++) {
+                if(lessons[day][l] != null) {
+                    setLesson(lessons[day][l]);
+                }
+                else {
+                    setLessonToNull(day, l);
+                }
+            }
+        }
+    }
+
+    /**
+     * reduces the previous subject lesson amount by 1
+     * and increases the new one by 1
+     * @param lesson: new lesson (contains day and time)
+     */
+    public void setLesson(Lesson lesson) {
+        int d = lesson.getDay();
+        int l = lesson.getTime();
+        if(schedule[d][l] != null) {
+            int sid = schedule[d][l].getSubjectIndex();
+            Storage.subjects.get(sid).subLessonAmount();
+        }
+        schedule[lesson.getDay()][lesson.getTime()] = lesson;
+        int sid = schedule[d][l].getSubjectIndex();
+        Storage.subjects.get(sid).addLessonAmount();
+    }
+
+    /**
+     * reduces the previous subject lesson amount by 1
+     * @param day: day number of the lesson that will be deleted
+     * @param lessonCount: lesson number of the lesson that will be deleted
+     */
+    public void setLessonToNull(int day, int lessonCount) {
+        if(schedule[day][lessonCount] != null) {
+            int sid = schedule[day][lessonCount].getSubjectIndex();
+            Storage.subjects.get(sid).subLessonAmount();
+        }
+        schedule[day][lessonCount] = null;
+    }
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////// Times: Getter & Setter ////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    public int getTime(int lessonCount, int when, int time_instance) { return times[lessonCount][when][time_instance]; }
+    public int[] getTime(int lessonCount, int when) {
+        return times[lessonCount][when];
+    }
+    public int[][] getTime(int lessonCount) { return times[lessonCount]; }
+    public int[][][] getTime() { return times; }
+
+    public void setTime(int lessonCount, int when, int time_instance, int value) {
+        times[lessonCount][when][time_instance] = value;
+    }
+    public void setTime(int lessonCount, int when, int[] time) {
+        times[lessonCount][when] = time;
+    }
+    public void setTime(int lessonCount, int[] from, int[] to) {
+        times[lessonCount][0] = from;
+        times[lessonCount][1] = to;
+    }
+    public void setTimes(int[][][] times) {
+        for(int i = 0; i < 9; i++) {
+            setTime(i, times[i][0], times[i][1]);
+        }
     }
 }

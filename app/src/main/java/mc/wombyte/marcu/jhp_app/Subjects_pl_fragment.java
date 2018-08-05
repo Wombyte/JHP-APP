@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 import mc.wombyte.marcu.jhp_app.Classes.Subject;
 import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
 import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
@@ -60,7 +62,10 @@ public class Subjects_pl_fragment extends FragmentMain {
                 }
             });
 
-            listview_adapter = new Subject_listview_adapter(getActivity(), R.id.container_list_subjects, Storage.subjects);
+            listview_adapter = new Subject_listview_adapter(
+                    getActivity(),
+                    R.id.container_list_subjects,
+                    (ArrayList<Subject>) Storage.subjects.clone());
             listview.setAdapter(listview_adapter);
             setRetainInstance(true);
         }

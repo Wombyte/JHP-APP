@@ -10,11 +10,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.lang.ref.WeakReference;
 
-import jp.wasabeef.glide.transformations.CropSquareTransformation;
 import mc.wombyte.marcu.jhp_app.GlideApp;
 import mc.wombyte.marcu.jhp_app.R;
 
@@ -23,8 +21,17 @@ import mc.wombyte.marcu.jhp_app.R;
  */
 
 public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
+
     private final WeakReference<ImageView> imageViewReference;
+    private MultiTransformation transformations;
     private Context context;
+
+    public BitmapWorkerTask(Context context, ImageView imageView, MultiTransformation transformations) {
+        this.context = context;
+        this.transformations = transformations;
+        // Use a WeakReference to ensure the ImageView can be garbage collected
+        imageViewReference = new WeakReference<>(imageView);
+    }
 
     public BitmapWorkerTask(Context context, ImageView imageView) {
         this.context = context;
@@ -57,11 +64,19 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
         }
 
         if (bitmap != null) {
-            GlideApp.with(context)
-                    .asBitmap()
-                    .load(bitmap)
-                    .transform(new MultiTransformation<>(new CropSquareTransformation(), new RoundedCorners(50)))
-                    .into(imageView);
+            if(transformations == null) {
+                GlideApp.with(context)
+                        .asBitmap()
+                        .load(bitmap)
+                        .into(imageView);
+            }
+            else {
+                GlideApp.with(context)
+                        .asBitmap()
+                        .load(bitmap)
+                        .transform(transformations)
+                        .into(imageView);
+            }
         }
         else {
             Drawable placeholder = context.getResources().getDrawable(R.drawable.symbol_homework_image).mutate();

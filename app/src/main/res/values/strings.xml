@@ -141,6 +141,7 @@
     <!-- boolean Dialog -->
     <string name="boolean_dialog_yes">Ja</string>
     <string name="boolean_dialog_no">Nein</string>
+    <string name="boolean_dialog_delete_image">Möchtest du dieses Bild wirklich löschen?</string>
 
     <!-- image picker dialog -->
     <string name="image_picker_dialog_heading">Bild laden</string>
@@ -206,22 +207,27 @@
     
     <!-- grades activity -->
     <string name="grades_grade">Note:</string>
+    <string name="grades_description">Beschreibung</string>
+    <string name="grades_description_default_image_text">siehe Bild</string>
     <string name="grades_date_written">geschrieben am:</string>
     <string name="grades_date_got">wiederbekommen am:</string>
     <string name="grades_kind">Art:</string>
     <string name="grades_kind_exam">Klausur</string>
     <string name="grades_kind_test">Leistungskontrolle</string>
-    <string name="grades_kind_oral_test">mündliche Lk</string>
+    <string name="grades_kind_oral_test">Mündliche Lk</string>
     <string name="grades_kind_presentation">Vortrag</string>
     <string name="grades_kind_assesment">Epochalnote</string>
     <string name="grades_kind_misc">Sonstiges</string>
-    <string name="grades_description">Beschreibung</string>
-    <string name="grades_delete_question">Bist du dir sicher, dass du diese Note löschen möchtest?</string>
 
     <string name="grades_option_calendar1">geschrieben am</string>
     <string name="grades_option_calendar2">wiederbekommen am</string>
     <string name="grades_option_last_grade">letzte Note</string>
     <string name="grades_option_next_grade">nächste Note</string>
+    
+    <!-- grade listviews -->
+    <string name="grades_abbreviation_pl_listview">%1$s:</string>
+    <string name="grades_average_pl_listview">=%1$s</string>
+    <string name="grades_delete_question">Bist du dir sicher, dass du diese Note löschen möchtest?</string>
 
     <!-- grade diagram -->
     <string name="grades_diagram_grades">Noten</string>
@@ -262,13 +268,13 @@
         </string-array>
     <string name="settings_subjects_color">Farben einzeln bestimmen</string>
     <string name="settings_subjects_color_long">Dadurch können die Farben unabhängig voneinander verändert werden</string>
-    <string name="settings_subjects_average">Nachkommastellen beim Durchschnitt</string>
+    <string name="settings_subjects_average">Nachkommastellen beim Durchschnitt (1&#8211;2)</string>
     <string name="settings_subjects_average_long">Aus Platzgründen sind mehr als 2 Nachkommastellen bei der Listenansicht nicht zu empfehlen</string>
     
     <string name="settings_homework">Hausaufgaben</string>
     <string name="settings_homework_view">Hausaufgaben-Ansicht</string>
     <string name="settings_homework_view_long">Liste/Gitter</string>
-    <string name="settings_homework_show_done">erledigte Hausaufgaben anzeigen</string>
+    <string name="settings_homework_show_done">erledigte Hausaufgaben trüben</string>
     <string name="settings_homework_weeks">Stundenauswahl:</string>
     <string name="settings_homework_weeks_long">Gibt an, von wie vielen Wochen die Stunden angezeigt werden, für die du die Hausaufgabe angeben kannst</string>
     <string name="settings_homework_arrangement">Hausaufgaben sortieren</string>
@@ -289,7 +295,7 @@
     <string name="settings_grades_weeks_long">Gibt an, wie viele Wochen angezeigt werden, in denen du die Leistung für die Note erbracht hast</string>
     <string name="settings_grades_add_grade">Menüpunkt: neue Note</string>
     <string name="settings_grades_add_grade_long">Ermöglicht es dir (während der Schulzeit) Noten aus dem Fach hinzuzufügen, das du zuvor hattest</string>
-    <string name="settings_grades_average">Nachkommastellen beim Durchschnitt</string>
+    <string name="settings_grades_average">Nachkommastellen beim Durchschnitt (1&#8211;2)</string>
 
     <string name="settings_general">Allgemein</string>
     <string name="settings_general_scrollmenu">Fächer-Menü</string>

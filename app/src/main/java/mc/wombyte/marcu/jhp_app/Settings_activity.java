@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +21,7 @@ public class Settings_activity extends JHP_Activity {
     SettingFragment fragment;
     final static int CONTAINER_ID = R.id.fragment_container_settings;
 
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
@@ -31,12 +33,16 @@ public class Settings_activity extends JHP_Activity {
             fileReader.readData();
         }
         Storage.settings.refresh();
-        FileLoader fileLoader = new FileLoader();
-        fileLoader.readSettings();
+
+        try {
+            FileLoader fileLoader = new FileLoader();
+            fileLoader.readSettings();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
 
         //initialization
         b_back = (ImageButton) findViewById(R.id.b_back_settings);
-
         fragment = new Settings_list_fragment();
         ((Settings_list_fragment) fragment).setSettingGroup(new ArrayList<Integer>());
 
@@ -57,9 +63,15 @@ public class Settings_activity extends JHP_Activity {
         setMenuContainerId(R.id.setting_scroll_container);
     }
 
-    //******************************************************* options *******************************************************//
-    /*
-     * actions for option list
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// options ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    /**
+     * defines the actions that should be performed after the click on an option
+     * 1. go back
+     * 2. return to parent
+     * >2. go the "id"th group of this child
+     * @param id: id od the option
      */
     @Override public void optionActions(int id) {
         switch(id) {

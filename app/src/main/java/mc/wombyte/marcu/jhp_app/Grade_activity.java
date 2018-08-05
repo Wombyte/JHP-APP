@@ -4,17 +4,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +21,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import mc.wombyte.marcu.jhp_app.Classes.Grade;
+import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.Reuseables.DatePicker;
+import mc.wombyte.marcu.jhp_app.Reuseables.ImageListView;
+import mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberPicker;
 import mc.wombyte.marcu.jhp_app.Reuseables.TextArea;
+import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
 
 /**
  * Created by marcu on 29.07.2017.
@@ -34,18 +37,22 @@ public class Grade_activity extends JHP_Activity {
     TextView tv_heading_subject;
     TextView tv_heading_kind;
     ImageButton b_back;
-    RelativeLayout container_swipe;
-    EditText ed_grade;
-    Button b_sub_grade;
-    Button b_add_grade;
+    LinearLayout container_swipe;
+    NumberPicker number_picker;
+    ImageView image_description;
+    TextArea ta_description;
+    ImageButton b_add_image;
+    ViewSwitcher vs_image_description;
     DatePicker spinner_date_written;
     DatePicker spinner_date_got;
     RadioGroup radiogroup_kind;
     RadioButton radiobutton_misc;
     EditText ed_misc;
-    TextArea ta_description;
 
     Class previous_class;
+
+    int light_color, dark_color;
+    ArrayList<Uri> des_images = new ArrayList<>();
 
     int subject_index = -1;
     int index = -1;
@@ -53,117 +60,91 @@ public class Grade_activity extends JHP_Activity {
     int active_kind_id = -1;
     ArrayList<Date> dates_written = new ArrayList<>();
     ArrayList<Date> dates_got = new ArrayList<>();
-    int grade_max;
-    int grade_min;
     AdapterView<?> adapterView;
 
-    //draw methode
-    int color_dark;
 
     @Override protected void onCreate(Bundle savedinstanceState) {
         super.onCreate(savedinstanceState);
         setContentView(R.layout.grade_activity);
 
+        //file structure
+        new FileSaver(this).prepareNewGradeFolder();
+
         //initialization
-        tv_heading_subject = (TextView) findViewById(R.id.tv_heading_subject_grade);
-        tv_heading_kind = (TextView) findViewById(R.id.tv_heading_kind_grade);
-        b_back = (ImageButton) findViewById(R.id.b_back_grade);
-        container_swipe = (RelativeLayout) findViewById(R.id.container_swipe_grade);
-        ed_grade = (EditText) findViewById(R.id.ed_grade_grades);
-        b_sub_grade = (Button) findViewById(R.id.b_sub_grade);
-        b_add_grade = (Button) findViewById(R.id.b_add_grade);
+        tv_heading_subject = findViewById(R.id.tv_heading_subject_grade);
+        tv_heading_kind = findViewById(R.id.tv_heading_kind_grade);
+        b_back = findViewById(R.id.b_back_grade);
+        container_swipe = findViewById(R.id.container_swipe_grade);
+        image_description = findViewById(R.id.imageview_text_description_grade);
+        ta_description = findViewById(R.id.ed_description_grade);
+        b_add_image = findViewById(R.id.b_images_description_grade);
+        (vs_image_description = findViewById(R.id.vs_description_grade)).createView(this);
+        number_picker = findViewById(R.id.number_picker_grade);
         spinner_date_written = findViewById(R.id.spinner_date_written_grade);
         spinner_date_got = findViewById(R.id.spinner_date_got_grade);
-        radiogroup_kind = (RadioGroup) findViewById(R.id.radiogroup_kind_grades);
-        radiobutton_misc = (RadioButton) findViewById(R.id.radio_b_misc_grade);
-        ed_misc = (EditText) findViewById(R.id.ed_misc_grades);
-        ta_description = (TextArea) findViewById(R.id.ed_description_grade);
+        radiogroup_kind = findViewById(R.id.radiogroup_kind_grades);
+        radiobutton_misc = findViewById(R.id.radio_b_misc_grade);
+        ed_misc = findViewById(R.id.ed_misc_grades);
 
         //intent
         subject_index = (int) getIntent().getSerializableExtra("SUBJECT_INDEX");
         index = (int) getIntent().getSerializableExtra("INDEX");
-        if(index == -1) {
-            existing = false;
-        }
         previous_class = (Class) getIntent().getSerializableExtra("PREVIOUS_CLASS");
+        readData();
 
+        //color
+        light_color = Storage.subjects.get(subject_index).getColor();
+        dark_color = Storage.subjects.get(subject_index).getDarkColor();
+
+        //permission
         askForPermissions();
 
         //input_listener
-        b_back.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                onclick_back();
-            }
-        });
+        b_back.setOnClickListener((view) -> onclick_back());
         container_swipe.setOnTouchListener(new Swipe_listener(this) {
             @Override public void swipeRight() { left(); }
             @Override public void swipeLeft() { right(); }
             @Override public void swipeTop() {}
             @Override public void swipeBottom() {}
         });
-        ed_grade.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override public void afterTextChanged(Editable editable) {}
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                checkGradeRange(charSequence.toString());
-            }
-        });
-        b_sub_grade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick_subGrade();
-            }
-        });
-        b_add_grade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick_addGrade();
-            }
-        });
-        spinner_date_written.setOnDateChangeListener(new DatePicker.onDateChangeListener() {
-            @Override public void onDateChanged(Date date) {
-                onclick_writtenDate(date);
-            }
-        });
-        radiogroup_kind.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                onclick_kind(i);
-            }
-        });
+        b_add_image.setOnClickListener((view) -> openImagePickerDialog());
+        spinner_date_written.setOnDateChangeListener(this::onclick_writtenDate);
+        radiogroup_kind.setOnCheckedChangeListener((radioGroup, i) -> activateRadioButton(i));
 
         //spinner
         if(existing) {
             spinner_date_written.setDate( Storage.grades.get(subject_index).get(index).getWrittenDate());
-            spinner_date_written.setLightColor( Storage.subjects.get(subject_index).getColor());
-            spinner_date_written.setDarkColor( Storage.subjects.get(subject_index).getDarkColor());
-
             spinner_date_got.setDate( Storage.grades.get(subject_index).get(index).getWrittenDate());
-            spinner_date_got.setLightColor( Storage.subjects.get(subject_index).getColor());
-            spinner_date_got.setDarkColor( Storage.subjects.get(subject_index).getDarkColor());
         }
         else {
             spinner_date_written.switchToSpinner();
-            spinner_date_written.setLightColor( Storage.subjects.get(subject_index).getColor());
-            spinner_date_written.setDarkColor( Storage.subjects.get(subject_index).getDarkColor());
             spinner_date_got.switchToSpinner();
-            spinner_date_got.setLightColor( Storage.subjects.get(subject_index).getColor());
-            spinner_date_got.setDarkColor( Storage.subjects.get(subject_index).getDarkColor());
         }
+        spinner_date_written.setLightColor( light_color);
+        spinner_date_written.setDarkColor( dark_color);
+        spinner_date_got.setLightColor( light_color);
+        spinner_date_got.setDarkColor( dark_color);
 
         //general content
-        b_back.getBackground().getCurrent().setColorFilter( Storage.subjects.get(subject_index).getDarkColor(), PorterDuff.Mode.SRC_ATOP);
-        tv_heading_subject.getBackground().getCurrent().setColorFilter( Storage.subjects.get(subject_index).getDarkColor(), PorterDuff.Mode.SRC_ATOP);
-        tv_heading_kind.getBackground().getCurrent().setColorFilter( Storage.subjects.get(subject_index).getDarkColor(), PorterDuff.Mode.SRC_ATOP);
+        b_back.getBackground().getCurrent().setColorFilter( dark_color, PorterDuff.Mode.SRC_ATOP);
+        tv_heading_subject.getBackground().getCurrent().setColorFilter( dark_color, PorterDuff.Mode.SRC_ATOP);
+        tv_heading_subject.setText( Storage.subjects.get(subject_index).getName());
+        tv_heading_kind.getBackground().getCurrent().setColorFilter( dark_color, PorterDuff.Mode.SRC_ATOP);
+        image_description.setColorFilter(dark_color);
+        b_add_image.setColorFilter(dark_color);
 
         if(Storage.settings.grades_isRatingInGrades()) {
-            grade_min = 1;
-            grade_max = 6;
+            number_picker.setRange(1, 6);
+            number_picker.setMode(NumberPicker.DESCENDING);
         }
         else {
-            grade_min = 0;
-            grade_max = 15;
+            number_picker.setRange(0, 15);
         }
-        readData();
+        number_picker.setColors(dark_color, light_color);
+        number_picker.applyChanges();
+
+        //kind
+        activateRadioButton(active_kind_id);
 
         //options
         options.add(new Option(
@@ -171,6 +152,12 @@ public class Grade_activity extends JHP_Activity {
                 Color.rgb(120, 120, 120),
                 getResources().getDrawable(R.drawable.symbol_back),
                 getResources().getString(R.string.option_back_home)
+        ));
+        options.add(new Option(
+                Color.rgb(200, 200, 200),
+                Color.rgb(120, 120, 120),
+                getResources().getDrawable(R.drawable.symbol_add_image),
+                getResources().getString(R.string.homework_option_add_image)
         ));
         options.add(new Option(
                 Color.rgb(200, 200, 200),
@@ -202,73 +189,35 @@ public class Grade_activity extends JHP_Activity {
         setOptions();
     }
 
-    //******************************************************* option *******************************************************//
-    /*
-     * actions for option list
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// option method /////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * defines the actions that are triggered after the options are clicked
+     * 0: back to Main Activity
+     * 1/2: open date written/got DateDialog
+     * 3:4: get the next grade to the left/right
+     * @param i: index of the option, which was clicked
      */
     @Override public void optionActions(int i) {
         switch(i) {
             case 0: onclick_back(); break;
-            case 1: spinner_date_written.openDateDialog(); break;
-            case 2: spinner_date_got.openDateDialog(); break;
-            case 3: left(); break;
-            case 4: right(); break;
+            case 1: openImagePickerDialog(); break;
+            case 2: spinner_date_written.openDateDialog(); break;
+            case 3: spinner_date_got.openDateDialog(); break;
+            case 4: left(); break;
+            case 5: right(); break;
         }
     }
 
-    //******************************************************* saving methode *******************************************************//
-
-    @Override protected void onPause() {
-        super.onPause();
-        saveData();
-        FileSaver fileSaver = new FileSaver(this);
-        fileSaver.saveData();
-    }
-
-    /*
-     * saves the entered data in a grade
-     */
-    private void saveData() {
-        if(existing) {
-            if(!ta_description.getText().toString().equals("")) {
-                Storage.grades.get(subject_index).get(index).setDescription(ta_description.getText().toString());
-            }
-            Storage.grades.get(subject_index).get(index).setNumber(Integer.parseInt(ed_grade.getText().toString()));
-            Storage.grades.get(subject_index).get(index).setShortDescription(tv_heading_kind.getText().toString());
-            if(tv_heading_kind.getText().toString().equals( getResources().getString(R.string.grades_kind_exam))) {
-                Storage.grades.get(subject_index).get(index).setExam(true);
-            }
-            if(!ed_misc.getText().toString().equals("")) {
-                Storage.grades.get(subject_index).get(index).setMisc(ed_misc.getText().toString());
-            }
-            Storage.subjects.get(subject_index).calculateAverage();
-        }
-        else {
-            if(!ta_description.getText().toString().equals("")) {
-                boolean exam = tv_heading_kind.getText().toString().equals( getResources().getString(R.string.grades_kind_exam));
-                Storage.addGrade(subject_index, new Grade(
-                        Storage.grades.get(subject_index).size(),
-                        subject_index,
-                        Integer.parseInt(ed_grade.getText().toString()),
-                        spinner_date_written.getDate(),
-                        spinner_date_got.getDate(),
-                        ta_description.getText().toString(),
-                        tv_heading_kind.getText().toString(),
-                        ed_misc.getText().toString(),
-                        exam
-                ));
-                index = Storage.grades.get(subject_index).size()-1;
-                existing = true;
-            }
-        }
-    }
-
-    //******************************************************* input_listener *******************************************************//
-
-    /*
-     * onclick input_listener for the button back
+    /**
+     * returns back to the MainActivity
+     * and puts all extra got from it back
      */
     private void onclick_back() {
+        saveData();
         Intent toPreviousActivity = new Intent();
         toPreviousActivity.setClass(this, previous_class);
         toPreviousActivity.putExtra("FRAGMENT_INDEX", 3);
@@ -278,194 +227,135 @@ public class Grade_activity extends JHP_Activity {
         this.startActivity(toPreviousActivity);
     }
 
-    /*
-     * shows the grade left of the current
+    /**
+     * opens a new instance of the image picker dialog
      */
-    private void left() {
-        saveData();
-        if(index != 0) {
-            if(index > 0) {
-                index--;
+    private void openImagePickerDialog() {
+        new ImagePickerDialog(this, this, ImagePickerDialog.GRADE_DESCRIPTION_IMAGE).show();
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////// Description section: mainly for handling the image list view /////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * deals with the intent from the gallery / camera
+     * if 'picking a pic' was successful the uri is added to the list and saved
+     * @param requestCode: defines whether the action was successful
+     * @param resultCode: unnecessary as there is only one image action in this activity
+     * @param imageReturnedIntent: intent which contains the selected/taken image as Uri
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        if(resultCode == RESULT_OK) {
+            Uri uri = ImagePickerDialog.getUri(requestCode, imageReturnedIntent);
+
+            String grade_name = "newGrade";
+            if(existing) {
+                grade_name = subject_index + "_" + index;
             }
-            if(index == -1) {
-                index = Storage.grades.get(subject_index).size()-1;
+
+            addImage(uri);
+            new FileSaver(this).saveGradeDescriptionImage(uri, grade_name);
+        }
+    }
+
+    /**
+     * listener, that defines what should happen if an image in the HorizontalImageListView is clicked long
+     * it opens an delete dialog, where the user can decide whether the images should
+     * really be deleted
+     */
+    ImageListView.LongItemClickListener longItemClickListener = (pos) -> {
+        String question = getResources().getString(R.string.boolean_dialog_delete_image);
+        BooleanDialog dialog = new BooleanDialog(this, question);
+        dialog.setAnswerListener(new BooleanDialog.AnswerListener() {
+            @Override public void onYes() {
+                FileSaver.deleteImageFromUri( des_images.get(pos));
+                des_images.remove(pos);
+                updateImageView();
             }
-            existing = true;
-            readData();
-        }
-    }
+            @Override public void onNo() { }
+        });
+        dialog.show();
+    };
 
-    /*
-     * shows the grade right of the current
+    /**
+     * updates the view switcher which contains the description images
+     * reading the description image uris from the file
+     * if the size of the read list is 0, the textview is activated
+     * else the read list is set into the image adapter
      */
-    private void right() {
-        saveData();
-        if(index < Storage.grades.get(subject_index).size() && index > -1) {
-            index++;
-            if(index < Storage.grades.get(subject_index).size()) {
-                existing = true;
+    private void updateImageView() {
+        if(des_images.size() > 0) {
+            if(ta_description.getText().toString().equals("")) {
+                ta_description.setText(R.string.grades_description_default_image_text);
             }
-            else {
-                existing = false;
-                index = -1;
+            vs_image_description.switchToView(1);
+            ImageListView listview = findViewById(R.id.listview_description_grade);
+            listview.setItemLongClickListener(longItemClickListener);
+            listview.setImageList(des_images);
+        }
+        else {
+            String text = ta_description.getText().toString();
+            String res = getResources().getString(R.string.grades_description_default_image_text);
+            if(text.equals(res)) {
+                ta_description.setText("");
             }
-            readData();
+            vs_image_description.switchToView(0);
         }
     }
 
-    /*
-     * checks whether the written text is in the grade range
-     * if not the text is set to max or min, depending on which border was crossed
+    /**
+     * adds a image uri to the existing list
+     * and activates the listview view of vs_image_description
+     * @param uri: images that is added
      */
-    private void checkGradeRange(String string) {
-        int grade;
-        try {
-            grade = Integer.parseInt(string);
-        }
-        catch(Exception e) {
-            ed_grade.setText(String.valueOf(predictedGrade()));
-            return;
-        }
-
-        if(grade < grade_min) {
-            ed_grade.setText(String.valueOf(grade_min));
-            return;
-        }
-        if(grade > grade_max) {
-            ed_grade.setText(String.valueOf(grade_max));
-        }
+    public void addImage(Uri uri) {
+        des_images.add(uri);
+        updateImageView();
     }
 
-    /*
-     * onclick input_listener for the button addGrade
-     */
-    private void onclick_addGrade() {
-        int grade = Integer.parseInt(ed_grade.getText().toString());
-        ed_grade.setText(String.valueOf(grade+1));
-    }
 
-    /*
-     * onclick input_listener for the button subGrade
-     */
-    private void onclick_subGrade() {
-        int grade = Integer.parseInt(ed_grade.getText().toString());
-        ed_grade.setText(String.valueOf(grade-1));
-    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////// Dates /////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    /*
-     * onclick input_listener when an item of the written_spinner is selected
-     * a list for got_spinner is provided that reaches from the selected date until today
+    /**
+     * onlclick listener when a new written date is selected
+     * updates the got date picker
+     * @param date: for {@link this#getSubList(int, Date)}
      */
     private void onclick_writtenDate(Date date) {
-        if(!existing) { //creates a sublist of the written dates
-            dates_got = getSubList(0, date);
-            spinner_date_got.switchToSpinner();
-            spinner_date_got.updateList( dateToString(dates_got));
-            spinner_date_got.setSelection( Math.min(0, dates_got.size()));
-        }
-    }
-
-    /*
-     * onclick input_listener for the radiogroup kind
-     */
-    private void onclick_kind(int i) {
-        if(active_kind_id == i) {
+        if(existing) {
             return;
         }
-        if(active_kind_id == -1) {
-            active_kind_id = radiogroup_kind.getCheckedRadioButtonId();
-        }
 
-        //change color
-        changeRadioButtonColor(active_kind_id, getResources().getColor(R.color.radio_button_inactive));
-        active_kind_id = i;
-        changeRadioButtonColor(active_kind_id, Storage.subjects.get(subject_index).getDarkColor());
-
-        //change text
-        if(i == R.id.radio_b_misc_grade) {
-            tv_heading_kind.setText( getResources().getString(R.string.grades_kind_misc));
-            ed_misc.setEnabled(true);
-        }
-        else {
-            tv_heading_kind.setText(((TextView) findViewById(i)).getText().toString());
-            ed_misc.setEnabled(false);
-            ed_misc.setText("");
-        }
+        dates_got = getSubList(0, date);
+        spinner_date_got.switchToSpinner();
+        spinner_date_got.updateList( dateToString(dates_got));
+        spinner_date_got.setSelection( Math.min(0, dates_got.size()));
     }
 
-    /*
-     * changes the color of the Drawable of the Radiobutton
+    /**
+     * calculates a sub array list of {@link this#dates_written}
+     * this list starts at index 'a' and ends at the first date
+     * that is after 'date'
+     * @param a: start index
+     * @param date: date which defines the end of the list
+     * @return sublist of {@link this#dates_written}
      */
-    private void changeRadioButtonColor(int button_id, int color) {
-        RadioButton button = (RadioButton) radiogroup_kind.findViewById(button_id);
-        Drawable symbol = button.getCompoundDrawables()[0];
-        symbol.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        button.setCompoundDrawables(symbol, null, null, null);
-        //0 = left, setCompoundDrawables(left, top, right, bottom)
+    private ArrayList<Date> getSubList(int a, Date date) {
+        ArrayList<Date> result = new ArrayList<>();
+        for(int i = a; i < dates_written.size() && !dates_written.get(i).before(date); i++) {
+            result.add(dates_written.get(i));
+        }
+        return result;
     }
 
-    //******************************************************* methods *******************************************************//
-
-    /*
-     * reads all the data from the grade at option_index and index
-     */
-    private void readData() {
-        dates_written.clear();
-        dates_got.clear();
-
-        tv_heading_subject.setText( Storage.subjects.get(subject_index).getName());
-        ta_description.changeBorderColor( Storage.subjects.get(subject_index).getDarkColor());
-
-        if(existing) {
-            tv_heading_kind.setText( Storage.grades.get(subject_index).get(index).getShortDescription());
-            ta_description.setText( Storage.grades.get(subject_index).get(index).getDescription());
-            ed_grade.setText( String.valueOf(Storage.grades.get(subject_index).get(index).getNumber()));
-
-            spinner_date_written.setDate( Storage.grades.get(subject_index).get(index).getWrittenDate());
-            spinner_date_written.setLightColor( Storage.subjects.get(subject_index).getColor());
-            spinner_date_written.setDarkColor( Storage.subjects.get(subject_index).getDarkColor());
-
-            spinner_date_got.setDate( Storage.grades.get(subject_index).get(index).getGotDate());
-            spinner_date_got.setLightColor( Storage.subjects.get(subject_index).getColor());
-            spinner_date_got.setDarkColor( Storage.subjects.get(subject_index).getDarkColor());
-
-            //set the correct kind of grade
-            ed_misc.setEnabled(false);
-            String des = Storage.grades.get(subject_index).get(index).getShortDescription();
-            for(int i = 0; i < radiogroup_kind.getChildCount(); i++) {
-                RadioButton radioButton = (RadioButton) radiogroup_kind.getChildAt(i);
-                if(des.equals(radioButton.getText())) {
-                    radiogroup_kind.check(radioButton.getId());
-                    active_kind_id = radioButton.getId();
-                    if(radioButton.getId() == R.id.radio_b_misc_grade) {
-                        ed_misc.setEnabled(true);
-                        ed_misc.setText( Storage.grades.get(subject_index).get(index).getMisc());
-                    }
-                    break;
-                }
-            }
-            changeRadioButtonColor(radiogroup_kind.getCheckedRadioButtonId(), Storage.subjects.get(subject_index).getDarkColor());
-        }
-        else {
-            tv_heading_kind.setText( getResources().getString(R.string.grades_kind_test));
-            ta_description.setText("");
-
-            spinner_date_got.switchToSpinner();
-            dates_written = Storage.getPastDates(subject_index);
-            spinner_date_written.updateList(dateToString(dates_written));
-            spinner_date_written.setDarkColor(color_dark);
-
-            ed_grade.setText(String.valueOf(predictedGrade()));
-            radiogroup_kind.check(R.id.radio_b_test_grade);
-            active_kind_id = R.id.radio_b_test_grade;
-            changeRadioButtonColor(radiogroup_kind.getChildAt(1).getId(), Storage.subjects.get(subject_index).getDarkColor());
-            ed_misc.setEnabled(false);
-            ed_misc.setText("");
-        }
-    }
-
-    /*
-     * converts the HomeworkDate title_strings into a string title_strings
+    /**
+     * converts the transmitted date array list into a string array list
+     * @param list: transmitted date array list
+     * @return string array list
      */
     private ArrayList<String> dateToString(ArrayList<Date> list) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d. MMM yyyy", Locale.GERMANY);
@@ -476,35 +366,223 @@ public class Grade_activity extends JHP_Activity {
         return string;
     }
 
-    /*
-     * converts a single date into a string
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////// kind methods /////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * activates the radiobutton represented by 'index'
+     * if 'index' is equal to the current active radio button id, nothing happens
+     * then the old & the new active radio get a new color through {@link this#changeRadioButtonColor(int, int)}
+     * and the {@link this#active_kind_id} is set to the transmitted id
+     * if 'misc' radio button is active, the text field is enabled
+     * else the text field is disabled and emptied
+     * @param index: id of the new active radio button
      */
-    private String dateToString(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d. MMM", Locale.GERMANY);
-        return sdf.format(date);
+    private void activateRadioButton(int index) {
+
+        //change color
+        changeRadioButtonColor(active_kind_id, getResources().getColor(R.color.radio_button_inactive));
+        active_kind_id = index;
+        changeRadioButtonColor(active_kind_id, dark_color);
+
+        //change text
+        tv_heading_kind.setText(((TextView) findViewById(index)).getText().toString());
+        if(index == R.id.radio_b_misc_grade) {
+            ed_misc.setEnabled(true);
+        }
+        else {
+            ed_misc.setEnabled(false);
+            ed_misc.setText("");
+        }
     }
 
-    /*
-     * tries to predict the grade, by rounding the average
+    /**
+     * changes the buttons left drawable to 'color'
+     * if button id is -1, nothing happens, as this is the start value of {@link this#active_kind_id}
+     * @param button_id: id of the radiobutton
+     * @param color: color, in which the drawable should be painted
      */
-    private int predictedGrade() {
-        double average = Storage.subjects.get(subject_index).getAverage();
-        average += 0.5;
-        if((int) average == 0) {
-            average = 10;
+    private void changeRadioButtonColor(int button_id, int color) {
+        if(button_id == -1) {
+            return;
         }
-        return (int) average;
+        RadioButton button = radiogroup_kind.findViewById(button_id);
+        Drawable symbol = button.getCompoundDrawables()[0];
+        symbol.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        button.setCompoundDrawables(symbol, null, null, null);
+        button.invalidate();
     }
 
-    /*
-     * return a sub ArrayList of date_written between the two params
+    /**
+     * returns the radiobutton of which the description is transmitted
+     * iterating through the radiobutton: stops when the descriptions match
+     * counter is then equal to the index of the correct radiobutton
+     * @param des: description, which is equal to one of the radio buttons description
+     * @return resource id of the radiobutton with the same description
      */
-    private ArrayList<Date> getSubList(int a, Date date) {
-        ArrayList<Date> result = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d. MMM yyyy", Locale.GERMANY);
-        for(int i = a; i < dates_written.size() && !dates_written.get(i).before(date); i++) {
-            result.add(dates_written.get(i));
+    private int getRadioButtonIDByDescription(String des) {
+        int i = 0;
+        while(!des.equals( ((RadioButton) radiogroup_kind.getChildAt(i)).getText().toString())) {
+            i++;
         }
-        return result;
+
+        return radiogroup_kind.getChildAt(i).getId();
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// controlling data (saving, reading, changing the grade) ////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * reads the data from the grade represented by {@link this#subject_index} & {@link this#index}
+     * first {@link this#existing} is defined depending on the {@link this#index}
+     * if it exists all values from the new grade are loaded to the GUI
+     * else the standard values are loaded
+     */
+    private void readData() {
+        dates_written.clear();
+        dates_got.clear();
+
+        existing = index != -1;
+
+        if(existing) {
+            Grade grade = Storage.grades.get(subject_index).get(index);
+            tv_heading_kind.setText( grade.getShortDescription());
+
+            number_picker.setSelection( grade.getNumber());
+
+            ta_description.setText( grade.getDescription());
+            des_images = Grade.readGradeImages( grade.getFileName());
+            updateImageView();
+
+            spinner_date_written.setDate( grade.getWrittenDate());
+            spinner_date_got.setDate( grade.getGotDate());
+
+            int id = getRadioButtonIDByDescription( grade.getShortDescription());
+            changeRadioButtonColor(id, dark_color);
+            activateRadioButton(id);
+            radiogroup_kind.check(id);
+            if(active_kind_id == R.id.radio_b_misc_grade) {
+                ed_misc.setText( grade.getMisc());
+            }
+        }
+        else {
+            tv_heading_kind.setText( getResources().getString(R.string.grades_kind_test));
+            ta_description.setText("");
+
+            int index = Grade.getPredictedGrade(subject_index);
+            if(Storage.settings.grades_isRatingInGrades()) index--; //grades starts with 1 -> -1 to get the index of average
+            number_picker.setSelection( index);
+
+            spinner_date_got.switchToSpinner();
+            dates_written = Storage.getPastDates(subject_index);
+            spinner_date_written.updateList( dateToString(dates_written));
+
+            activateRadioButton(R.id.radio_b_test_grade);
+        }
+        number_picker.applyChanges();
+    }
+
+    /**
+     * saves the data of the current grade
+     * if the grade already exists:
+     * - all data from the GUI replace the old values of the grade
+     * - a new average of the current subject is calculated
+     * else (if the grade is valid = has a description text)
+     * - all data from the GUI form a new grade, which is add to the Storage
+     * - {@link this#existing} becomes true
+     * - {@link this#index} is set
+     * - the temporary grade folder is renamed to the new grade name
+     */
+    private void saveData() {
+        FileSaver fileSaver = new FileSaver(this);
+        int number = number_picker.getSelectedIndex();
+        number += Storage.settings.grades_isRatingInGrades()? 1 : 0;
+
+        if(existing) {
+            if(!ta_description.getText().toString().equals("")) {
+                Storage.grades.get(subject_index).get(index).setDescription(ta_description.getText().toString());
+            }
+
+            Storage.grades.get(subject_index).get(index).setNumber(number);
+
+            Storage.grades.get(subject_index).get(index).setShortDescription(tv_heading_kind.getText().toString());
+            if(tv_heading_kind.getText().toString().equals( getResources().getString(R.string.grades_kind_exam))) {
+                Storage.grades.get(subject_index).get(index).setExam(true);
+            }
+            if(!ed_misc.getText().toString().equals("")) {
+                Storage.grades.get(subject_index).get(index).setMisc(ed_misc.getText().toString());
+            }
+            Storage.subjects.get(subject_index).calculateAverage();
+        }
+        else {
+            if(ta_description.getText().toString().equals("")) {
+                fileSaver.clearTempFolder();
+                return;
+            }
+
+            boolean exam = tv_heading_kind.getText().toString().equals( getResources().getString(R.string.grades_kind_exam));
+            Storage.addGrade(subject_index, new Grade(
+                    Storage.grades.get(subject_index).size(),
+                    subject_index,
+                    number,
+                    spinner_date_written.getDate(),
+                    spinner_date_got.getDate(),
+                    ta_description.getText().toString(),
+                    tv_heading_kind.getText().toString(),
+                    ed_misc.getText().toString(),
+                    exam
+            ));
+            index = Storage.grades.get(subject_index).size()-1;
+            existing = true;
+
+            String name = Storage.grades.get(subject_index).get(index).getFileName();
+            fileSaver.renameTempImages(name, FileSaver.GRADE_TEMP_IMAGE);
+            fileSaver.renameNewGradeFolderTo(name);
+        }
+        fileSaver.saveData();
+    }
+
+    /**
+     * loads the (timely) previous grade of the current one
+     * first the new index is saved temporarily
+     * - if a new grade was created, the index of the latest grade is loaded
+     * - else the old index is decreased by 1 (except at 0)
+     * at least the index is updated
+     */
+    private void left() {
+        int last_index = Storage.grades.get(subject_index).size()-1;
+        int i = (index == -1)? last_index : Math.max(index-1, 0);
+        updateIndex(i);
+    }
+
+    /**
+     * loads the (timely) next grade of the current one
+     * first the new index is saved temporarily
+     * - if a new grade was created or the latest grade was edited = -1
+     * - else the old index is increased by 1
+     * at least the index is updated
+     */
+    private void right() {
+        int last_index = Storage.grades.get(subject_index).size()-1;
+        int i = (index == last_index || index == -1)? -1 : index+1;
+        updateIndex(i);
+    }
+
+    /**
+     * updates the image to the transmitted new index
+     * if the both indices are equal nothing happens
+     * @param new_index: new index
+     */
+    private void updateIndex(int new_index) {
+        if(new_index == index) {
+            return;
+        }
+
+        saveData();
+        index = new_index;
+        readData();
     }
 }

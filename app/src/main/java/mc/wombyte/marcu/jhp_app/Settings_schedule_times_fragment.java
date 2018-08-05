@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import mc.wombyte.marcu.jhp_app.Reuseables.TimePicker;
+
 /**
  * Created by marcu on 19.12.2017.
  */
@@ -17,8 +19,8 @@ public class Settings_schedule_times_fragment extends SettingFragment {
     Context context;
 
     TextView[] tv_time = new TextView[9];
-    Schedule_time_picker timepicker_from;
-    Schedule_time_picker timepicker_to;
+    TimePicker timepicker_from;
+    TimePicker timepicker_to;
     RelativeLayout swipe_container;
 
     int lesson_count;
@@ -37,8 +39,8 @@ public class Settings_schedule_times_fragment extends SettingFragment {
         tv_time[6] = (TextView) view.findViewById(R.id.tv_7_schedule_time_fragment);
         tv_time[7] = (TextView) view.findViewById(R.id.tv_8_schedule_time_fragment);
         tv_time[8] = (TextView) view.findViewById(R.id.tv_9_schedule_time_fragment);
-        timepicker_from = (Schedule_time_picker) view.findViewById(R.id.timepicker1_schedule);
-        timepicker_to = (Schedule_time_picker) view.findViewById(R.id.timepicker2_schedule);
+        timepicker_from = (TimePicker) view.findViewById(R.id.timepicker1_schedule);
+        timepicker_to = (TimePicker) view.findViewById(R.id.timepicker2_schedule);
         swipe_container = (RelativeLayout) view.findViewById(R.id.container_schedule_time_fragment);
 
         //content
@@ -53,12 +55,12 @@ public class Settings_schedule_times_fragment extends SettingFragment {
             @Override public void swipeTop() { down(); }
             @Override public void swipeBottom() { up(); }
         });
-        timepicker_from.setTimeListener(new Schedule_time_picker.TimeListener() {
+        timepicker_from.setTimeListener(new TimePicker.TimeListener() {
             @Override public void onTimeChangeListener(int h, int min) {
                 timepicker_to.setMinTime(h, min);
             }
         });
-        timepicker_to.setTimeListener(new Schedule_time_picker.TimeListener() {
+        timepicker_to.setTimeListener(new TimePicker.TimeListener() {
             @Override
             public void onTimeChangeListener(int h, int min) {
                 timepicker_from.setMaxTime(h, min);

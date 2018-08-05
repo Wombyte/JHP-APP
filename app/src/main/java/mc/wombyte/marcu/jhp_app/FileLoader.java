@@ -1,6 +1,7 @@
 package mc.wombyte.marcu.jhp_app;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import mc.wombyte.marcu.jhp_app.Classes.Grade;
@@ -30,6 +32,12 @@ public class FileLoader {
 
     public FileLoader() { }
 
+    /**
+     * reads all the data that is necessary for the fluid working of the app
+     * if the permission 'read external Storage' is not allowed, the method stops
+     * 1. the semester data is read to get the current semester
+     * 2. schedule, subjects, homework, grades and settings are read
+     */
     public void readData() {
         if(!Storage.READ_EXTERNAL_STORAGE_ALLOWED) {
             return;
@@ -42,19 +50,20 @@ public class FileLoader {
             readSemester(i);
         }
 
+        //read the subjects if the file exists
+        //have to be read first, as they are the base
+        try {
+            readSubjects();
+        } catch(IOException e) {
+            Log.d("FileLoader", "file subjects not found, or error while reading it");
+            e.printStackTrace();
+        }
+
         //read the schedule if the file exists
         try {
             readSchedule();
         } catch(IOException e) {
             Log.d("FileLoader", "file schedule not found, or error while reading it");
-            e.printStackTrace();
-        }
-
-        //read the subjects if the file exists
-        try {
-            readSubjects();
-        } catch(IOException e) {
-            Log.d("FileLoader", "file subjects not found, or error while reading it");
             e.printStackTrace();
         }
 
@@ -75,10 +84,17 @@ public class FileLoader {
         }
 
         //read the settings if the file exists
-        readSettings();
+        try {
+            readSettings();
+        } catch(IOException e) {
+            Log.d("FileLoader", "file settings not found, or error while reading it");
+            e.printStackTrace();
+        }
     }
 
-    //******************************************************* schedule *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// schedule ///////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * reads the data from the current schedule folder
@@ -102,7 +118,9 @@ public class FileLoader {
         }
     }
 
-    //******************************************************* subjects *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// subjects ///////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * read the subjects from the current general subject folder
@@ -124,7 +142,9 @@ public class FileLoader {
         }
     }
 
-    //******************************************************* homework *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// homework ///////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * reads all data.txt of the existing homework folders
@@ -142,15 +162,76 @@ public class FileLoader {
             return;
         }
 
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_YEAR, -1);
+
         for(File f: homework_folder.listFiles()) {
-            Homework homework = Homework.readHomeworkData(new File(f, "data.txt"));
+            Homework homework = Homework.readHomeworkData(new File(f, "data.txt"), c);
             if(homework != null) {
                 Storage.addHomework(homework.getSubjectindex(), homework);
             }
         }
     }
 
-    //******************************************************* grades *******************************************************//
+    /**
+     * reads all uris from the images folder that fulfil these conditions
+     * 1. first 3 letters are "HDE"
+     * 3. the following String = grade name
+     * if the image folder doesn't exist, nothing will happen
+     * @param homework_name: indices of the grade
+     * @return list of all description images of this grade
+     */
+    public ArrayList<Uri> readHomeworkDescriptionImages(String homework_name) {
+        ArrayList<Uri> result = new ArrayList<>();
+
+        File folder = new File("/storage/emulated/0/JHP/images");
+        if(!folder.exists()) {
+            return result;
+        }
+
+        for(File file: folder.listFiles(File::isFile)) {
+            String name = file.getName();
+            if(name.substring(0, 3).equals("HDE")) {
+                if(getNameFromImage(3, name).equals(homework_name)) {
+                    result.add(Uri.fromFile(file));
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * reads all uris from the images folder that fulfil these conditions
+     * 1. first 3 letters are "HDE"
+     * 3. the following String = grade name
+     * if the image folder doesn't exist, nothing will happen
+     * @param homework_name: indices of the grade
+     * @return list of all description images of this grade
+     */
+    public ArrayList<Uri> readHomeworkSolutionImages(String homework_name) {
+        ArrayList<Uri> result = new ArrayList<>();
+
+        File folder = new File("/storage/emulated/0/JHP/images");
+        if(!folder.exists()) {
+            return result;
+        }
+
+        for(File file: folder.listFiles(File::isFile)) {
+            String name = file.getName();
+            if(name.substring(0, 3).equals("HSO")) {
+                if(getNameFromImage(3, name).equals(homework_name)) {
+                    result.add(Uri.fromFile(file));
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////// grades ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * reads all data.txt of the existing grade folders
@@ -176,157 +257,105 @@ public class FileLoader {
         }
     }
 
-    //******************************************************* settings *******************************************************//
-    /*
-     * read the settings from the transferred BufferedReader
+    /**
+     * reads all uris from the images folder that fulfil these conditions
+     * 1. first 3 letters are "GDE"
+     * 2. next 3 letters are the current semester
+     * 3. the following name = grade name
+     * if the image folder doesn't exist, nothing will happen
+     * @param grade_name: indices of the grade
+     * @return list of all description images of this grade
      */
-    public void readSettings() {
-        Storage.settings = new Settings();
-        String line;
-        String[] segment = new String[3]; //path, type, value
-        int start, end;
-        try {
-            File file_settings = new File("/storage/emulated/0/JHP/settings.txt");
-            if(!file_settings.exists()) {
-                return;
-            }
+    public ArrayList<Uri> readGradeImages(String grade_name) {
+        ArrayList<Uri> result = new ArrayList<>();
 
-            FileReader fr = new FileReader(file_settings);
-            BufferedReader br = new BufferedReader(fr);
-
-            while((line = br.readLine()) != null) {
-                //getting path, type and value of setting
-                end = -1;
-                for(int i = 0; i < 3; i++) {
-                    start = end + 1;
-                    end = line.indexOf(":", start);
-                    segment[i] = line.substring(start, end);
-                }
-
-                //saving the value to the settings
-                if(segment[1].equals("int")) {
-                    Integer value = Integer.parseInt(segment[2]);
-                    Storage.settings.setChildValue(stringToPath(segment[0]), value);
-                }
-                if(segment[1].equals("double")) {
-                    Double value = Double.parseDouble(segment[2]);
-                    Storage.settings.setChildValue(stringToPath(segment[0]), value);
-                }
-                if(segment[1].equals("string")) {
-                    String value = segment[2];
-                    Storage.settings.setChildValue(stringToPath(segment[0]), value);
-                }
-                if(segment[1].equals("boolean")) {
-                    Boolean value = Boolean.parseBoolean(segment[2]);
-                    Storage.settings.setChildValue(stringToPath(segment[0]), value);
-                }
-                if(segment[1].equals("byte")) {
-                    Byte value = Byte.parseByte(segment[2]);
-                    Storage.settings.setChildValue(stringToPath(segment[0]), value);
-                }
-                if(segment[1].equals("arraylist")) {
-                    ArrayList<String> value = stringToList(segment[2]);
-                    Storage.settings.setChildValue(stringToPath(segment[0]), value);
-                }
-                if(segment[1].equals("title_strings")) {
-                    int[] value = stringToArray(segment[2]);
-                    Storage.settings.setChildValue(stringToPath(segment[0]), value);
-                }
-            }
-            br.close();
-        } catch(Exception e) {
-            e.printStackTrace();
+        File folder = new File("/storage/emulated/0/JHP/images");
+        if(!folder.exists()) {
+            return result;
         }
+
+        for(File file: folder.listFiles(Grade.fileFilter)) {
+            if(getNameFromImage(6, file.getName()).equals(grade_name)) {
+                result.add(Uri.fromFile(file));
+            }
+        }
+
+        return result;
     }
 
-    //******************************************************* semester *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// settings ///////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    /*
-     * read all data from the folders
+    /**
+     * reads the settings from the settings.txt
+     * first the list is cleared
+     * if the mentioned file does not exist the method stops
+     * else the method {@link Settings#readSettings(File)} is called
+     * @throws IOException: {@link Settings#readSettings(File)}
+     */
+    public void readSettings() throws IOException {
+        Storage.settings = new Settings();
+
+        File file_settings = new File("/storage/emulated/0/JHP/settings.txt");
+        if(!file_settings.exists()) {
+            return;
+        }
+
+        Settings.readSettings(file_settings);
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// semester ///////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * reads the names of all existing semester folders
+     * first the current list is clears
+     * afterwards the highest semester is calculated and set
      */
     private void readSemesterData() {
         Storage.semester.clear();
 
         File mainfolder = new File("/storage/emulated/0/JHP");
         for (File file : mainfolder.listFiles()) {
-            if (file.isDirectory() && !file.getName().equals("Backup") && !file.getName().equals("homework")) {
+            if (file.isDirectory()
+                    && !file.getName().equals("Backup")
+                    && !file.getName().equals("homework")
+                    && !file.getName().equals("images")) {
                 Storage.semester.add(new Semester(file.getName()));
             }
         }
         Storage.setHighestSemester();
     }
 
-    /*
-     * read data from the semester file
+    /**
+     * reads the semester data from the different data.txt files
+     * if the current data.txt does not exist, the method stops
+     * @param semester_id: index of the semester in the Storage list
      */
-    private void readSemester(int i) {
-        File file = new File("/storage/emulated/0/JHP/" + Storage.semester.get(i).getName() + "/semester.txt");
+    private void readSemester(int semester_id) {
+        File file = new File("/storage/emulated/0/JHP/" + Storage.semester.get(semester_id).getName() + "/semester.txt");
+        if(!file.exists()) {
+            return;
+        }
 
         try {
-            if (file.exists()) {
-                FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr);
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
 
-                Storage.semester.get(i).number_of_subjects = Integer.parseInt(br.readLine());
-                Storage.semester.get(i).average = Double.parseDouble(br.readLine());
+            Storage.semester.get(semester_id).number_of_subjects = Integer.parseInt(br.readLine());
+            Storage.semester.get(semester_id).average = Double.parseDouble(br.readLine());
 
-                br.close();
-            }
+            br.close();
         } catch(IOException e) {
-            Log.d("FileLoader", "file grades not found, or error while reading it");
             e.printStackTrace();
         }
-
-        System.out.println(Storage.semester.get(i).getName() + ": " + Storage.semester.get(i).getNumberOfSubjects() + " " + Storage.semester.get(i).getAverage());
     }
 
-    //******************************************************* methods *******************************************************//
-
-    /*
-     * converts the the transferred String into a String list
-     */
-    private ArrayList<String> stringToList(String string) {
-        if(string.charAt(1) == ']') {
-            return new ArrayList<>();
-        }
-
-        ArrayList<String> result = new ArrayList<>();
-        int start = 0;
-        int end;
-
-        while((end = string.indexOf(",", start)) != -1) {
-            result.add(string.substring(start+1, end));
-            start = end+1;
-        }
-        end = string.length();
-        result.add(string.substring(start+1, end-1));
-
-        return result;
-    }
-
-    /*
-     * converts the the transferred String into a int[]
-     */
-    private int[] stringToArray(String string) {
-        ArrayList<String> stringlist = stringToList(string);
-        int[] result = new int[stringlist.size()];
-        for(int i = 0; i < stringlist.size(); i++) {
-            result[i] = Integer.parseInt(stringlist.get(i));
-        }
-        return result;
-    }
-
-    /*
-     * converts the the transferred String into a path
-     */
-    private ArrayList<Integer> stringToPath(String string) {
-        ArrayList<String> string_list = stringToList(string);
-        ArrayList<Integer> result = new ArrayList<>();
-        for(int i = 0; i < string_list.size(); i++) {
-            result.add(Integer.parseInt(string_list.get(i)));
-        }
-        return result;
-    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// methods ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * converts a data line into a String array consisting of the tag and the data itself
@@ -341,5 +370,20 @@ public class FileLoader {
         String tag = line.substring(0, 3);
         String data = line.substring(5);
         return new String[] { tag, data };
+    }
+
+    /**
+     * returns the grade/homework name included in the filename
+     * the start index of the grade/homework name is transmitted while
+     * the end index is the location of the second '_'
+     * @param start: length of the pre-defined string
+     * @param name: name of the file
+     * @return String: name of the matching grade/homework
+     */
+    private static String getNameFromImage(int start, String name) {
+        int t = name.indexOf('_');
+        String temp = name.substring(t+1, name.length());
+        int end = t + temp.indexOf('_')+1;
+        return name.substring(start, end);
     }
 }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     android:orientation="vertical"
     android:padding="20dp">
@@ -96,13 +97,22 @@
             android:gravity="top|start"
             android:textSize="16sp" />
 
-        <ListView
-            android:id="@+id/listview_files_solution_homework"
+        <mc.wombyte.marcu.jhp_app.Reuseables.ImageListView
+            android:id="@+id/image_listview_solution_homework"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            custom:mode="vertically">
+
+        </mc.wombyte.marcu.jhp_app.Reuseables.ImageListView>
+
+        <ListView
+            android:id="@+id/file_listview_solution_homework"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="10dp">
 
         </ListView>
+
 
     </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
 

@@ -61,6 +61,8 @@ public class Homework_solution_dialog extends Dialog{
             ed_text.selectAll();
             is_link = true;
             b_ok.setText(R.string.homework_solution_dialog_take);
+            b_ok.setEnabled(true);
+            b_ok.setTextColor( context.getResources().getColor(R.color.first_use_next));
         }
 
         //listener
@@ -113,10 +115,12 @@ public class Homework_solution_dialog extends Dialog{
         if(is_link) {
             //b_ok.setText(R.string.homework_solution_dialog_take);
             b_ok.setEnabled(true);
+            b_ok.setTextColor( context.getResources().getColor(R.color.first_use_next));
         }
         else {
             //b_ok.setText(R.string.homework_solution_dialog_create);
             b_ok.setEnabled(false);
+            b_ok.setTextColor( context.getResources().getColor(R.color.first_use_next_disabled));
         }
 
         return is_link;

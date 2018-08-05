@@ -1,4 +1,4 @@
-package mc.wombyte.marcu.jhp_app;
+package mc.wombyte.marcu.jhp_app.Reuseables;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -21,7 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.Date_spinner_adapter;
+import mc.wombyte.marcu.jhp_app.R;
 
 /**
  * Created by marcu on 05.03.2018.

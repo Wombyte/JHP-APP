@@ -1,10 +1,12 @@
 package mc.wombyte.marcu.jhp_app;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,12 +15,8 @@ import mc.wombyte.marcu.jhp_app.Classes.Subject;
 
 public class Subject_listview_adapter extends ArrayAdapter<Subject> {
 
-    TextView tv_average;
-    TextView tv_name;
-    TextView tv_grades;
-
     Context context;
-    int pos;
+    ViewHolder holder;
 
     public Subject_listview_adapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -28,46 +26,69 @@ public class Subject_listview_adapter extends ArrayAdapter<Subject> {
         super(context, resource, items);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View view, ViewGroup container) {
-
-        if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.subject_listview_fragment, null);
-            context = container.getContext();
-        }
-
-        pos = position;
+    public View getView(int position, View view, @NonNull ViewGroup container) {
+        context = container.getContext();
         Subject p = getItem(position);
 
-        if (p != null) {
-            tv_average = (TextView) view.findViewById(R.id.tv_subjects_subject_average);
-            tv_name = (TextView) view.findViewById(R.id.tv_subjects_subject_name);
-            tv_grades = (TextView) view.findViewById(R.id.tv_subjects_subject_grades);
+        if(view == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(R.layout.subject_listview_fragment, null);
 
-            tv_name.setText(p.getName());
-            tv_name.setTextColor(p.getColor());
-            tv_average.setTextColor(p.getDarkColor());
-            tv_average.setText( Storage.settings.subjects_getAverageDecimalFormat().format(p.getAverage()));
-            tv_grades.setText(gradesToString());
+            holder = new ViewHolder();
+            holder.tv_name = view.findViewById(R.id.tv_name_subject_list);
+            holder.sym_lessons = view.findViewById(R.id.sym_lessons_subject_list);
+            holder.tv_lessons = view.findViewById(R.id.tv_lessons_subject_list);
+            holder.sym_tasks = view.findViewById(R.id.sym_tasks_subject_list);
+            holder.tv_tasks = view.findViewById(R.id.tv_tasks_subject_list);
+
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
+        }
+
+        int lesson = p.getLessonAmount();
+        int tasks = Storage.homework.get(p.getIndex()).size();
+
+        //name
+        holder.tv_name.setText(p.getName());
+        holder.tv_name.setTextColor(p.getColor());
+
+        //lesson
+        if(lesson != 0) {
+            holder.tv_lessons.setText( String.valueOf(lesson));
+            holder.tv_lessons.setTextColor( context.getResources().getColor(R.color.colorAccent));
+            holder.sym_lessons.setColorFilter(p.getDarkColor());
+        }
+        else {
+            holder.tv_lessons.setTextColor( context.getResources().getColor(R.color.background));
+            holder.sym_lessons.setColorFilter( context.getResources().getColor(R.color.background));
+        }
+
+        //tasks
+        if(tasks != 0) {
+            holder.tv_tasks.setText( String.valueOf(tasks));
+            holder.tv_tasks.setTextColor( context.getResources().getColor(R.color.colorAccent));
+            holder.sym_tasks.setColorFilter(p.getDarkColor());
+        }
+        else {
+            holder.tv_tasks.setTextColor( context.getResources().getColor(R.color.background));
+            holder.sym_tasks.setColorFilter( context.getResources().getColor(R.color.background));
         }
 
         return view;
     }
 
-    //******************************************************* methods *******************************************************//
-    /*
-     * converts the grades into a string, that is devided by ","
+    /**
+     * ViewHolder for this class
      */
-    private String gradesToString() {
-        String result = "";
-        for(int i = 0; i < Storage.grades.get(pos).size(); i++) {
-            result += String.valueOf(Storage.grades.get(pos).get(i).getNumber());
-            if(i != Storage.grades.get(pos).size()-1) {
-                result += ", ";
-            }
-        }
-        return result;
+    private class ViewHolder {
+        TextView tv_name;
+        ImageView sym_lessons;
+        TextView tv_lessons;
+        ImageView sym_tasks;
+        TextView tv_tasks;
     }
 }
 

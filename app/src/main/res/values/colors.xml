@@ -18,13 +18,14 @@
     <!-- radio button -->
     <color name="radio_button_inactive">#b3b3b3</color>
 
-    <!-- add subject -->
-
     <!-- homework listview -->
     <color name="homework_true">#6cc500</color>
     <color name="homework_false">#c50000</color>
+    <color name="homework_cover">#c8ffffff</color>
 
     <!-- homework solution listview -->
+    <color name="homework_solution_text">#9c9c9c</color>
+    <color name="homework_solution_text_light">#cccccc</color>
     <color name="homework_solution_images">#f44242</color>
     <color name="homework_solution_images_light">#f5a6a6</color>
     <color name="homework_solution_docs">#4285f4</color>
@@ -34,6 +35,9 @@
     <color name="homework_solution_slides">#f4b400</color>
     <color name="homework_solution_slides_light">#f5db93</color>
 
+    <!-- grade -->
+    <color name="grade_kind_symbol">#d3d3d3</color>
+
     <!-- settings -->
     <color name="settings_swtich_on">#ff8400</color>
 
@@ -41,6 +45,10 @@
     <color name="schedule_lesson_count_active">#b9b9b9</color>
     <color name="schedule_lesson_count_inactive">#eaeaea</color>
 
-    <!-- add subejct button -->
+    <!-- add subject button -->
     <color name="cancel_subject">#c50000</color>
+
+    <!-- test -->
+    <color name="test_light">#ff0d00</color>
+    <color name="test_dark">#c20a00</color>
 </resources>

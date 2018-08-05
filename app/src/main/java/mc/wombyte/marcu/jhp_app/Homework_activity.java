@@ -46,7 +46,6 @@ public class Homework_activity extends JHP_Activity {
     String short_description = "";
     String misc = "";
     HomeworkSolution solution = new HomeworkSolution();
-    boolean finished = false;
 
     Class previous_class;
     boolean existing;
@@ -112,6 +111,7 @@ public class Homework_activity extends JHP_Activity {
         else {
             mode = mode_sg;
         }
+
         existing = false;
         if(subject_index < Storage.homework.size() && subject_index >= 0) { //defining whether the homework already exists
             if(homework_index < Storage.homework.get(subject_index).size() && homework_index >= 0) {
@@ -119,6 +119,7 @@ public class Homework_activity extends JHP_Activity {
             }
         }
         if(existing) {
+            solution = Storage.homework.get(subject_index).get(homework_index).getSolution();
             solution.setImages( Storage.homework.get(subject_index).get(homework_index).readSolutionImages());
 
             date = Storage.homework.get(subject_index).get(homework_index).getDate();
@@ -241,7 +242,6 @@ public class Homework_activity extends JHP_Activity {
             edit_options.add(true_option);
         }
 
-
         setMenuContainerId(R.id.homework_scroll_container);
         setOptionId(1);
         setOptions();
@@ -339,10 +339,10 @@ public class Homework_activity extends JHP_Activity {
      */
     public void setHomeworkSolution(HomeworkSolution solution) { this.solution = solution; }
     public void changeStateOption(boolean isfinished) {
-        this.finished = isfinished;
+        solution.setState(isfinished);
         int index = options.size()-1;
 
-        if(finished) {
+        if(solution.isFinished()) {
             edit_options.set(index, false_option);
         }
         else {
@@ -369,11 +369,11 @@ public class Homework_activity extends JHP_Activity {
             switch(requestCode/10 * 10) {
                 case ImagePickerDialog.HOMEWORK_SOLUTION_IMAGE:
                     edit_fragment.addImage(uri);
-                    new FileSaver(this).saveSolutionImage(uri, homework_name);
+                    new FileSaver(this).saveHomeworkSolutionImage(uri, homework_name);
                     break;
                 case ImagePickerDialog.HOMEWORK_DESCRIPTION_IMAGE:
                     facts_fragment.addImage(uri);
-                    new FileSaver(this).saveDescriptionImage(uri, homework_name);
+                    new FileSaver(this).saveHomeworkDescriptionImage(uri, homework_name);
                     break;
             }
         }
@@ -395,6 +395,25 @@ public class Homework_activity extends JHP_Activity {
      * onclick input_listener for the button back
      */
     private void onclick_back() {
+        saveData();
+        Intent toPreviousClass = new Intent();
+        toPreviousClass.setClass(this, previous_class);
+        toPreviousClass.putExtra("FRAGMENT_INDEX", 2);
+        if(mode == mode_sg) {
+            toPreviousClass.putExtra("SUBJECT_INDEX", subject_index);
+        }
+        this.startActivity(toPreviousClass);
+    }
+
+    /**
+     * saves all the data entered by the user
+     * the homework from {@link Homework_edit_fragment} is saved before
+     * if the date is defined
+     *      if the homework exists, data is overwritten
+     *      else new homework is created
+     */
+    private void saveData() {
+        FileSaver fileSaver = new FileSaver(this);
         if(facts_fragment_active) {
             facts_fragment.getHomework();
         }
@@ -406,38 +425,33 @@ public class Homework_activity extends JHP_Activity {
                 if(short_description.equals( getResources().getString(R.string.homework_kind_misc))) {
                     Storage.homework.get(subject_index).get(homework_index).setMisc(misc);
                 }
-                Storage.homework.get(subject_index).get(homework_index).getSolution().setState(finished);
                 Storage.homework.get(subject_index).get(homework_index).setDescription(description);
                 Storage.homework.get(subject_index).get(homework_index).setSolution(solution);
             }
             else {
-                if(subject_index != -1 && !description.equals("")) {
-                    Storage.homework.get(subject_index).add(new Homework(
-                            subject_index,
-                            Storage.homework.get(subject_index).size(),
-                            date,
-                            tv_heading_kind.getText().toString(),
-                            misc,
-                            description,
-                            solution
-                    ));
-                    existing = true;
-                    homework_index = Storage.homework.get(subject_index).size()-1;
-
-                    new FileSaver(this).renameNewHomeworkFolderTo(subject_index + "_" + homework_index);
+                if(subject_index == -1 || description.equals("")) {
+                    fileSaver.clearTempFolder();
+                    return;
                 }
+                Storage.homework.get(subject_index).add(new Homework(
+                        subject_index,
+                        Storage.homework.get(subject_index).size(),
+                        date,
+                        tv_heading_kind.getText().toString(),
+                        misc,
+                        description,
+                        solution
+                ));
+                existing = true;
+                homework_index = Storage.homework.get(subject_index).size()-1;
+
+                String name = Storage.homework.get(subject_index).get(homework_index).getFileName();
+                fileSaver.renameTempImages(name, FileSaver.HOMEWORK_TEMP_IMAGE);
+                fileSaver.renameNewHomeworkFolderTo(name);
             }
-            FileSaver fileSaver = new FileSaver(this);
             fileSaver.saveData();
         }
 
-        Intent toPreviousClass = new Intent();
-        toPreviousClass.setClass(this, previous_class);
-        toPreviousClass.putExtra("FRAGMENT_INDEX", 2);
-        if(mode == mode_sg) {
-            toPreviousClass.putExtra("SUBJECT_INDEX", subject_index);
-        }
-        this.startActivity(toPreviousClass);
     }
 
     /*

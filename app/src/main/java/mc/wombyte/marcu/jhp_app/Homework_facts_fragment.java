@@ -27,7 +27,9 @@ import java.util.Locale;
 
 import mc.wombyte.marcu.jhp_app.Classes.HomeworkDate;
 import mc.wombyte.marcu.jhp_app.Classes.Lesson;
-import mc.wombyte.marcu.jhp_app.Reuseables.HorizontalImageListView.HorizontalImageListView;
+import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.Reuseables.DatePicker;
+import mc.wombyte.marcu.jhp_app.Reuseables.ImageListView;
 import mc.wombyte.marcu.jhp_app.Reuseables.TextArea;
 import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
 
@@ -35,7 +37,7 @@ import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
  * Created by marcu on 08.05.2018.
  */
 
-public class Homework_facts_fragment extends Fragment {
+public class Homework_facts_fragment extends Fragment{
 
     Context context;
     View view;
@@ -128,7 +130,6 @@ public class Homework_facts_fragment extends Fragment {
             else {
                 date = new HomeworkDate(new Date(), -1);
             }
-
         }
         int id = indexOfDate(date);
         if(id == -1) {
@@ -343,8 +344,11 @@ public class Homework_facts_fragment extends Fragment {
         return result;
     }
 
-    /*
-     * finds the id of the active radiobutton (kind)
+    /**
+     * looks for the currently active kind radio button
+     * iterates through all radio buttons and searches the one
+     * which description is equals to {@link this#short_description}
+     * @return
      */
     private int getActiveKindRadioButton() {
         int i = 0;
@@ -356,6 +360,30 @@ public class Homework_facts_fragment extends Fragment {
         return radio_button.getId();
     }
 
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// handling images ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * listener, that defines what should happen if an image in the HorizontalImageListView is clicked long
+     * it opens an delete dialog, where the user can decide whether the images should
+     * really be deleted
+     */
+    ImageListView.LongItemClickListener longItemClickListener = (pos) -> {
+        String question = context.getResources().getString(R.string.boolean_dialog_delete_image);
+        BooleanDialog dialog = new BooleanDialog(context, question);
+        dialog.setAnswerListener(new BooleanDialog.AnswerListener() {
+            @Override public void onYes() {
+                FileSaver.deleteImageFromUri( des_images.get(pos));
+                des_images.remove(pos);
+                updateImageView();
+            }
+            @Override public void onNo() { }
+        });
+        dialog.show();
+    };
+
+
     /**
      * updates the view switcher which contains the description images
      * reading the description image uris from the file
@@ -364,11 +392,20 @@ public class Homework_facts_fragment extends Fragment {
      */
     private void updateImageView() {
         if(des_images.size() > 0) {
+            if(ta_description.getText().toString().equals("")) {
+                ta_description.setText(R.string.grades_description_default_image_text);
+            }
             vs_image_description.switchToView(1);
-            HorizontalImageListView listview = view.findViewById(R.id.listview_description_homework);
+            ImageListView listview = view.findViewById(R.id.listview_description_homework);
+            listview.setItemLongClickListener(longItemClickListener);
             listview.setImageList(des_images);
         }
         else {
+            String text = ta_description.getText().toString();
+            String res = getResources().getString(R.string.grades_description_default_image_text);
+            if(text.equals(res)) {
+                ta_description.setText("");
+            }
             vs_image_description.switchToView(0);
         }
     }

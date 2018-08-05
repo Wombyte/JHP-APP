@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class SettingField extends SettingStructure {
 
+    String id = "";
     int value_int = 0;
     byte value_byte = (byte) 0;
     int byte_options_id;
@@ -42,20 +43,23 @@ public class SettingField extends SettingStructure {
 
     }
 
-    public SettingField(int type, int description_id) {
+    public SettingField(String id, int type, int description_id) {
+        this.id = id;
         this.type = type;
         this.description_id = description_id;
         chooseView();
     }
 
-    public SettingField(int type, int description_id, int symbol_id) {
+    public SettingField(String id, int type, int description_id, int symbol_id) {
+        this.id = id;
         this.type = type;
         this.description_id = description_id;
         this.symbol_id = symbol_id;
         chooseView();
     }
 
-    public SettingField(int type, SettingFragment fragment, int description_id) {
+    public SettingField(String id, int type, SettingFragment fragment, int description_id) {
+        this.id = id;
         this.type = type;
         this.fragment = fragment;
         this.has_fragment = true;
@@ -63,7 +67,8 @@ public class SettingField extends SettingStructure {
         chooseView();
     }
 
-    public SettingField(int type, SettingFragment fragment, int description_id, int symbol_id) {
+    public SettingField(String id, int type, SettingFragment fragment, int description_id, int symbol_id) {
+        this.id = id;
         this.type = type;
         this.fragment = fragment;
         this.has_fragment = true;
@@ -124,31 +129,34 @@ public class SettingField extends SettingStructure {
         try {
             switch(type) {
                 case INTEGER:
-                    bw.write(path + ":int:" + String.valueOf(value_int) + ":");
+                    bw.write(id + ": " + String.valueOf(value_int));
+                    bw.newLine();
                     break;
                 case DOUBLE:
-                    bw.write(path + ":double:" + String.valueOf(value_double) + ":");
+                    bw.write(id + ": " + String.valueOf(value_double));
+                    bw.newLine();
                     break;
                 case STRING:
-                    bw.write(path + ":string:" + value_string + ":");
+                    bw.write(id + ": " + value_string);
+                    bw.newLine();
                     break;
                 case STRING_LIST:
-                    bw.write(path + ":arraylist:" + listToString(value_string_list) + ":");
+                    bw.write(id + ": " + listToString(value_string_list));
+                    bw.newLine();
                     break;
                 case BOOLEAN:
-                    bw.write(path + ":boolean:" + String.valueOf(value_boolean) + ":");
+                    bw.write(id + ": " + String.valueOf(value_boolean));
+                    bw.newLine();
                     break;
                 case BYTE:
-                    bw.write(path + ":byte:" + String.valueOf(value_byte) + ":");
+                    bw.write(id + ": " + String.valueOf(value_byte));
+                    bw.newLine();
                     break;
                 case INTEGER_ARRAY:
-                    bw.write(path + ":title_strings:" + arrayToString(value_1d_int_array) + ":");
-                    break;
-                case NONE:
-                    bw.write(path + ":none:-:");
+                    bw.write(id + ": " + arrayToString(value_1d_int_array));
+                    bw.newLine();
                     break;
             }
-            bw.newLine();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -160,6 +168,9 @@ public class SettingField extends SettingStructure {
     public SettingField addLongDescription(int description_long_id) {
         this.description_long_id = description_long_id;
         return this;
+    }
+    public String getId() {
+        return id;
     }
 
     /*

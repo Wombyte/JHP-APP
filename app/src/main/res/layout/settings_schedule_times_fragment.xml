@@ -14,14 +14,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <mc.wombyte.marcu.jhp_app.Schedule_time_picker
+        <mc.wombyte.marcu.jhp_app.Reuseables.TimePicker
             android:id="@+id/timepicker1_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button_table" />
 
-        <mc.wombyte.marcu.jhp_app.Schedule_time_picker
+        <mc.wombyte.marcu.jhp_app.Reuseables.TimePicker
             android:id="@+id/timepicker2_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

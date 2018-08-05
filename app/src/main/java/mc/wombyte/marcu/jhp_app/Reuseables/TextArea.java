@@ -5,7 +5,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 
 import mc.wombyte.marcu.jhp_app.R;
 
@@ -16,7 +15,6 @@ import mc.wombyte.marcu.jhp_app.R;
 public class TextArea extends android.support.v7.widget.AppCompatEditText {
 
     Context context;
-    LayoutInflater inflater;
 
     LayerDrawable drawable;
     GradientDrawable border;

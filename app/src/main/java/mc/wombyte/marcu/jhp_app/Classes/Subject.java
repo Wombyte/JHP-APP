@@ -26,6 +26,7 @@ public class Subject implements Serializable {
     String abbreviation = "";
     int color;
     int color_dark;
+    int lesson_amount = 0;
     double average = 0;
     String teacher = "";
     String notice = "";
@@ -199,6 +200,11 @@ public class Subject implements Serializable {
 
     public double getAverage() { return average; }
     public void setAverage(double average) { this.average = average; }
+
+    public int getLessonAmount() { return lesson_amount; }
+    public void addLessonAmount() { lesson_amount++; }
+    public void subLessonAmount() { lesson_amount--; }
+    public void setLessonAmount(int lesson_amount) { this.lesson_amount = lesson_amount; }
 
     public ArrayList<Lesson> getLessons() {
         ArrayList<Lesson> lessons = new ArrayList<>();

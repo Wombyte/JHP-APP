@@ -5,6 +5,7 @@ import android.net.Uri;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class Grade implements Serializable {
         this.exam = exam;
     }
 
-    private Grade(int subject_index, int index) {
+    public Grade(int subject_index, int index) {
         this.subject_index = subject_index;
         this.index = index;
     }
@@ -87,10 +88,52 @@ public class Grade implements Serializable {
     public void setIndex(int index) { this.index = index; }
     public int getIndex() { return index; }
 
+    /**
+     * calculates the grade, which is likely the next
+     * depending on {@link Subject#average} of the transmitted subject_index
+     * if the average is not set yet, the method returns
+     * 3 for grades and 10 for points
+     * @param subject_index: index of the subject whose average is taken
+     * @return likely next grade of the subject
+     */
+    public static int getPredictedGrade(int subject_index) {
+        double average = Storage.subjects.get(subject_index).getAverage();
 
+        if(average == 0) {
+            if(Storage.settings.grades_isRatingInGrades()) {
+                return 3;
+            }
+            else {
+                return 10;
+            }
+        }
+
+        average += 0.5;
+        if((int) average == 0) {
+            average = 10;
+        }
+        return (int) average;
+    }
+
+    /**
+     * File filter that checks for the following aspects
+     * 1. is a file
+     * 2. tag is GDE
+     * 3. semester is current semester
+     */
+    public static final FileFilter fileFilter = (file) -> {
+        if(file.isDirectory()) return false;
+        String name = file.getName();
+        if(!name.substring(0, 3).equals("GDE")) return false;
+        if(!name.substring(3, 6).equals(Storage.current_semester)) return false;
+        return true;
+    };
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
-    //******************************************************* saving *******************************************************//
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////// saving ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * @return String: name of the belonging file consisting of subject &- grade index
@@ -122,22 +165,24 @@ public class Grade implements Serializable {
 
     /**
      * returns the correct file depending on the transmitted data
-     * @param homework_name: defines to which the image belongs
+     * @param grade_name: defines to which the image belongs
      * @param img_name: name of the image
      * @return File
      */
-    public static File getDestinationImageFile(String homework_name, String img_name) {
+    public static File getDestinationImageFile(String grade_name, String img_name) {
         return new File(
                 "/storage/emulated/0/JHP/"
                         + Storage.current_semester
-                        + "/homework"
-                        + homework_name
-                        + "/description/"
+                        + "/grades/"
+                        + grade_name
+                        + "/images/description/"
                         + img_name
         );
     }
 
-    //******************************************************* reading *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// reading ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     public static Grade readGradeData(File des) throws IOException{
         if(!des.exists()) {
@@ -181,21 +226,29 @@ public class Grade implements Serializable {
     }
 
     /**
-     * listing all image uri fom the transmitted name
-     * name is converted to the belonging folder
-     * iterating over the folder to save all uri in the arraylist
+     * {@link FileLoader#readGradeImages(String)}
      * @param name: name of the grade folder
      * @return ArrayList: list of all image uris
      */
     public static ArrayList<Uri> readGradeImages(String name) {
-        ArrayList<Uri> result = new ArrayList<>();
+        return (new FileLoader()).readGradeImages(name);
+    }
 
-        File homework_folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/homework/" + name + "/images/solution");
-        for(File image: homework_folder.listFiles()) {
-            result.add(Uri.fromFile(image));
+    /**
+     * if the transmitted values can be converted to a grade
+     * the matching grade name is transmitted to {@link FileLoader#readGradeImages(String)}
+     * and the size of the returned list is returned
+     * @param subject_index: subject index of the grade
+     * @param grade_index: index of the grade
+     * @return int: amount of subfiles
+     */
+    public static int readImageAmount(int subject_index, int grade_index) {
+        if(subject_index < 0 || grade_index < 0) {
+            return -1;
         }
 
-        return result;
+        String name = (new Grade(subject_index, grade_index).getFileName());
+        return (new FileLoader()).readGradeImages(name).size();
     }
 
     /**

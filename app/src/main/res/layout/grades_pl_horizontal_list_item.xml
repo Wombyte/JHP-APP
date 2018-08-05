@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:layout_height="40dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="4dp"
+    android:paddingTop="4dp"
+    android:id="@+id/container_grade_horizontal_list"
+    android:paddingBottom="2dp"
+    android:background="@color/background">
+
+    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/vs_grade_horizontal_list">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_number_grade_horizontal_list"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/image_kind_grade_horizontal_list"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentTop="true"
+                android:tint="@color/grade_kind_symbol"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/sym_add_grade_horizontal_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:tint="@color/colorAccent"
+            android:src="@drawable/symbol_add"/>
+
+    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+
+</RelativeLayout>

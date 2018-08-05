@@ -2,6 +2,7 @@ package mc.wombyte.marcu.jhp_app;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,11 @@ import mc.wombyte.marcu.jhp_app.Classes.Grade;
 
 public class Grade_listview_adapter extends ArrayAdapter<Grade> {
 
-    //Grades
-    TextView tv_date;
-    TextView tv_grade;
-    TextView tv_short_description;
-    TextView tv_long_description;
-
     Context context;
-    int posGrade;
+    ViewHolder holder;
+
     SimpleDateFormat sdf = new SimpleDateFormat("EEE, d. MMM", Locale.GERMANY);
+    private String photo_emoji = new String(Character.toChars(0x1F4F8));
 
     public Grade_listview_adapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -38,44 +35,62 @@ public class Grade_listview_adapter extends ArrayAdapter<Grade> {
         super(context, resource, items);
     }
 
-    @Override
-    public View getView(int position, View view, ViewGroup container) {
-
-        if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.grade_listview_fragment, null);
-            context = container.getContext();
-        }
-
-        posGrade = position;
+    @NonNull @Override
+    public View getView(int position, View view, @NonNull ViewGroup container) {
+        context = container.getContext();
         Grade p = getItem(position);
 
-        //if it is a grade
-        if (p != null) {
-            //Initialize
-            tv_date = (TextView) view.findViewById(R.id.tv_date_listview_grade);
-            tv_grade = (TextView) view.findViewById(R.id.tv_grade_listview_grade);
-            tv_short_description = (TextView) view.findViewById(R.id.tv_short_description_listview_grade);
-            tv_long_description = (TextView) view.findViewById(R.id.tv_long_description_listview_grade);
+        if(view == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(R.layout.grade_listview_fragment, null);
 
-            //content
-            tv_date.setText(sdf.format(p.getWrittenDate()));
-            tv_date.setTextColor( Storage.subjects.get(p.getSubjectindex()).getDarkColor());
-            tv_grade.setTextColor( Storage.subjects.get(p.getSubjectindex()).getColor());
-            tv_grade.setText(String.valueOf(p.getNumber()));
-            if(p.isExam()) {
-                tv_grade.setTypeface(null, Typeface.BOLD);
-            }
-            if(!p.getShortDescription().equals( context.getResources().getString(R.string.grades_kind_misc))) {
-                tv_short_description.setText(p.getShortDescription());
-            }
-            else {
-                tv_short_description.setText(p.getMisc());
-            }
+            holder = new ViewHolder();
+            holder.tv_date = view.findViewById(R.id.tv_date_listview_grade);
+            holder.tv_grade = view.findViewById(R.id.tv_grade_listview_grade);
+            holder.tv_short_description = view.findViewById(R.id.tv_short_description_listview_grade);
+            holder.tv_long_description = view.findViewById(R.id.tv_long_description_listview_grade);
 
-            tv_long_description.setText(p.getDescription());
+            view.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) view.getTag();
         }
 
+        holder.tv_date.setText(sdf.format(p.getWrittenDate()));
+        holder.tv_date.setTextColor( Storage.subjects.get(p.getSubjectindex()).getDarkColor());
+        holder.tv_grade.setTextColor( Storage.subjects.get(p.getSubjectindex()).getColor());
+        holder.tv_grade.setText(String.valueOf(p.getNumber()));
+        if(p.isExam()) {
+            holder.tv_grade.setTypeface(null, Typeface.BOLD);
+        }
+        if(!p.getShortDescription().equals( context.getResources().getString(R.string.grades_kind_misc))) {
+            holder.tv_short_description.setText(p.getShortDescription());
+        }
+        else {
+            holder.tv_short_description.setText(p.getMisc());
+        }
+
+        //long description
+        int des_images_amount = Grade.readImageAmount(p.getSubjectindex(), p.getIndex());
+        String des = p.getDescription();
+        if(des_images_amount == 1) {
+            des = des + " ... " + photo_emoji;
+        }
+        if(des_images_amount > 1) {
+            des = des + " ... " + des_images_amount + photo_emoji;
+        }
+        holder.tv_long_description.setText(des);
+
         return view;
+    }
+
+    /**
+     * ViewHolder for this class
+     */
+    private class ViewHolder {
+        TextView tv_date;
+        TextView tv_grade;
+        TextView tv_short_description;
+        TextView tv_long_description;
     }
 }

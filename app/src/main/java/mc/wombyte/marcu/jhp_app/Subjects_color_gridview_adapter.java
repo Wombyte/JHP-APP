@@ -12,11 +12,11 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.VerticalSquaredLinearLayout;
+import mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout;
 
 public class Subjects_color_gridview_adapter extends ArrayAdapter<Integer> {
 
-    VerticalSquaredLinearLayout container;
+    SquaredLayout container;
 
     Context context;
     int pos;

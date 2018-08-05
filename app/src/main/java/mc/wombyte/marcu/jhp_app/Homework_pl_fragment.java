@@ -93,7 +93,7 @@ public class Homework_pl_fragment extends FragmentMain {
         BooleanDialog dialog = new BooleanDialog(context, getResources().getString(R.string.homework_delete_question));
         dialog.setAnswerListener(new BooleanDialog.AnswerListener() {
             @Override public void onYes() {
-                Storage.deleteHomework(homework_list.get(i));
+                FileSaver.deleteHomework(homework_list.get(i));
                 //update: notifyDataSetChange doesnt work
                 homework_list = Storage.getHomeworkList();
                 adapter = new Homework_listview_adapter(context, R.layout.homework_listview_fragment, homework_list);

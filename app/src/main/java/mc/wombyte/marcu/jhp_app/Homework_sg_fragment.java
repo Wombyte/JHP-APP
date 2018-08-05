@@ -96,7 +96,7 @@ public class Homework_sg_fragment extends FragmentSubject {
         BooleanDialog dialog = new BooleanDialog(context, getResources().getString(R.string.homework_delete_question));
         dialog.setAnswerListener(new BooleanDialog.AnswerListener() {
             @Override public void onYes() {
-                Storage.deleteHomework(homework_list.get(i));
+                FileSaver.deleteHomework(homework_list.get(i));
             }
 
             @Override public void onNo() {}

@@ -10,12 +10,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import mc.wombyte.marcu.jhp_app.Classes.Grade;
 import mc.wombyte.marcu.jhp_app.Classes.Homework;
+import mc.wombyte.marcu.jhp_app.Classes.Lesson;
 import mc.wombyte.marcu.jhp_app.Classes.Schedule;
 import mc.wombyte.marcu.jhp_app.Classes.Semester;
 import mc.wombyte.marcu.jhp_app.Classes.Subject;
@@ -147,10 +147,34 @@ public class FileSaver {
         }
     }
 
-    //******************************************************* Schedule *******************************************************//
+    /**
+     * deletes all files in a folder (and therefore the folder itself)
+     * if the transmitted structure is a file, it is deleted
+     * else all its children are transmitted to this method
+     * @param structure: folder or file to be deleted
+     */
+    private static void deleteFolderOrFile(File structure) {
+        if(structure.isDirectory()) {
+            for(File f: structure.listFiles()) {
+                deleteFolderOrFile(f);
+            }
+        }
 
-    /*
-     * saves the schedule (time and lesson)
+        boolean success = structure.delete();
+        Log.d("homework", "deleting file" + structure.getName() + " was successfully: " + success);
+
+
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// schedule methods ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * writes the schedule data into the current file
+     * if the schedule folder does not exist, it is created
+     * same for time / lessons file
+     * @throws IOException: {@link Schedule#writeLessons(File, Lesson[][])} & {@link Schedule#writeTimes(File, int[][][])}
      */
     private void writeSchedule() throws IOException {
         if(Storage.schedule == null) {
@@ -181,7 +205,9 @@ public class FileSaver {
         }
     }
 
-    //******************************************************* Subjects *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// subject methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * save the data of all subjects
@@ -227,13 +253,14 @@ public class FileSaver {
         File subject_folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/subjects");
         for (File f : subject_folder.listFiles()) {
             if (f.getName().equals(String.valueOf(subject.getIndex()))) {
-                boolean success = f.delete();
-                Log.d("delete subject", "deleting subject folder succesful? " + success);
+                deleteFolderOrFile(f);
             }
         }
     }
 
-    //******************************************************* grades *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// grades methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * preparing a new grade folder, when the grade activity is opened
@@ -242,16 +269,10 @@ public class FileSaver {
      * and the folder can be reused
      */
     public void prepareNewGradeFolder() {
-        File image_folder = new File("/storage/emulated/0/JHP/homework/newHomework/images/description");
+        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/newGrade");
 
-        if(image_folder.exists()) {
-            for(File f: image_folder.listFiles()) {
-                boolean success = f.delete();
-                Log.d("prepare grade", "deleting existing image in description folder successful? " + success);
-            }
-        }
-        else {
-            boolean success = image_folder.mkdirs();
+        if(!folder.exists()) {
+            boolean success = folder.mkdirs();
             Log.d("prepare grade", "creating path for description folder successful? " + success);
         }
     }
@@ -261,8 +282,8 @@ public class FileSaver {
      * @param name: name of the new folder
      */
     public void renameNewGradeFolderTo(String name) {
-        File old = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/newGrade");
-        File file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/" + name);
+        File old = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/newGrade");
+        File file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/" + name);
         Log.d("rename new grade folder", "renaming the new homework folder was: " + old.renameTo(file));
     }
 
@@ -276,17 +297,61 @@ public class FileSaver {
      * @param mode: kind of name change
      */
     public static void renameGradeFolder(Grade grade, int mode) {
-        File old = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/" + grade.getFileName());
+        File old = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/" + grade.getFileName());
         if(mode == GRADE_MINUS_SUBJECT_INDEX) {
             grade.setSubjectIndex( grade.getSubjectindex()-1);
         }
         if(mode == GRADE_MINUS_GRADE_INDEX) {
             grade.setIndex( grade.getIndex()-1);
         }
-        File file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/" + grade.getFileName());
+        File file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/" + grade.getFileName());
+
+        renameGradeImages(old.getName(), file.getName());
 
         boolean success = old.renameTo(file);
         Log.d("rename homework", "renaming a grade folder successful" + success);
+    }
+
+    /**
+     * renames all images that have the save name as 'old_name' to 'new_name'
+     * if the image folder does not exist, nothing happens
+     * iterating through all images > getting grade images > getting images of special grade
+     * @param old_name: current name of the grade
+     * @param new_name: new name for it
+     */
+    private static void renameGradeImages(String old_name, String new_name) {
+        File folder = new File("/storage/emulated/0/JHP/images");
+        if(!folder.exists()) {
+            return;
+        }
+
+        for(File file: folder.listFiles(Grade.fileFilter)) {
+            if(getNameFromImage(6, file.getName()).equals(old_name)) {
+                String n = file.getName().replace(old_name, new_name);
+                boolean success = file.renameTo(new File(folder, n));
+                Log.d("FileSaver", "renaming a grade image successful" + success);
+            }
+        }
+    }
+
+    /**
+     * saves the image described by uri to the solution image file of the transmitted grade folder
+     * @param uri: uri that points at the image
+     * @param grade_name: name of the grade folder
+     */
+    public void saveGradeDescriptionImage(Uri uri, String grade_name) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
+        String name = "GDE" + Storage.current_semester + grade_name + "_" + timeStamp + ".png";
+        File images = new File("/storage/emulated/0/JHP/images");
+        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File des = grade_name.equals("newGrade")? temp : images;
+
+        if(!des.exists()) {
+            boolean success = des.mkdirs();
+            Log.d("create folder", "create folders for grade image was successful" + success);
+        }
+
+        new BitmapSaveTask(context, new File(des, name)).execute(uri);
     }
 
     /**
@@ -329,17 +394,40 @@ public class FileSaver {
      * @param grade: object which contains the data that has to be deleted
      */
     public static void deleteGrade(Grade grade) {
+        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades");
+        deleteGradeImages(new File(folder, grade.getFileName()));
         Storage.deleteGrade(grade);
 
-        for(File file: folder_homework.listFiles()) {
+        for(File file : folder.listFiles()) {
             if(file.getName().equals(grade.getFileName())) {
-                boolean success = file.delete();
-                Log.d("delete grade", "deleting grade folder successful? " + success);
+                deleteFolderOrFile(file);
             }
         }
     }
 
-    //******************************************************* Homework *******************************************************//
+    /**
+     * deletes all images that belongs to the content of the transmitted folder
+     * @param grade_folder: content grade folder
+     */
+    private static void deleteGradeImages(File grade_folder) {
+        File folder = new File("/storage/emulated/0/JHP/images");
+        if(!folder.exists()) {
+            return;
+        }
+
+        for(File f: folder.listFiles(Grade.fileFilter)) {
+            if(getNameFromImage(6, f.getName()).equals(grade_folder.getName())) {
+                boolean success = f.delete();
+                Log.d("FileSaver", "deleting grade image was successful? " + success);
+            }
+        }
+    }
+
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// homework methods ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     private static File folder_homework = new File("/storage/emulated/0/JHP/homework");
 
@@ -350,29 +438,11 @@ public class FileSaver {
      * and the folder can be reused
      */
     public void prepareNewHomeworkFolder() {
-        File description_image_folder = new File("/storage/emulated/0/JHP/homework/newHomework/images/description");
-        File solution_image_folder = new File("/storage/emulated/0/JHP/homework/newHomework/images/solution");
+        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/homework/newHomework");
 
-        if(description_image_folder.exists()) {
-            for(File f: description_image_folder.listFiles()) {
-                boolean success = f.delete();
-                Log.d("prepare Homework", "deleting existing image in description folder successful? " + success);
-            }
-        }
-        else {
-            boolean success = description_image_folder.mkdirs();
-            Log.d("prepare Homework", "creating path for description folder successful? " + success);
-        }
-
-        if(solution_image_folder.exists()) {
-            for(File f: solution_image_folder.listFiles()) {
-                boolean success = f.delete();
-                Log.d("prepare Homework", "deleting existing image in description folder successful? " + success);
-            }
-        }
-        else {
-            boolean success = solution_image_folder.mkdirs();
-            Log.d("prepare Homework", "creating path for description folder successful? " + success);
+        if(!folder.exists()) {
+            boolean success = folder.mkdirs();
+            Log.d("prepare grade", "creating path for description folder successful? " + success);
         }
     }
 
@@ -392,6 +462,7 @@ public class FileSaver {
      * renames the folder of the transmitted homework depending on the mode
      * 1. the subject index is decreased by 1
      * 2. the homework index is decreased by 1
+     * additionally the images are renamed too
      * @param homework: object of the renaming folder
      * @param mode: kind of name change
      */
@@ -405,34 +476,78 @@ public class FileSaver {
         }
         File file = new File("/storage/emulated/0/JHP/homework/"  + homework.getFileName());
 
+        renameHomeworkImages(old.getName(), file.getName());
+
         boolean success = old.renameTo(file);
         Log.d("rename homework", "renaming a homework folder successful" + success);
     }
 
     /**
-     * saves the image described by uri to the solution image file of the transmitted homework folder
-     * @param uri: uri that points at the image
-     * @param homework_name: name of the homework folder
+     * renames all images that have the save name as 'old_name' to 'new_name'
+     * if the image folder does not exist, nothing happens
+     * iterating through all images > getting homework images > getting images of special homework
+     * @param old_name: current name of the homework
+     * @param new_name: new name for it
      */
-    public void saveSolutionImage(Uri uri, String homework_name) {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
-        String name = "PNG_" + timeStamp + ".png";
-        File file = Homework.getDestinationImageFile(Homework.SOLUTION_IMAGE, homework_name, name);
+    private static void renameHomeworkImages(String old_name, String new_name) {
+        File folder = new File("/storage/emulated/0/JHP/images");
+        if(!folder.exists()) {
+            return;
+        }
 
-        new BitmapSaveTask(context, file).execute(uri);
+        for(File file: folder.listFiles(Homework.fileFilter)) {
+            if(getNameFromImage(3, file.getName()).equals(old_name)) {
+                String n = file.getName().replace(old_name, new_name);
+                boolean success = file.renameTo(new File(folder, n));
+                Log.d("FileSaver", "renaming a homework image successful" + success);
+            }
+        }
     }
 
     /**
-     * saves the image described by uri to the description image file of the transmitted homework folder
+     * saves the image described by uri to a destination file
+     * this files depends on the homework name
+     * if the homework name is "newHomework" it saved to the temp folder
+     * else to the image folder
      * @param uri: uri that points at the image
      * @param homework_name: name of the homework folder
      */
-    public void saveDescriptionImage(Uri uri, String homework_name) {
+    public void saveHomeworkSolutionImage(Uri uri, String homework_name) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
-        String name = "PNG_" + timeStamp + ".png";
-        File file = Homework.getDestinationImageFile(Homework.DESCRIPTION_IMAGE, homework_name, name);
+        String name = "HSO" + homework_name + "_" + timeStamp + ".png";
+        File images = new File("/storage/emulated/0/JHP/images");
+        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File des = homework_name.equals("newHomework")? temp : images;
 
-        new BitmapSaveTask(context, file).execute(uri);
+        if(!des.exists()) {
+            boolean success = des.mkdirs();
+            Log.d("create folder", "create folders for homework solution image was successful" + success);
+        }
+
+        new BitmapSaveTask(context, new File(des, name)).execute(uri);
+    }
+
+    /**
+     * saves the image described by uri to a destination file
+     * this files depends on the homework name
+     * if the homework name is "newHomework" it saved to the temp folder
+     * else to the image folder
+     * @param uri: uri that points at the image
+     * @param homework_name: name of the homework folder
+     */
+    public void saveHomeworkDescriptionImage(Uri uri, String homework_name) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
+        String name = "HDE" + homework_name + "_" + timeStamp + ".png";
+        File images = new File("/storage/emulated/0/JHP/images");
+        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File des = homework_name.equals("newHomework")? temp : images;
+
+        if(!des.exists()) {
+            boolean success = des.mkdirs();
+            Log.d("create folder", "create folders for homework description image was successful" + success);
+        }
+
+        new BitmapSaveTask(context, new File(des, name)).execute(uri);
     }
 
     /**
@@ -443,9 +558,6 @@ public class FileSaver {
         if(Storage.homework.size() == 0) {
             return;
         }
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_YEAR, -1);
 
         for(ArrayList<Homework> list: Storage.homework) {
             for(Homework homework: list) {
@@ -461,7 +573,7 @@ public class FileSaver {
                     Log.d("write homework", "creating the data file of a homework successful? " + success);
                 }
 
-                Homework.writeHomeworkData(file, homework, c);
+                Homework.writeHomeworkData(file, homework);
             }
         }
     }
@@ -471,17 +583,38 @@ public class FileSaver {
      * @param homework: object which contains the data that has to be deleted
      */
     public static void deleteHomework(Homework homework) {
+        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades");
+        deleteHomeworkImages(new File(folder, homework.getFileName()));
         Storage.deleteHomework(homework);
 
         for(File file: folder_homework.listFiles()) {
             if(file.getName().equals(homework.getFileName())) {
-                boolean success = file.delete();
-                Log.d("delete Homework", "deleting homework folder successful? " + success);
+                deleteFolderOrFile(file);
             }
         }
     }
 
-    //******************************************************* Settings *******************************************************//
+    /**
+     * deletes all images that belongs to the content of the transmitted folder
+     * @param folder_homework: content grade folder
+     */
+    private static void deleteHomeworkImages(File folder_homework) {
+        File folder = new File("/storage/emulated/0/JHP/images");
+        if(!folder.exists()) {
+            return;
+        }
+
+        for(File f: folder.listFiles(Homework.fileFilter)) {
+            if(getNameFromImage(3, f.getName()).equals(folder_homework.getName())) {
+                boolean success = f.delete();
+                Log.d("FileSaver", "deleting homework image was successful? " + success);
+            }
+        }
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// settings methods ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     /**
      * saving all settings by calling the print method of the root setting element
@@ -513,10 +646,15 @@ public class FileSaver {
         bw.close();
     }
 
-    //******************************************************* semester *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// semester methods ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    /*
-     * saves only the semesters (important for archive)
+    /**
+     * saves only the semesters (important for {@link Archive_activity})
+     * iterates over all saved semesters
+     * if the data.txt does not exist in the folder, it is created
+     * if the semester is the current semester the new average is calculated
      */
     public void writeOnlySemester() {
         FileWriter fw;
@@ -548,6 +686,10 @@ public class FileSaver {
         }
     }
 
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// general methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
     /**
      * creates a string for all files including a tag and the matching data
      * simplifies future extensions
@@ -557,5 +699,78 @@ public class FileSaver {
      */
     public static String data(String tag, String data) {
         return tag + ": " + data + '\n';
+    }
+
+    /**
+     * deletes the file transmitted as uri
+     * converts the uri into a file, which is deleted
+     * @param uri: uri of the file
+     */
+    public static void deleteImageFromUri(Uri uri) {
+        File file = new File(uri.getPath());
+        boolean success = file.delete();
+        Log.d("FileSaver", "deleting the image at " + uri.getPath() + " was successful? " + success);
+    }
+
+    /**
+     * deletes all files in the temp image folder
+     * if the folder does not exist, nothing happens
+     */
+    public void clearTempFolder() {
+        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        if(!temp.exists()) {
+            return;
+        }
+
+        for(File image: temp.listFiles()) {
+            boolean success = image.delete();
+            Log.d("File Saver", "delete temp image file successful? " + success);
+        }
+    }
+
+
+    public static final int HOMEWORK_TEMP_IMAGE = 0;
+    public static final int GRADE_TEMP_IMAGE = 1;
+    /**
+     * renames all images in the temp folder to the transmitted name
+     * (depending on the transmitted image type)
+     * and moves the file to the real image folder
+     * if one of the necessary folders does not exist, nothing happens
+     * @param name: name of the new grade / homework
+     * @param image_type: decides which keyword is replaced (homework | grade)
+     */
+    public void renameTempImages(String name, int image_type) {
+        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File images = new File("/storage/emulated/0/JHP/images");
+        if(!images.exists() || !temp.exists()) {
+            return;
+        }
+
+        String keyword = image_type == HOMEWORK_TEMP_IMAGE? "newHomework" : "newGrade";
+
+        for(File image: temp.listFiles()) {
+            String new_name = image.getName().replace(keyword, name);
+            boolean success = image.renameTo(new File(images, new_name));
+            Log.d("File Saver", "renaming temp image file successful? " + success);
+        }
+    }
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// methods ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    /**
+     * returns the grade/homework name included in the filename
+     * the start index of the grade/homework name is transmitted while
+     * the end index is the location of the second '_'
+     * @param start: length of the pre-defined string
+     * @param name: name of the file
+     * @return String: name of the matching grade/homework
+     */
+    private static String getNameFromImage(int start, String name) {
+        int t = name.indexOf('_');
+        String temp = name.substring(t+1, name.length());
+        int end = t + temp.indexOf('_')+1;
+        return name.substring(start, end);
     }
 }

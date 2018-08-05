@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -69,7 +71,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <mc.wombyte.marcu.jhp_app.DatePicker
+            <mc.wombyte.marcu.jhp_app.Reuseables.DatePicker
                 android:id="@+id/spinner_date_homework"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -161,12 +163,13 @@
                     android:text="@string/homework_description_image"
                     android:textSize="14sp" />
 
-                <mc.wombyte.marcu.jhp_app.Reuseables.HorizontalImageListView.HorizontalImageListView
+                <mc.wombyte.marcu.jhp_app.Reuseables.ImageListView
                     android:id="@+id/listview_description_homework"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
+                    android:layout_height="100dp"
+                    custom:mode="horizontally">
 
-                </mc.wombyte.marcu.jhp_app.Reuseables.HorizontalImageListView.HorizontalImageListView>
+                </mc.wombyte.marcu.jhp_app.Reuseables.ImageListView>
 
             </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
 

@@ -2,7 +2,6 @@ package mc.wombyte.marcu.jhp_app.Reuseables;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,38 +14,30 @@ import mc.wombyte.marcu.jhp_app.R;
 
 public class BooleanDialog extends Dialog {
 
-    Context context;
-    AnswerListener listener;
+    private AnswerListener listener;
 
-    TextView tv_question;
-    Button b_yes;
-    Button b_no;
+    private TextView tv_question;
+    private Button b_yes;
+    private Button b_no;
 
     public BooleanDialog(Context context, String question) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //disables a title bar, must be called before setContentView
         setContentView(R.layout.boolean_dialog);
-        this.context = context;
 
-        tv_question = (TextView) findViewById(R.id.tv_question_boolean_dialog);
-        b_yes = (Button) findViewById(R.id.b_yes_boolean_dialog);
-        b_no = (Button) findViewById(R.id.b_no_boolean_dialog);
-
+        tv_question = findViewById(R.id.tv_question_boolean_dialog);
+        b_yes = findViewById(R.id.b_yes_boolean_dialog);
+        b_no = findViewById(R.id.b_no_boolean_dialog);
 
         tv_question.setText(question);
 
-        b_yes.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                listener.onYes();
-                dismiss();
-            }
+        b_yes.setOnClickListener((view) -> {
+            listener.onYes();
+            dismiss();
         });
-        b_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onNo();
-                dismiss();
-            }
+        b_no.setOnClickListener((view) -> {
+            listener.onNo();
+            dismiss();
         });
     }
 

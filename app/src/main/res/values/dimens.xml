@@ -32,4 +32,8 @@
     <dimen name="setting_menu_fragment_circle_menu">20dp</dimen>
     <dimen name="setting_menu_toolbar_height">60dp</dimen>
 
+    <!-- Number Picker -->
+    <dimen name="number_picker_selector_border_width">3dp</dimen>
+    <dimen name="number_picker_border_width">1dp</dimen>
+
 </resources>

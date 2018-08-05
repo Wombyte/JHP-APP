@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:gravity="center"
+    android:paddingBottom="50dp">
 
     <TextView
         android:id="@+id/tv_class_question_setup_fragment"
@@ -87,57 +89,5 @@
 
         </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
     </RelativeLayout>
-
-
-
-    <TextView
-        android:id="@+id/tv_rating_setup_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background"
-        android:paddingBottom="10dp"
-        android:paddingEnd="50dp"
-        android:paddingStart="50dp"
-        android:layout_below="@id/container_class_setup_fragment"
-        android:text="@string/first_use_rating"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/b_grades_setup_rating_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_rating_setup_fragment"
-        android:layout_toStartOf="@+id/divide_line_setup_rating_fragment"
-        android:background="@color/background"
-        android:text="@string/first_use_grades"
-        android:textAlignment="center"
-        android:textColor="@color/radio_button_inactive"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <RelativeLayout
-        android:id="@+id/divide_line_setup_rating_fragment"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tv_rating_setup_fragment"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/divide_line_rating_fragment" />
-
-    <Button
-        android:id="@+id/b_points_setup_rating_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/tv_rating_setup_fragment"
-        android:layout_toEndOf="@+id/divide_line_setup_rating_fragment"
-        android:background="@color/background"
-        android:text="@string/first_use_points"
-        android:textAlignment="center"
-        android:textColor="@color/radio_button_inactive"
-        android:textSize="20sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

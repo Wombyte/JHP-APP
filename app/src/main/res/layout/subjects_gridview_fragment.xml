@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mc.wombyte.marcu.jhp_app.Reuseables.VerticalSquaredLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/background_subjects_gridview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/subjects_gridview_background"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    custom:square="vertically">
 
     <TextView
         android:id="@+id/tv_abbreviation_subjects_gridview"
@@ -23,4 +26,4 @@
         android:textAlignment="center"
         android:textSize="22sp" />
 
-</mc.wombyte.marcu.jhp_app.Reuseables.VerticalSquaredLinearLayout>
+</mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout>

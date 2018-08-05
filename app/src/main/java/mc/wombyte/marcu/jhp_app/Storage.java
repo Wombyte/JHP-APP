@@ -38,7 +38,9 @@ public class Storage {
     public static Settings settings = new Settings();
 
 
-    //******************************************************* subjects *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// subject methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
     /*
      * creating a new subject and the belonging lists for
      * grades and homework
@@ -82,7 +84,7 @@ public class Storage {
                 if(schedule.getLesson(x, y) != null) {
                     if (schedule.getLesson(x, y).getSubjectIndex() >= i) {
                         if (schedule.getLesson(x, y).getSubjectIndex() == i) {
-                            schedule.setLesson(x, y, null);
+                            schedule.setLessonToNull(x, y);
                         }
                         else {
                             schedule.getLesson(x, y).setSubjectIndex(schedule.getLesson(x, y).getSubjectIndex()-1);
@@ -295,7 +297,9 @@ public class Storage {
         grades = (ArrayList<ArrayList<Grade>>) clone.clone();
     }
 
-    //******************************************************* homework *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// homework methods ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
     /*
      * returns a well ordered list of the upcoming homework
      * deletes all the past homework
@@ -446,17 +450,15 @@ public class Storage {
         homework.get(subject_index).add(h);
     }
 
-    /*
+    /**
      * deletes the homework at the specific position
-     * and shifts all indices fo the following homework
+     * and shifts all indices of all following homework
+     * @param h: object that is deleted
      */
     public static void deleteHomework(Homework h) {
         int subject_index = h.getSubjectindex();
         int homework_index = h.getIndex();
-
-        FileSaver.deleteHomework(homework.get(subject_index).get(homework_index));
         homework.get(subject_index).remove(homework_index);
-
         for(int i = homework_index; i < Storage.homework.get(subject_index).size(); i++) {
             FileSaver.renameHomeworkFolder(Storage.homework.get(subject_index).get(i), FileSaver.HOMEWORK_MINUS_HOMEWORK_INDEX);
             Storage.homework.get(subject_index).get(i).setIndex(i);
@@ -472,7 +474,9 @@ public class Storage {
         }
     }
 
-    //******************************************************* grades *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// grades methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
     /*
      * adds a new grade to the transferred grade list
      * and calculates the new average of the belonging subject
@@ -583,31 +587,6 @@ public class Storage {
     }
 
     /*
-     * return a gridview list of all grades
-     */
-    public static ArrayList<Grade> getGradeGridViewList() {
-        ArrayList<Grade> result = new ArrayList<>();
-        for(ArrayList<Grade> list: grades) {
-            for(int i = 0; i < getMaxAmountGrades()+2; i++) {
-                //at pos 0 in each row the subject abbreviation is located
-                if(i == 0) {
-                    result.add(null);
-                }
-                //if there is no grade in the list any more, null is added
-                else {
-                    if(i-1 < list.size()) {
-                        result.add(list.get(i-1));
-                    }
-                    else {
-                        result.add(null);
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    /*
      * fills the title_strings dates with the last lessons of the specific subject
      */
     public static ArrayList<Date> getPastDates(int subject_index) {
@@ -660,20 +639,6 @@ public class Storage {
             result.add(c.getTime());
         }
         return result;
-    }
-
-    /*
-     * returns the amount of the most grades in a subject
-     * if the number is less than 5, 5 is returned
-     */
-    public static int getMaxAmountGrades() {
-        int max = 0;
-        for(ArrayList<Grade> list: grades) {
-            if(list.size() > max) {
-                max = list.size();
-            }
-        }
-        return Math.max(5, max);
     }
 
     /*
@@ -742,7 +707,9 @@ public class Storage {
     }
 
 
-    //******************************************************* semesters *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// semester methods ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
     /*
      * finds the heighest semester and set it to the current semester
      */
@@ -751,7 +718,7 @@ public class Storage {
             return;
         }
 
-        Semester max = new Semester("0");
+        Semester max = new Semester("000");
         for(int i = 0; i < semester.size(); i++) {
             int s1 = Integer.parseInt(semester.get(i).getName());
             int m = Integer.parseInt(max.getName());

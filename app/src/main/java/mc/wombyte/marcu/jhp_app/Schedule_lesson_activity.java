@@ -198,7 +198,7 @@ public class Schedule_lesson_activity extends JHP_Activity {
             Storage.schedule.getLesson(day, lesson_count).setTeacher( ed_teacher.getText().toString());
         }
         else {
-            Storage.schedule.setLesson(day, lesson_count, null);
+            Storage.schedule.setLessonToNull(day, lesson_count);
         }
     }
 

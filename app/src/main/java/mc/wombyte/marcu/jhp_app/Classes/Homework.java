@@ -5,6 +5,7 @@ import android.net.Uri;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -110,6 +111,17 @@ public class Homework {
     public static final int DESCRIPTION_IMAGE = 1;
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
+    /**
+     * FileFilter that checks the following conditions
+     * 1. is a file
+     * 2. tag is HDE or HSO
+     */
+    public static final FileFilter fileFilter = (file) -> {
+        if(file.isDirectory()) return false;
+        String name = file.getName();
+        return name.substring(0, 3).equals("HDE") || name.substring(0,3).equals("HSO");
+    };
+
     //******************************************************* Saving *******************************************************//
 
     /**
@@ -121,14 +133,9 @@ public class Homework {
      * writes the homework data of "homework" into the matching file
      * @param des: destination file where the data is written in
      * @param homework: object to be saved
-     * @param c: Calendar to delete homework if past
      */
-    public static void writeHomeworkData(File des, Homework homework, Calendar c) throws IOException{
-        if(!des.exists()) {
-            return;
-        }
-        if(homework == null || !c.getTime().before(homework.date.date)) {
-            FileSaver.deleteHomework(homework);
+    public static void writeHomeworkData(File des, Homework homework) throws IOException{
+        if(!des.exists() || homework == null) {
             return;
         }
 
@@ -139,6 +146,7 @@ public class Homework {
         bw.write( FileSaver.data("LDE", homework.description));
         bw.write( FileSaver.data("MIS", homework.misc));
         bw.write( FileSaver.data("FIN", String.valueOf(homework.getSolution().isFinished())));
+        bw.write( FileSaver.data("TXT", homework.getSolution().getText()));
         for(String link: homework.getSolution().getDocs()) {
             bw.write( FileSaver.data("DOC", link));
         }
@@ -176,10 +184,11 @@ public class Homework {
      * and tries to save it as a homework
      * if the 'des' file does not exist the method returns null
      * @param des: destination file from which the data is read
+     * @param c: calendar instance to check for past homework
      * @return Homework: read data as a homework object
      * @throws IOException: reading from a file
      */
-    public static Homework readHomeworkData(File des) throws IOException{
+    public static Homework readHomeworkData(File des, Calendar c) throws IOException{
         if(!des.exists()) {
             return null;
         }
@@ -192,7 +201,7 @@ public class Homework {
 
         Homework result = new Homework(ids[0], ids[1]);
         while((line_data = FileLoader.getLineData(br.readLine())) != null) {
-            switch (line_data[0]) {
+            try { switch (line_data[0]) {
                 case "DAT":
                     date = line_data[1];
                     break;
@@ -211,6 +220,9 @@ public class Homework {
                 case "FIN":
                     result.getSolution().setState(Boolean.parseBoolean(line_data[1]));
                     break;
+                case "TXT":
+                    result.getSolution().setText(line_data[1]);
+                    break;
                 case "DOC":
                     result.getSolution().addDoc(line_data[1]);
                     break;
@@ -220,6 +232,8 @@ public class Homework {
                 case "SLD":
                     result.getSolution().addSlide(line_data[1]);
                     break;
+            }} catch (Exception e) {
+                e.printStackTrace();
             }
         }
         if (!date.equals("") && lesson != -10) {
@@ -228,6 +242,12 @@ public class Homework {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+
+        //deleting past homework
+        if(!c.getTime().before(result.date.date)) {
+            FileSaver.deleteHomework(result);
+            result = null;
         }
 
         return result;
@@ -241,22 +261,13 @@ public class Homework {
      * @param name: name of the homework folder
      * @return ArrayList: list of all image uris
      */
-    public static ArrayList<Uri> readHomeworkImages(int mode, String name) {
-        ArrayList<Uri> result = new ArrayList<>();
-
-        File homework_folder;
+    private static ArrayList<Uri> readHomeworkImages(int mode, String name) {
         if(mode == DESCRIPTION_IMAGE) {
-            homework_folder = new File("/storage/emulated/0/JHP/homework/" + name + "/images/description");
+            return (new FileLoader()).readHomeworkDescriptionImages(name);
         }
         else {
-            homework_folder = new File("/storage/emulated/0/JHP/homework/" + name + "/images/solution");
+            return (new FileLoader()).readHomeworkSolutionImages(name);
         }
-
-        for(File image: homework_folder.listFiles()) {
-            result.add(Uri.fromFile(image));
-        }
-
-        return result;
     }
 
     /**
@@ -273,6 +284,32 @@ public class Homework {
      */
     public ArrayList<Uri> readSolutionImages() {
         return readHomeworkImages(Homework.SOLUTION_IMAGE, getFileName());
+    }
+
+    /**
+     * if the transmitted values can be converted to a homework
+     * the matching grade name is transmitted to
+     * {@link FileLoader#readHomeworkDescriptionImages(String)}
+     * & {@link FileLoader#readHomeworkSolutionImages(String)}
+     * and the size of the returned list is returned
+     * @param mode: defines which amount of images should be loaded
+     * @param subject_index: subject index of the grade
+     * @param grade_index: index of the grade
+     * @return int: amount of subfiles
+     */
+    public static int readImageAmount(int mode, int subject_index, int grade_index) {
+        if(subject_index < 0 || grade_index < 0) {
+            return -1;
+        }
+
+        String name = (new Homework(subject_index, grade_index).getFileName());
+        if(mode == SOLUTION_IMAGE) {
+            return (new FileLoader()).readHomeworkSolutionImages(name).size();
+        }
+        if(mode == DESCRIPTION_IMAGE) {
+            return (new FileLoader()).readHomeworkDescriptionImages(name).size();
+        }
+        return 0;
     }
 
     /**

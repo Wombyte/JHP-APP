@@ -1,5 +1,7 @@
 package mc.wombyte.marcu.jhp_app.Classes;
 
+import java.text.DecimalFormat;
+
 import mc.wombyte.marcu.jhp_app.Storage;
 
 /**
@@ -15,6 +17,8 @@ public class Semester {
     public int number_of_subjects = 0;
     public double average = 0.0;
 
+    DecimalFormat df = new DecimalFormat("000");
+
     public Semester(String name, int number_of_subjects, double average) {
         setName(name);
         this.number_of_subjects = number_of_subjects;
@@ -23,12 +27,7 @@ public class Semester {
 
     public Semester(int c, int semester, int number_of_subjects, double average) {
         //set name
-        if(semester == 0) {
-            setName( String.valueOf(c));
-        }
-        else {
-            setName( String.valueOf(c*10 + semester));
-        }
+        setName( df.format(c*10 + semester));
         this.name_class = c;
         this.name_semester = semester;
         this.number_of_subjects = number_of_subjects;
@@ -83,12 +82,14 @@ public class Semester {
     public void setName(String name) {
         this.name = name;
 
-        if(name.length() == 1 || name.equals("10")) {
-            name_class = Integer.parseInt(name);
+        int n = 0;
+        try {
+            n = df.parse(name).intValue();
+        } catch(Exception e) {
+            e.printStackTrace();
         }
-        else {
-            name_class = Integer.parseInt( name.substring(0, 2));
-            name_semester = Integer.parseInt( name.substring(2, 3));
-        }
+
+        this.name_class = n/10;
+        this.name_semester = n%10;
     }
 }

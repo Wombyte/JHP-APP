@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container_grade"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -69,248 +70,320 @@
         android:layout_below="@id/toolbar_grade"
         android:background="@color/background">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/container_swipe_grade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:padding="20dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_description_grades"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:labelFor="@+id/ed_description_grade"
-                android:paddingEnd="0dp"
-                android:paddingStart="5dp"
-                android:paddingTop="5dp"
-                android:text="@string/grades_description"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
-                android:id="@+id/ed_description_grade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/tv_description_grades"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_grade_grades"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/container_grade_grades"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/ed_description_grade"
-                android:gravity="center_vertical"
-                android:paddingEnd="0dp"
-                android:paddingStart="5dp"
-                android:text="@string/grades_grade"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
+            <!-- grade -->
             <RelativeLayout
-                android:id="@+id/container_grade_grades"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/ed_description_grade"
-                android:layout_toEndOf="@id/tv_grade_grades"
-                android:gravity="center_horizontal"
-                android:paddingBottom="8dp"
-                android:paddingTop="24dp">
+                android:paddingTop="12dp"
+                android:paddingBottom="24dp">
 
-                <Button
-                    android:id="@+id/b_sub_grade"
+                <TextView
+                    android:id="@+id/tv_grade_grades"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_alignParentTop="true"
-                    android:text="-" />
+                    android:layout_alignBottom="@+id/number_picker_grade"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="5dp"
+                    android:text="@string/grades_grade"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/ed_grade_grades"
+                <mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberPicker
+                    android:id="@+id/number_picker_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_toEndOf="@id/tv_grade_grades"
+                    android:layout_alignParentEnd="true">
+
+                </mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberPicker>
+            </RelativeLayout>
+
+            <!-- description -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tv_description_grades"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/b_sub_grade"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:labelFor="@+id/ed_description_grade"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/grades_description"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/container_button_text_description_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/ed_description_grade"
+                    android:layout_alignTop="@id/ed_description_grade"
+                    android:layout_below="@id/tv_description_grades"
                     android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:paddingEnd="30dp"
-                    android:paddingStart="30dp" />
+                    android:paddingEnd="6dp"
+                    android:paddingStart="6dp">
 
-                <Button
-                    android:id="@+id/b_add_grade"
+                    <ImageView
+                        android:id="@+id/imageview_text_description_grade"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/background"
+                        android:contentDescription="@string/homework_description"
+                        android:src="@drawable/symbol_homework_text"
+                        android:tint="@color/colorAccent" />
+
+                </RelativeLayout>
+
+                <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+                    android:id="@+id/ed_description_grade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@id/ed_grade_grades"
-                    android:text="+" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/container_button_text_description_grade"
+                    android:layout_below="@id/tv_description_grades"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:id="@+id/container_button_images_description_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/vs_description_grade"
+                    android:layout_alignTop="@id/vs_description_grade"
+                    android:layout_below="@id/container_button_text_description_grade"
+                    android:gravity="center"
+                    android:paddingEnd="6dp"
+                    android:paddingStart="6dp">
+
+                    <ImageButton
+                        android:id="@+id/b_images_description_grade"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/background"
+                        android:contentDescription="@string/homework_description"
+                        android:src="@drawable/symbol_add_image"
+                        android:tint="@color/colorAccent" />
+
+                </RelativeLayout>
+
+                <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+                    android:id="@+id/vs_description_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ed_description_grade"
+                    android:layout_marginTop="6dp"
+                    android:layout_toEndOf="@+id/container_button_text_description_grade"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/homework_description_image"
+                        android:textSize="14sp" />
+
+                    <mc.wombyte.marcu.jhp_app.Reuseables.ImageListView
+                        android:id="@+id/listview_description_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        custom:mode="horizontally">
+
+                    </mc.wombyte.marcu.jhp_app.Reuseables.ImageListView>
+
+                </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_date_written_grade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_grade_grades"
-                android:gravity="center_vertical"
-                android:paddingBottom="8dp"
-                android:paddingEnd="0dp"
-                android:paddingStart="5dp"
-                android:paddingTop="16dp"
-                android:text="@string/grades_date_written"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <mc.wombyte.marcu.jhp_app.DatePicker
-                android:id="@+id/spinner_date_written_grade"
+            <!-- dates -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:layout_below="@id/tv_date_written_grade"/>
-
-            <TextView
-                android:id="@+id/tv_date_got_grade"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/spinner_date_written_grade"
-                android:gravity="center_vertical"
-                android:paddingBottom="8dp"
-                android:paddingEnd="0dp"
-                android:paddingStart="5dp"
-                android:paddingTop="16dp"
-                android:text="@string/grades_date_got"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:paddingBottom="12dp">
 
-            <mc.wombyte.marcu.jhp_app.DatePicker
-                android:id="@+id/spinner_date_got_grade"
+                <TextView
+                    android:id="@+id/tv_date_written_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    android:text="@string/grades_date_written"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <mc.wombyte.marcu.jhp_app.Reuseables.DatePicker
+                    android:id="@+id/spinner_date_written_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_below="@id/tv_date_written_grade"/>
+
+                <TextView
+                    android:id="@+id/tv_date_got_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/spinner_date_written_grade"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/grades_date_got"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <mc.wombyte.marcu.jhp_app.Reuseables.DatePicker
+                    android:id="@+id/spinner_date_got_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/tv_date_got_grade"
+                    android:layout_marginBottom="8dp" />
+
+            </RelativeLayout>
+
+            <!-- kind -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/tv_date_got_grade"
-                android:layout_marginBottom="8dp" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_kind_grade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ed_misc_grades"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/spinner_date_got_grade"
-                android:gravity="center_vertical"
-                android:paddingEnd="10dp"
-                android:paddingStart="5dp"
-                android:text="@string/grades_kind"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:id="@+id/radiogroup_kind_grades"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spinner_date_got_grade"
-                android:layout_marginTop="24dp"
-                android:layout_toEndOf="@id/tv_kind_grade">
-
-                <RadioButton
-                    android:id="@+id/radio_b_exam_grade"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_kind_grade"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/symbol_grade_exam"
-                    android:button="@null"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="10dp"
-                    android:text="@string/grades_kind_exam" />
+                    android:layout_alignBottom="@+id/ed_misc_grades"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="5dp"
+                    android:text="@string/grades_kind"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                <RadioButton
-                    android:id="@+id/radio_b_test_grade"
-                    android:layout_width="match_parent"
+                <RadioGroup
+                    android:id="@+id/radiogroup_kind_grades"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/symbol_grade_test"
-                    android:button="@null"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="10dp"
-                    android:checked="true"
-                    android:text="@string/grades_kind_test" />
+                    android:layout_marginTop="24dp"
+                    android:layout_toEndOf="@id/tv_kind_grade">
 
-                <RadioButton
-                    android:id="@+id/radio_b_oral_test_grade"
-                    android:layout_width="match_parent"
+                    <RadioButton
+                        android:id="@+id/radio_b_exam_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/symbol_grade_exam"
+                        android:button="@null"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/grades_kind_exam" />
+
+                    <RadioButton
+                        android:id="@+id/radio_b_test_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/symbol_grade_test"
+                        android:button="@null"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="10dp"
+                        android:checked="true"
+                        android:text="@string/grades_kind_test" />
+
+                    <RadioButton
+                        android:id="@+id/radio_b_oral_test_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/symbol_grade_oral_test"
+                        android:button="@null"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/grades_kind_oral_test" />
+
+                    <RadioButton
+                        android:id="@+id/radio_b_presentation_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/symbol_grade_presentation"
+                        android:button="@null"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/grades_kind_presentation" />
+
+                    <RadioButton
+                        android:id="@+id/radio_b_assesment_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/symbol_grade_assesment"
+                        android:button="@null"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/grades_kind_assesment" />
+
+                    <RadioButton
+                        android:id="@+id/radio_b_misc_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/symbol_grade_misc"
+                        android:button="@null"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/grades_kind_misc" />
+
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/ed_misc_grades"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/symbol_grade_oral_test"
-                    android:button="@null"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="10dp"
-                    android:text="@string/grades_kind_oral_test" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_below="@id/radiogroup_kind_grades"
+                    android:layout_toEndOf="@id/tv_kind_grade"
+                    android:enabled="false" />
 
-                <RadioButton
-                    android:id="@+id/radio_b_presentation_grade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/symbol_grade_presentation"
-                    android:button="@null"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="10dp"
-                    android:text="@string/grades_kind_presentation" />
+            </RelativeLayout>
 
-                <RadioButton
-                    android:id="@+id/radio_b_assesment_grade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/symbol_grade_assesment"
-                    android:button="@null"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="10dp"
-                    android:text="@string/grades_kind_assesment" />
-
-                <RadioButton
-                    android:id="@+id/radio_b_misc_grade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@drawable/symbol_grade_misc"
-                    android:button="@null"
-                    android:paddingEnd="0dp"
-                    android:paddingStart="10dp"
-                    android:text="@string/grades_kind_misc" />
-
-            </RadioGroup>
-
-            <EditText
-                android:id="@+id/ed_misc_grades"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@id/radiogroup_kind_grades"
-                android:layout_toEndOf="@id/tv_kind_grade"
-                android:enabled="false" />
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
 
@@ -321,7 +394,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@color/transparent"
-        android:translationZ="11dp">
+        android:translationZ="15dp">
 
     </RelativeLayout>
 

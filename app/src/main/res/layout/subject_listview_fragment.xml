@@ -1,44 +1,78 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:paddingTop="5dp"
-    android:paddingEnd="0dp"
-    android:paddingStart="0dp"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:paddingBottom="15dp"
+    android:paddingEnd="10dp"
+    android:paddingStart="5dp"
+    android:paddingTop="15dp"
+    android:gravity="center_vertical"
     tools:context="mc.wombyte.marcu.jhp_app.Subject_listview_adapter">
 
     <TextView
-        android:id="@+id/tv_subjects_subject_average"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:layout_marginEnd="5dp"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_alignBottom="@+id/tv_subjects_subject_grades" />
-
-    <TextView
-        android:id="@+id/tv_subjects_subject_name"
+        android:id="@+id/tv_name_subject_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/tv_subjects_subject_average"
-        android:layout_alignParentEnd="true"
-        android:paddingStart="10dp"
         android:paddingEnd="5dp"
-        android:textStyle="bold"
-        android:textSize="24sp"/>
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/container_lesson_subject_list"
+        android:paddingStart="10dp"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/tv_subjects_subject_grades"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="55dp"
+        android:layout_toStartOf="@+id/container_lesson_subject_list"
+        android:id="@+id/container_tasks_subject_list"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/tv_subjects_subject_average"
-        android:layout_below="@id/tv_subjects_subject_name"
+        android:layout_alignTop="@+id/tv_name_subject_list"
+        android:layout_alignBottom="@+id/tv_name_subject_list"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/sym_tasks_subject_list"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/symbol_homework"
+            android:tint="@color/background"/>
+
+        <TextView
+            android:id="@+id/tv_tasks_subject_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="1dp"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_lesson_subject_list"
+        android:layout_width="55dp"
+        android:layout_alignTop="@+id/tv_name_subject_list"
+        android:layout_alignBottom="@+id/tv_name_subject_list"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:paddingStart="10dp"
-        android:paddingEnd="5dp"
-        android:textSize="18sp"/>
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/sym_lessons_subject_list"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/symbol_schedule"
+            android:tint="@color/background"/>
+
+        <TextView
+            android:id="@+id/tv_lessons_subject_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="1dp"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

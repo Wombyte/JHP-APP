@@ -1,4 +1,4 @@
-package mc.wombyte.marcu.jhp_app;
+package mc.wombyte.marcu.jhp_app.Reuseables;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,11 +10,14 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
+import mc.wombyte.marcu.jhp_app.R;
+import mc.wombyte.marcu.jhp_app.Storage;
+
 /**
  * Created by marcu on 15.07.2017.
  */
 
-public class Schedule_time_picker extends RelativeLayout {
+public class TimePicker extends RelativeLayout {
 
     Context context;
     LayoutInflater inflater;
@@ -39,19 +42,19 @@ public class Schedule_time_picker extends RelativeLayout {
     /*
      * constructors needed for xml
      */
-    public Schedule_time_picker(Context context) {
+    public TimePicker(Context context) {
         super(context);
         this.context = context;
         onCreateView();
     }
 
-    public Schedule_time_picker(Context context, AttributeSet set) {
+    public TimePicker(Context context, AttributeSet set) {
         super(context, set);
         this.context = context;
         onCreateView();
     }
 
-    public Schedule_time_picker(Context context, AttributeSet set, int defStyle) {
+    public TimePicker(Context context, AttributeSet set, int defStyle) {
         super(context, set, defStyle);
         this.context = context;
         onCreateView();

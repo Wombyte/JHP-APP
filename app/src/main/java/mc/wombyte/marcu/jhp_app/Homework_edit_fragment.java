@@ -21,6 +21,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import mc.wombyte.marcu.jhp_app.Classes.HomeworkSolution;
+import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.Reuseables.ImageListView;
 import mc.wombyte.marcu.jhp_app.Reuseables.TextArea;
 import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
 
@@ -57,15 +59,20 @@ public class Homework_edit_fragment extends Fragment {
         b_finished = view.findViewById(R.id.b_finished_solution_homework);
         vs_solution = ((ViewSwitcher) view.findViewById(R.id.vs_solution_homework)).createView(context);
 
+        //action
+        ((TextArea) vs_solution.getActiveView()).setText(solution.getText());
+
         //color
         activateView(0);
         ((TextArea) vs_solution.getActiveView()).changeBorderColor(Color.argb(0, 0, 0, 0));
 
         //drawable
-        b_finished.setImageResource(R.drawable.symbol_homework_solution_false);
-
-        //action
-        ((TextArea) vs_solution.getActiveView()).setText(solution.getText());
+        if(solution.isFinished()) {
+            b_finished.setImageResource(R.drawable.symbol_homework_solution_true);
+        }
+        else {
+            b_finished.setImageResource(R.drawable.symbol_homework_solution_false);
+        }
 
         //listener
         b_solution[0].setOnClickListener((v) -> activateView(0));
@@ -75,7 +82,7 @@ public class Homework_edit_fragment extends Fragment {
         b_solution[4].setOnClickListener((v) -> activateView(4));
         b_finished.setOnClickListener((v) -> changeState());
 
-        ((ListView) vs_solution.getView(1)).setOnItemClickListener(
+        ((ListView) vs_solution.getView(2)).setOnItemClickListener(
                 (adapterView, v, i, l) -> onclick_list(i)
         );
 
@@ -86,6 +93,9 @@ public class Homework_edit_fragment extends Fragment {
      * save data
      */
     @Override public void onPause() {
+        if(current_solution == 0) {
+            solution.setText( ((TextArea) vs_solution.getActiveView()).getText().toString());
+        }
         methods.setSolution(solution);
         super.onPause();
     }
@@ -95,8 +105,8 @@ public class Homework_edit_fragment extends Fragment {
      * changes the fragment to display the clicked view
      * changes the button arrays color and the view switcher
      */
-    public void activateView(int n) {
-        if(n >= b_solution.length) {
+    public void activateView(int new_index) {
+        if(new_index >= b_solution.length) {
             return;
         }
 
@@ -104,8 +114,19 @@ public class Homework_edit_fragment extends Fragment {
         if(current_solution == 0) {
             solution.setText( ((TextArea) vs_solution.getActiveView()).getText().toString());
         }
+        if(new_index == 1) {
+            if(current_solution == new_index) {
+                openImagePickerDialog();
+            }
+            else {
+                b_solution[new_index].setImageDrawable( context.getResources().getDrawable(R.drawable.symbol_grades_add));
+            }
+        }
+        else {
+            b_solution[new_index].setImageDrawable( context.getResources().getDrawable(R.drawable.symbol_homework_image));
+        }
 
-        switch(n) {
+        switch(new_index) {
             case 0: activateTextView(); break;
             case 1: activateImagesView(); break;
             case 2: activateDocsView(); break;
@@ -115,11 +136,11 @@ public class Homework_edit_fragment extends Fragment {
 
         //color
         changeButtonColors(R.color.radio_button_inactive, R.color.colorPrimary);
-        current_solution = n;
+        current_solution = new_index;
 
         int bg = 0, fg = 0;
         switch(current_solution) {
-            case 0: bg = R.color.radio_button_inactive; fg = R.color.colorPrimary; break;
+            case 0: bg = R.color.homework_solution_text_light; fg = R.color.homework_solution_text; break;
             case 1: bg = R.color.homework_solution_images_light; fg = R.color.homework_solution_images; break;
             case 2: bg = R.color.homework_solution_docs_light; fg = R.color.homework_solution_docs; break;
             case 3: bg = R.color.homework_solution_sheets_light; fg = R.color.homework_solution_sheets; break;
@@ -134,6 +155,13 @@ public class Homework_edit_fragment extends Fragment {
         );
     }
 
+    /**
+     * opens a new instance of the image picker dialog
+     */
+    public void openImagePickerDialog() {
+        new ImagePickerDialog(context, getActivity(), ImagePickerDialog.HOMEWORK_SOLUTION_IMAGE).show();
+    }
+
     /*
      * view switcher: 0 (TextArea)
      */
@@ -142,34 +170,49 @@ public class Homework_edit_fragment extends Fragment {
         ((TextArea) vs_solution.getActiveView()).setText( solution.getText());
     }
 
+    /**
+     * listener, that defines what should happen if an image in the HorizontalImageListView is clicked long
+     * it opens an delete dialog, where the user can decide whether the images should
+     * really be deleted
+     */
+    ImageListView.LongItemClickListener longItemClickListener = (pos) -> {
+        String question = context.getResources().getString(R.string.boolean_dialog_delete_image);
+        BooleanDialog dialog = new BooleanDialog(context, question);
+        dialog.setAnswerListener(new BooleanDialog.AnswerListener() {
+            @Override public void onYes() {
+                FileSaver.deleteImageFromUri( solution.getImages().get(pos));
+                solution.getImages().remove(pos);
+                activateImagesView();
+            }
+            @Override public void onNo() { }
+        });
+        dialog.show();
+    };
+
     /*
      * view switcher: 1 (ListView)
      * creates a list of images
      */
     private void activateImagesView() {
         vs_solution.switchToView(1);
-        ListView listview = (ListView) vs_solution.getActiveView();
-
-        ArrayList<Uri> pics = (ArrayList<Uri>) solution.getImages().clone();
-        pics.add(0, null);
-        listview.setAdapter(new Homework_solution_image_listview_fragment(
-                context, R.id.listview_files_solution_homework, pics, true
-        ));
+        ImageListView listview = (ImageListView) vs_solution.getActiveView();
+        listview.setItemLongClickListener(longItemClickListener);
+        listview.setImageList(solution.getImages());
     }
 
     /*
-     * view switcher: 1 (ListView)
+     * view switcher: 2 (ListView)
      * creates a list of links
      */
     private void activateDocsView() {
-        vs_solution.switchToView(1);
+        vs_solution.switchToView(2);
         ListView listview = (ListView) vs_solution.getActiveView();
 
         ArrayList<String> links = (ArrayList<String>) solution.getDocs().clone();
         links.add(0, null);
         listview.setAdapter(new Homework_solution_file_listview_adapter(
                 context,
-                R.id.listview_files_solution_homework,
+                R.id.file_listview_solution_homework,
                 1,
                 R.drawable.symbol_homework_docs,
                 R.color.homework_solution_docs,
@@ -178,18 +221,18 @@ public class Homework_edit_fragment extends Fragment {
     }
 
     /*
-     * view switcher: 1 (ListView)
+     * view switcher: 2 (ListView)
      * creates a list of links
      */
     private void activateSheetsView() {
-        vs_solution.switchToView(1);
+        vs_solution.switchToView(2);
         ListView listview = (ListView) vs_solution.getActiveView();
 
         ArrayList<String> links = (ArrayList<String>) solution.getSheets().clone();
         links.add(0, null);
         listview.setAdapter(new Homework_solution_file_listview_adapter(
                 context,
-                R.id.listview_files_solution_homework,
+                R.id.file_listview_solution_homework,
                 2,
                 R.drawable.symbol_homework_table,
                 R.color.homework_solution_sheets,
@@ -198,18 +241,18 @@ public class Homework_edit_fragment extends Fragment {
     }
 
     /*
-     * view switcher: 1 (ListView)
+     * view switcher: 2 (ListView)
      * creates a list of links
      */
     private void activateSlidesView() {
-        vs_solution.switchToView(1);
+        vs_solution.switchToView(2);
         ListView listview = (ListView) vs_solution.getActiveView();
 
         ArrayList<String> links = (ArrayList<String>) solution.getSlides().clone();
         links.add(0, null);
         listview.setAdapter(new Homework_solution_file_listview_adapter(
                 context,
-                R.id.listview_files_solution_homework,
+                R.id.file_listview_solution_homework,
                 3,
                 R.drawable.symbol_homework_slides,
                 R.color.homework_solution_slides,
@@ -300,9 +343,9 @@ public class Homework_edit_fragment extends Fragment {
      */
     private void addLink(String link) {
         switch(current_solution-2) {
-            case 0: solution.addDoc(link, 0);
-            case 1: solution.addSheet(link, 0);
-            case 2: solution.addSlide(link, 0);
+            case 0: solution.addDoc(link, 0); break;
+            case 1: solution.addSheet(link, 0); break;
+            case 2: solution.addSlide(link, 0); break;
         }
         activateView(current_solution);
     }
@@ -346,7 +389,7 @@ public class Homework_edit_fragment extends Fragment {
         );
 
         //foreground
-        Drawable drawable = b_solution[current_solution].getDrawable();
+        Drawable drawable = b_solution[current_solution].getDrawable().mutate();
         drawable.setColorFilter( context.getResources().getColor(foregound), PorterDuff.Mode.SRC_ATOP);
         b_solution[current_solution].setImageDrawable(drawable);
     }

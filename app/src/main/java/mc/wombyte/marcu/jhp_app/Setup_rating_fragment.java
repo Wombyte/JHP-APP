@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,8 +25,6 @@ public class Setup_rating_fragment extends SettingFragment {
 
     Spinner spinner_classes;
     ViewSwitcher vs_semester;
-    Button b_grades;
-    Button b_points;
 
     ArrayList<String> classes = new ArrayList<>();
     ArrayList<String> semester = new ArrayList<>();
@@ -41,8 +38,6 @@ public class Setup_rating_fragment extends SettingFragment {
         //initialization
         spinner_classes = view.findViewById(R.id.spinner_class_setup_fragment);
         vs_semester = ((ViewSwitcher) view.findViewById(R.id.spinner_semester_setup_fragment)).createView(context);
-        b_grades = view.findViewById(R.id.b_grades_setup_rating_fragment);
-        b_points = view.findViewById(R.id.b_points_setup_rating_fragment);
 
         //variables
         readData();
@@ -56,29 +51,8 @@ public class Setup_rating_fragment extends SettingFragment {
         //content
         spinner_classes.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, classes));
         spinner_classes.setSelection(current_class-1);
-        if(Storage.semester.size() > 0) {
-            spinner_classes.setEnabled(false);
-        }
-
-        if(Storage.settings.grades_isRatingInGrades()) {
-            activateGrades();
-        }
-        else {
-            activatePoints();
-        }
 
         //listener
-        b_grades.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                activateGrades();
-            }
-        });
-        b_points.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activatePoints();
-            }
-        });
         spinner_classes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 classSelected(i);
@@ -89,11 +63,17 @@ public class Setup_rating_fragment extends SettingFragment {
         return view;
     }
 
-    //******************************************************* onclick listener *******************************************************//
 
-    /*
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// onclick listener ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
      * called when a new class is set
-     * @param 'i': index of the class (= class-1)
+     * if the selected class is smaller than 11
+     * the textview is activated
+     * else the semester spinner is activated
+     * @param i: index of the class (= class-1)
      */
     private void classSelected(int i) {
         String semester_name;
@@ -103,7 +83,6 @@ public class Setup_rating_fragment extends SettingFragment {
             textView.setText("---");
 
             semester_name = String.valueOf(i+1);
-            activateGrades();
         }
         else {
             vs_semester.switchToView(1);
@@ -115,50 +94,24 @@ public class Setup_rating_fragment extends SettingFragment {
             }
 
             semester_name = String.valueOf((i+1) * 10 + current_semester);
+        }
 
-            activatePoints();
+        if(input_listener != null) {
+            input_listener.onLegitInput();
         }
 
         //update storage value
         Storage.current_semester = semester_name;
     }
 
-    /*
-     * lights up the 'grades' button and lights down the 'points' button
-     */
-    private void activateGrades() {
-        b_grades.setTextColor( getResources().getColor(R.color.colorPrimary));
-        b_grades.setEnabled(false);
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// methods ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-        Storage.settings.grades_setRatingMode(true);
-        if(input_listener != null) {
-            input_listener.onLegitInput();
-        }
-
-        b_points.setTextColor( getResources().getColor(R.color.radio_button_inactive));
-        b_points.setEnabled(true);
-    }
-
-    /*
-     * lights up the 'points' button and lights down the 'grades' button
-     */
-    private void activatePoints() {
-        b_points.setTextColor( getResources().getColor(R.color.colorPrimary));
-        b_points.setEnabled(false);
-
-        Storage.settings.grades_setRatingMode(false);
-        if(input_listener != null) {
-            input_listener.onLegitInput();
-        }
-
-        b_grades.setTextColor( getResources().getColor(R.color.radio_button_inactive));
-        b_grades.setEnabled(true);
-    }
-
-    //******************************************************* methods *******************************************************//
-
-    /*
+    /**
      * reads the data from the current folder name
+     * if there is no current semester, nothing happens
+     * else the data from it is read
      */
     private void readData() {
         String name = Storage.current_semester;
