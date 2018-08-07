@@ -107,6 +107,8 @@ public class FileSaver {
             Log.e("FileSaver", "error while writing to the settings file");
             e.printStackTrace();
         }
+
+        deleteUnnecessaryFiles();
     }
 
     /*
@@ -583,7 +585,8 @@ public class FileSaver {
      * @param homework: object which contains the data that has to be deleted
      */
     public static void deleteHomework(Homework homework) {
-        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades");
+        File folder = new File("/storage/emulated/0/JHP/homework");
+        Log.d("FileSaver", "DeleteHomework: " + homework.getFileName());
         deleteHomeworkImages(new File(folder, homework.getFileName()));
         Storage.deleteHomework(homework);
 
@@ -772,5 +775,16 @@ public class FileSaver {
         String temp = name.substring(t+1, name.length());
         int end = t + temp.indexOf('_')+1;
         return name.substring(start, end);
+    }
+
+    /**
+     * delete all files that arn't needed anymore
+     */
+    private void deleteUnnecessaryFiles() {
+        File schedule_folder = new File("/storage/emulated/0/JHP/schedule");
+        if(schedule_folder.exists()) {
+            boolean success = schedule_folder.delete();
+            Log.d("FileSaver", "deleting the schedule folder was successful? " + success);
+        }
     }
 }

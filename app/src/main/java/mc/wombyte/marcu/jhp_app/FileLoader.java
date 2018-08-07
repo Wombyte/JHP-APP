@@ -8,10 +8,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import mc.wombyte.marcu.jhp_app.Classes.Grade;
 import mc.wombyte.marcu.jhp_app.Classes.Homework;
@@ -25,7 +23,6 @@ import mc.wombyte.marcu.jhp_app.Classes.Subject;
 
 public class FileLoader {
 
-    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
     Activity activity;
 
     String current_semester = "";
@@ -39,7 +36,8 @@ public class FileLoader {
      * 2. schedule, subjects, homework, grades and settings are read
      */
     public void readData() {
-        if(!Storage.READ_EXTERNAL_STORAGE_ALLOWED) {
+        File jhp_folder = new File("/storage/emulated/0/JHP");
+        if(!Storage.READ_EXTERNAL_STORAGE_ALLOWED || !jhp_folder.exists()) {
             return;
         }
 
@@ -170,6 +168,13 @@ public class FileLoader {
             Homework homework = Homework.readHomeworkData(new File(f, "data.txt"), c);
             if(homework != null) {
                 Storage.addHomework(homework.getSubjectindex(), homework);
+            }
+        }
+
+        //deleting homework
+        for(Homework homework: Storage.getHomeworkList()) {
+            if(!c.getTime().before(homework.getDate().date())) {
+                 Storage.deleteHomework(homework);
             }
         }
     }
@@ -319,7 +324,7 @@ public class FileLoader {
         File mainfolder = new File("/storage/emulated/0/JHP");
         for (File file : mainfolder.listFiles()) {
             if (file.isDirectory()
-                    && !file.getName().equals("Backup")
+                    && !file.getName().equals("schedule")
                     && !file.getName().equals("homework")
                     && !file.getName().equals("images")) {
                 Storage.semester.add(new Semester(file.getName()));

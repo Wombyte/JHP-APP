@@ -244,12 +244,6 @@ public class Homework {
             }
         }
 
-        //deleting past homework
-        if(!c.getTime().before(result.date.date)) {
-            FileSaver.deleteHomework(result);
-            result = null;
-        }
-
         return result;
     }
 

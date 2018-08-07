@@ -227,7 +227,7 @@ public class Settings extends SettingGroup {
         f_general_menu.setValue(new int[] {0, 0, 0, LEFT_HAND_SIDE});
         f_general_setup = new SettingField(GENERAL_SETUP, SettingField.BOOLEAN, R.string.settings_general_setup, R.drawable.symbol_setting_setup);
         f_general_setup.setLongDescriptionId(R.string.settings_general_setup_long);
-        f_general_setup.setValue(false);
+        f_general_setup.setValue(true);
         f_general_backup = new SettingField(GENERAL_BACKUP, SettingField.BOOLEAN, R.string.settings_general_backup, R.drawable.symbol_backup);
         f_general_backup.addLongDescription(R.string.settings_general_backup_long);
 

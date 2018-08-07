@@ -451,7 +451,9 @@ public class Grade_activity extends JHP_Activity {
             Grade grade = Storage.grades.get(subject_index).get(index);
             tv_heading_kind.setText( grade.getShortDescription());
 
-            number_picker.setSelection( grade.getNumber());
+            int index = grade.getNumber();
+            if(Storage.settings.grades_isRatingInGrades()) index--;
+            number_picker.setSelection(index);
 
             ta_description.setText( grade.getDescription());
             des_images = Grade.readGradeImages( grade.getFileName());
@@ -474,7 +476,7 @@ public class Grade_activity extends JHP_Activity {
 
             int index = Grade.getPredictedGrade(subject_index);
             if(Storage.settings.grades_isRatingInGrades()) index--; //grades starts with 1 -> -1 to get the index of average
-            number_picker.setSelection( index);
+            number_picker.setSelection(index);
 
             spinner_date_got.switchToSpinner();
             dates_written = Storage.getPastDates(subject_index);

@@ -16,12 +16,6 @@ import mc.wombyte.marcu.jhp_app.Classes.Subject;
 import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
 import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
 
-/*FragmentManager fm_menu = getChildFragmentManager();
-FragmentTransaction ft_menu = fm_menu.beginTransaction();
-Subjects_add_subject_fragment ssf = new Subjects_add_subject_fragment();
-ft_menu.add(R.id.subjects_container_add, ssf, "ADDSUBJECT");
-ft_menu.commit();*/
-
 public class Subjects_pl_fragment extends FragmentMain {
 
     ViewSwitcher vs_view;
@@ -116,6 +110,7 @@ public class Subjects_pl_fragment extends FragmentMain {
             @Override public void onCreateSubject(String name, int color) {
                 Subject subject = new Subject(name, color, Storage.subjects.size());
                 Storage.addSubject(subject);
+                listview_adapter.notifyDataSetChanged();
             }
         });
         dialog.show();

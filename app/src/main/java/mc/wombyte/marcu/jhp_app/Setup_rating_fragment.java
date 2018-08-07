@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import mc.wombyte.marcu.jhp_app.Classes.Semester;
@@ -76,13 +77,14 @@ public class Setup_rating_fragment extends SettingFragment {
      * @param i: index of the class (= class-1)
      */
     private void classSelected(int i) {
+        DecimalFormat df = new DecimalFormat("000");
         String semester_name;
         if(i < 10) {
             vs_semester.switchToView(0);
             TextView textView = (TextView) vs_semester.getActiveView();
             textView.setText("---");
 
-            semester_name = String.valueOf(i+1);
+            semester_name = df.format((i+1)*10);
         }
         else {
             vs_semester.switchToView(1);
@@ -93,7 +95,7 @@ public class Setup_rating_fragment extends SettingFragment {
                 spinner.setEnabled(false);
             }
 
-            semester_name = String.valueOf((i+1) * 10 + current_semester);
+            semester_name = df.format((i+1) * 10 + current_semester);
         }
 
         if(input_listener != null) {
