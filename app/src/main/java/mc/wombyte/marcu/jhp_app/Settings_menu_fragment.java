@@ -34,13 +34,14 @@ public class Settings_menu_fragment extends SettingFragment {
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup c, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings_menu_fragment, container, false);
         context = c.getContext();
+        inSettingActivity = getActivity() instanceof Settings_activity;
 
         //initialization
         container = (RelativeLayout) view.findViewById(R.id.container_menu_setting_fragment);
         dialog = new BooleanDialog(context, getResources().getString(R.string.settings_general_scrollmenu_fragment_question));
 
         //add circle panel
-        layout = new DrawLayout_MenuFragment(context);
+        layout = new DrawLayout_MenuFragment(context, inSettingActivity);
         layout.setLayoutParams(new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
@@ -54,6 +55,9 @@ public class Settings_menu_fragment extends SettingFragment {
         r = Storage.settings.general_getCirclePos()[2];
         side = Storage.settings.general_getCirclePos()[3];
         if(x != 0 && y != 0 && r != 0) {
+            if(inSettingActivity) {
+                y -= context.getResources().getDimensionPixelOffset(R.dimen.setting_menu_toolbar_height);
+            }
             layout.setCoordinates(x, y, r);
             if(input_listener != null) {
                 input_listener.onLegitInput();
@@ -85,6 +89,9 @@ public class Settings_menu_fragment extends SettingFragment {
      * method, called when the dialog is answered with "yes"
      */
     private void saveCircle() {
+        if(inSettingActivity) {
+            y += context.getResources().getDimensionPixelOffset(R.dimen.setting_menu_toolbar_height);
+        }
         Storage.settings.general_setCirclePos(new int[] {x, y, r, side});
         if(input_listener != null) {
             input_listener.onLegitInput();
@@ -114,7 +121,6 @@ public class Settings_menu_fragment extends SettingFragment {
         }
     }
 
-
     /*
      * defines whether the circle is draw in settings activity or not
      */
@@ -127,6 +133,9 @@ public class Settings_menu_fragment extends SettingFragment {
 /********************************************* DrawLayout ********************************************/
 class DrawLayout_MenuFragment extends View{
 
+    Context context;
+    boolean inSettingActivity;
+
     int x = 0;
     int y = 0;
     int r = 0;
@@ -136,8 +145,10 @@ class DrawLayout_MenuFragment extends View{
      * constructor to use it in code
      * defines and calculates all vars
      */
-    public DrawLayout_MenuFragment(Context context) {
+    public DrawLayout_MenuFragment(Context context, boolean inSettingsActivity) {
         super(context);
+        this.context = context;
+        this.inSettingActivity = inSettingsActivity;
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor( getResources().getColor(R.color.colorPrimary));
         paint.setStrokeWidth( getResources().getDimensionPixelSize(R.dimen.setting_menu_fragment_circle_menu));

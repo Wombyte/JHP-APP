@@ -78,7 +78,13 @@ public class Settings_activity extends JHP_Activity {
             case 0: onclick_back(); break;
             case 1: returnToParent(); break;
             default:
-                Settings_list_fragment f = (Settings_list_fragment) fragment;
+                Settings_list_fragment f;
+                try {
+                    f = (Settings_list_fragment) fragment;
+                } catch(Exception e) {
+                    e.printStackTrace();
+                    break;
+                }
                 id--;
                 int group_count = 0;
                 SettingGroup new_settingGroup = new SettingGroup();

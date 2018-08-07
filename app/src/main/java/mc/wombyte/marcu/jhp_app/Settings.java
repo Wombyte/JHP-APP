@@ -280,7 +280,7 @@ public class Settings extends SettingGroup {
         {
             g_general.addChild(f_general_menu);
             g_general.addChild(f_general_setup);
-            g_general.addChild(f_general_backup);
+            //g_general.addChild(f_general_backup);
         }
         this.addChild(f_about);
 

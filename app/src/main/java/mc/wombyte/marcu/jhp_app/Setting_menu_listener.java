@@ -97,7 +97,7 @@ public class Setting_menu_listener implements View.OnTouchListener {
         r = (int) (Math.sqrt( Math.pow(x-a1, 2) + Math.pow(y-a2, 2)));
 
         if(inSettingActivity) {
-            y += context.getResources().getDimensionPixelOffset(R.dimen.setting_menu_toolbar_height);
+            //y -= context.getResources().getDimensionPixelOffset(R.dimen.setting_menu_toolbar_height);
         }
 
         //getting hand side

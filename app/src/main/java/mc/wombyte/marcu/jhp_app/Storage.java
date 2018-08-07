@@ -1,5 +1,7 @@
 package mc.wombyte.marcu.jhp_app;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,8 +49,10 @@ public class Storage {
      */
     public static void addSubject(Subject subject) {
         subjects.add(subject);
-        homework.add(new ArrayList<Homework>());
-        grades.add(new ArrayList<Grade>());
+        homework.add(new ArrayList<>());
+        Log.d("Storage", "ListSize: homework: " + homework.size());
+        grades.add(new ArrayList<>());
+        Log.d("Storage", "ListSize: grades: " + grades.size());
     }
 
     /*
@@ -482,6 +486,7 @@ public class Storage {
      * and calculates the new average of the belonging subject
      */
     public static void addGrade(int subject_index, Grade grade) {
+        Log.d("Storage", "ListSize: addGrade: " + grades.size() + " " + subject_index);
         grade.setIndex( Storage.grades.get(subject_index).size());
         grades.get(subject_index).add(grade);
         subjects.get(subject_index).calculateAverage();
@@ -512,6 +517,7 @@ public class Storage {
         for(int i = 0; i < subjects.size(); i++) {
             subjects.get(i).setAverage(0);
         }
+        grades.clear();
     }
 
     /*

@@ -17,7 +17,7 @@ import mc.wombyte.marcu.jhp_app.Classes.Grade;
 
 public class Grades_dialog extends Dialog {
 
-    public final static int ALL_SUBJECTS = -1;
+    public final static int ALL_SUBJECTS = -2;
 
     RelativeLayout container;
     Grades_diagram diagram;
@@ -39,7 +39,7 @@ public class Grades_dialog extends Dialog {
         this.subject_index = subject_index;
 
         //getting the right list of grades
-        if(subject_index == Storage.ALL_SUBJECTS) {
+        if(subject_index < 0) {
             grades_list = Storage.getGradeList();
             heading = context.getResources().getString(R.string.grades_diagram_heading);
             average = Storage.calculateAverage(subject_index, grades_list.size()-1);

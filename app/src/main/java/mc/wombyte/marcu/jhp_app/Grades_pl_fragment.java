@@ -3,6 +3,7 @@ package mc.wombyte.marcu.jhp_app;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class Grades_pl_fragment extends FragmentMain {
         context = container.getContext();
 
         listview = view.findViewById(R.id.listview_grades_pl);
+        Log.d("GradesPLFragment", "GradeSize: " + Storage.grades.size());
         listview.setAdapter( new Grade_pl_vertical_list(context, android.R.layout.simple_list_item_1, Storage.grades));
 
         return view;

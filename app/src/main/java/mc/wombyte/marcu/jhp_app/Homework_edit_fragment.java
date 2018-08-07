@@ -123,7 +123,7 @@ public class Homework_edit_fragment extends Fragment {
             }
         }
         else {
-            b_solution[new_index].setImageDrawable( context.getResources().getDrawable(R.drawable.symbol_homework_image));
+            b_solution[1].setImageDrawable( context.getResources().getDrawable(R.drawable.symbol_homework_image));
         }
 
         switch(new_index) {

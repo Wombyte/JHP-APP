@@ -131,6 +131,7 @@ public class FileLoader {
      */
     private void readSubjects() throws IOException {
         Storage.subjects.clear();
+        Storage.grades.clear();
 
         File subjects_folder = new File("/storage/emulated/0/JHP/" + current_semester + "/subjects");
         if(!subjects_folder.exists()) {
@@ -242,8 +243,6 @@ public class FileLoader {
      * @throws IOException: readGradeData()
      */
     private void readGrades() throws IOException {
-        Storage.clearGrades();
-
         File grades_folder = new File("/storage/emulated/0/JHP/" + current_semester + "/grades");
         if(!grades_folder.exists()) {
             return;

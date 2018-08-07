@@ -13,8 +13,8 @@ android {
         applicationId "mc.wombyte.marcu.jhp_app"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 13
-        versionName "1.12"
+        versionCode 200
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -316,17 +316,34 @@
         Wird ausgeführt, sobald du die Einstellungen verlässt.
     </string>
 
-    <string name="settings_info">
-        Diese App soll dir helfen auch elektronisch eine Übersicht über ihr Schulzeug zu haben. Dazu zählen der Stundenplan,
+    <string name="settings_app_heading">Über die App</string>
+    <string name="settings_app_text">
+        Diese App soll dir helfen auch mobil eine Übersicht über dein Schulzeug zu haben. Dazu zählen der Stundenplan,
         die Fächer zusammen mit deren Hausaufgaben und Noten. Die App ist dafür gemacht, dass du möglichst schnell neue
-        Hausaufgaben und Noten hinzufügen kannst, damit du das auch mal schnell in den Pausen(!) machen kannst.\n\n
-        Da sich die App momentan noch in der Alpha-Version befindet, kann es noch vorkommmen, dass sie in seltenen Fällen abstürtzt
-        oder nicht richtig funktioniert. In dem Fall würde ich mich freuen, wenn du mir schreibst, was es für ein Fehler ist und wie
-        er entstanden ist. \n\n
-        Kontakt: marcusCh.wunderlich@web.de \n\n\n\n
-        Verwendete Erweiterungen: \n
-        ColorPickerPreference von Sergey Margaritov \n
-        Vector Assets by "creative commons": https://creativecommons.org/licenses/by/4.0/legalcode
+        Hausaufgaben und Noten hinzufügen kannst, damit du das auch mal schnell in den Pausen(!!!) machen kannst.
+    </string>
+    <string name="settings_developer_heading">Über den Entwickler</string>
+    <string name="settings_developer_text">
+        Der Entwickler dieser App ist ein wunderlicher Typ, der fast nie aus seinem Programmier-Keller heraus kommt und deswegen
+        offensichtlich etwas zu viel Freizeit hat. Wenn man den seltenen Berichten glauben möchte, in denen er sich mal raus
+        getraut hat, dann ist er den echt kommunikativ und freut sich über jegliche positive und negative Kritik. Vorallem weil sich
+        die App noch in der Beta befindet. Wenn du also Ideen hast, wie die App verbessert werden kann (Design, Funktion,
+        Einstellungen, Bugs entfernen, &#8230;) dann schreib sie dem wunderlichen Typen und er versucht sich sofort darum zu kümmern.
+    </string>
+    <string name="settings_developer_contact">Kontakt: <a href="marcuspiele@gmail.com">marcuspiele@gmail.com</a></string>
+    <string name="settings_project_heading">Über dieses Projekt</string>
+    <string name="settings_project_text">
+        Diese Projekt ist mehr oder weniger ein Open Source Projekt. Das heißt, dass du dir den gesamten Code
+        <a href="https://github.com/Wombyte/JHP-APP/tree/master/app/src/main/java/mc/wombyte/marcu/jhp_app">hier</a>
+        anschauen kannst. Darin befinden sich sicherlich Rechtschreibfehler, die nicht alle gemeldet werden müssen. Wenn es aber
+        wirklich grobe Fehler gibt, freut sich der wunderliche Typ auch über diese und korrigiert sie gerne.
+    </string>
+    <string name="settings_privacy_policy_text">
+        &#8230;Achso und hier ist noch die <a href="https://docs.google.com/document/d/1J0JxZs_QTFM91xnMKvxbwNBj-i5VXlJt2xu_Bd3TO8w/edit?usp=sharing">Datenschutzerklärung</a>
+    </string>
+    <string name="settings_plugins_headings">Verwendete Erweiterungen</string>
+    <string name="settings_plugins_text">
+        ColorPickerPreference von Sergey Margaritov\nPhotoView von Chris Banes\n<a href="https://creativecommons.org/licenses/by/4.0/legalcode">Vector Assets</a> by "creative commons"
     </string>
 
     <string name="settings_option_back">Zurück</string>
