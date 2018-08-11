@@ -8,7 +8,7 @@
         android:id="@+id/container_schedule_time_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="30dp"
+        android:paddingStart="60dp"
         android:paddingEnd="0dp"
         android:background="@color/background"
         android:gravity="center"
@@ -16,14 +16,14 @@
 
         <mc.wombyte.marcu.jhp_app.Reuseables.TimePicker
             android:id="@+id/timepicker1_schedule"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/button_table" />
 
         <mc.wombyte.marcu.jhp_app.Reuseables.TimePicker
             android:id="@+id/timepicker2_schedule"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/timepicker1_schedule"
             android:background="@drawable/button_table" />
@@ -40,105 +40,124 @@
         android:paddingStart="80dp"
         android:paddingTop="20dp"
         android:text="@string/settings_schedule_time_explanation"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:id="@+id/list_lesson_count_schedule_time_fragment"
-        android:layout_width="wrap_content"
+        android:layout_width="64dp"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:orientation="vertical"
-        android:padding="10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="12dp"
         android:weightSum="9">
 
-        <TextView
-            android:id="@+id/tv_1_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_1_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/background"
             android:text="@string/schedule_time_1"
+            android:gravity="center"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_2_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_2_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_2"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_3_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_3_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_3"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_4_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_4_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_4"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_5_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_5_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_5"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_6_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_6_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_6"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_7_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_7_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_7"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_8_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_8_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_8"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_9_schedule_time_fragment"
+        <Button
+            android:id="@+id/b_9_schedule_time_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/background"
             android:text="@string/schedule_time_9"
             android:textColor="@color/schedule_lesson_count_inactive"
-            android:textSize="60sp"
+            android:textSize="48sp"
             android:textStyle="bold" />
 
     </LinearLayout>

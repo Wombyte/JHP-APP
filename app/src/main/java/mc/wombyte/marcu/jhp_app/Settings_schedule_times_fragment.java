@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import mc.wombyte.marcu.jhp_app.Reuseables.TimePicker;
 
@@ -18,7 +18,7 @@ public class Settings_schedule_times_fragment extends SettingFragment {
 
     Context context;
 
-    TextView[] tv_time = new TextView[9];
+    Button[] b_times;
     TimePicker timepicker_from;
     TimePicker timepicker_to;
     RelativeLayout swipe_container;
@@ -30,22 +30,24 @@ public class Settings_schedule_times_fragment extends SettingFragment {
         context = container.getContext();
 
         //initialisation
-        tv_time[0] = (TextView) view.findViewById(R.id.tv_1_schedule_time_fragment);
-        tv_time[1] = (TextView) view.findViewById(R.id.tv_2_schedule_time_fragment);
-        tv_time[2] = (TextView) view.findViewById(R.id.tv_3_schedule_time_fragment);
-        tv_time[3] = (TextView) view.findViewById(R.id.tv_4_schedule_time_fragment);
-        tv_time[4] = (TextView) view.findViewById(R.id.tv_5_schedule_time_fragment);
-        tv_time[5] = (TextView) view.findViewById(R.id.tv_6_schedule_time_fragment);
-        tv_time[6] = (TextView) view.findViewById(R.id.tv_7_schedule_time_fragment);
-        tv_time[7] = (TextView) view.findViewById(R.id.tv_8_schedule_time_fragment);
-        tv_time[8] = (TextView) view.findViewById(R.id.tv_9_schedule_time_fragment);
-        timepicker_from = (TimePicker) view.findViewById(R.id.timepicker1_schedule);
-        timepicker_to = (TimePicker) view.findViewById(R.id.timepicker2_schedule);
-        swipe_container = (RelativeLayout) view.findViewById(R.id.container_schedule_time_fragment);
+        b_times = new Button[] {
+                view.findViewById(R.id.b_1_schedule_time_fragment),
+                view.findViewById(R.id.b_2_schedule_time_fragment),
+                view.findViewById(R.id.b_3_schedule_time_fragment),
+                view.findViewById(R.id.b_4_schedule_time_fragment),
+                view.findViewById(R.id.b_5_schedule_time_fragment),
+                view.findViewById(R.id.b_6_schedule_time_fragment),
+                view.findViewById(R.id.b_7_schedule_time_fragment),
+                view.findViewById(R.id.b_8_schedule_time_fragment),
+                view.findViewById(R.id.b_9_schedule_time_fragment)
+        };
+        timepicker_from = view.findViewById(R.id.timepicker1_schedule);
+        timepicker_to = view.findViewById(R.id.timepicker2_schedule);
+        swipe_container = view.findViewById(R.id.container_schedule_time_fragment);
 
         //content
-        timepicker_from.setHeading( getResources().getString(R.string.schedule_time_from));
-        timepicker_to.setHeading( getResources().getString(R.string.schedule_time_to));
+        timepicker_from.setHeading(getResources().getString(R.string.schedule_time_from));
+        timepicker_to.setHeading(getResources().getString(R.string.schedule_time_to));
         activateLesson(lesson_count, lesson_count);
 
         //input_listener
@@ -55,17 +57,14 @@ public class Settings_schedule_times_fragment extends SettingFragment {
             @Override public void swipeTop() { down(); }
             @Override public void swipeBottom() { up(); }
         });
-        timepicker_from.setTimeListener(new TimePicker.TimeListener() {
-            @Override public void onTimeChangeListener(int h, int min) {
-                timepicker_to.setMinTime(h, min);
+        if(!(getActivity() instanceof SetupActivity)) {
+            for(int i = 0; i < 9; i++) {
+                final int n = i;
+                b_times[i].setOnClickListener((v -> setLessonCountTo(n)));
             }
-        });
-        timepicker_to.setTimeListener(new TimePicker.TimeListener() {
-            @Override
-            public void onTimeChangeListener(int h, int min) {
-                timepicker_from.setMaxTime(h, min);
-            }
-        });
+        }
+        timepicker_from.setTimeListener((h, min) -> timepicker_to.setMinTime(h, min));
+        timepicker_to.setTimeListener((h, min) -> timepicker_from.setMaxTime(h, min));
 
         return view;
     }
@@ -75,56 +74,69 @@ public class Settings_schedule_times_fragment extends SettingFragment {
         saveData();
     }
 
-    /*
+    /**
      * says the lesson which lesson it should show
-     * @param 'lessonCount': 'lessonCount'th lesson
+     * @param lesson_count: lessonCount'th lesson
      */
     public void setLessonCount(int lesson_count) {
         this.lesson_count = lesson_count;
     }
 
-    /*
-     * scrolledBy to the next lesson
+    /**
+     * changes the lesson to the transmitted lesson count
+     * first data is saved, then the new lesson count
+     * is bounded to [0|8]
+     * {@link this#activateLesson(int, int)} is called
+     * {@link this#lesson_count} is set to the new one
+     * @param new_lc: number of the next lesson
+     */
+    private void setLessonCountTo(int new_lc) {
+        saveData();
+
+        new_lc = Math.min(new_lc, 8);
+        new_lc = Math.max(new_lc, 0);
+
+        if(listener != null)
+            listener.onLessonCountChange(new_lc);
+
+        activateLesson(lesson_count, new_lc);
+        lesson_count = new_lc;
+    }
+
+    /**
+     * sets the the fragment to the next lesson
+     * if the next lesson is the last one,
+     * the setup fragment was successful
      */
     private void down() {
-        saveData();
-        int new_lesson_count = Math.min(lesson_count+1, 8);
-        if(listener != null)
-            listener.onLessonCountChange(lesson_count);
-
-        activateLesson(lesson_count, new_lesson_count);
-        lesson_count = new_lesson_count;
+        setLessonCountTo(lesson_count+1);
 
         if(input_listener != null && lesson_count == 8)
             input_listener.onLegitInput();
     }
 
-    /*
-     * scrolledBy to the previous lesson
+    /**
+     * sets the the fragment to the previous lesson
      */
     private void up() {
-        saveData();
-        int new_lesson_count = Math.max(lesson_count-1, 0);
-        if(listener != null)
-            listener.onLessonCountChange(lesson_count);
-
-        activateLesson(lesson_count, new_lesson_count);
-        lesson_count = new_lesson_count;
+        setLessonCountTo(lesson_count-1);
     }
 
-    /*
+    /**
      * enables the new lesson and disables the last one
-     * changes color of the textview
+     * changes text color of the button
+     * @param last_lesson: number of the last lesson
+     * @param new_lesson: number of the new lesson
      */
     private void activateLesson(int last_lesson, int new_lesson) {
-        tv_time[last_lesson].setTextColor( context.getResources().getColor(R.color.schedule_lesson_count_inactive));
-        tv_time[new_lesson].setTextColor( context.getResources().getColor(R.color.schedule_lesson_count_active));
+        b_times[last_lesson].setTextColor( context.getResources().getColor(R.color.schedule_lesson_count_inactive));
+        b_times[new_lesson].setTextColor( context.getResources().getColor(R.color.schedule_lesson_count_active));
 
         timepicker_from.setTime(new_lesson, 0);
         timepicker_to.setTime(new_lesson, 1);
     }
 
-    /*
+    /**
      * saves all the changed data entered by the user
      */
     private void saveData() {
@@ -137,9 +149,7 @@ public class Settings_schedule_times_fragment extends SettingFragment {
         }
     }
 
-    /*
-     * callback: when the lesson_count has changed
-     */
+    //callback
     public OnLessonCountChangeListener listener = null;
     public interface OnLessonCountChangeListener {
         void onLessonCountChange(int lesson_count);

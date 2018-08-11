@@ -27,12 +27,9 @@
         <item>Halbjahr</item>
         <item>Schuljahr</item>
     </string-array>
-    <string name="first_use_rating">Wie wirst du bewertet?</string>
-    <string name="first_use_grades">Noten</string>
-    <string name="first_use_points">Puntke</string>
     <string name="first_use_welcome">
         Willkommen in deinem Hausaufgabenheft. \nDu kannst sofort loslegen, nachdem du
-        ein paar wichtige Einstellungen gemacht hast.
+        ein paar wichtige Einstellungen vorgenommen hast.
     </string>
     <string name="first_use_go">
         Alle Einstellungen sind gemacht. \nJetzt kannst du beginnen &#8230;
@@ -251,8 +248,8 @@
     <string name="settings_schedule_time8">8. Stunde</string>
     <string name="settings_schedule_time9">9. Stunde</string>
     <string name="settings_schedule_time_explanation">
-        Hier kannst du deine Unterrichtszeiten einstellen, damit die App dir besser helfen kann.
-        Swipe nach oben oder unten um zu den anderen Stunden zu kommen
+        Swipe nach oben/unten um deine Unterrichtszeiten einzustellen. Dadurch kann die App dir besser
+        helfen.
     </string>
 
     <string name="settings_subjects">Fächer</string>

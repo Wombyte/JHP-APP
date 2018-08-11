@@ -3,8 +3,7 @@ package mc.wombyte.marcu.jhp_app.Reuseables;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,11 +25,11 @@ public class TimePicker extends RelativeLayout {
 
     TextView tv_heading;
     TextView tv_h;
-    Button b_add_h;
-    Button b_sub_h;
+    ImageButton b_add_h;
+    ImageButton b_sub_h;
     TextView tv_min;
-    Button b_add_min;
-    Button b_sub_min;
+    ImageButton b_add_min;
+    ImageButton b_sub_min;
 
     int min_time = 0; // = h*60 + min
     int max_time = 23*60 + 55; // = h*60 + min
@@ -67,38 +66,18 @@ public class TimePicker extends RelativeLayout {
         inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.schedule_time_picker, this, true);
 
-        tv_heading = (TextView) findViewById(R.id.tv_heading_time_picker);
-        tv_h = (TextView) findViewById(R.id.tv_h_time_picker);
-        b_add_h = (Button) findViewById(R.id.b_add_h_time_picker);
-        b_sub_h = (Button) findViewById(R.id.b_sub_h_time_picker);
-        tv_min = (TextView) findViewById(R.id.tv_min_time_picker);
-        b_add_min = (Button) findViewById(R.id.b_add_min_time_picker);
-        b_sub_min = (Button) findViewById(R.id.b_sub_min_time_picker);
+        tv_heading = findViewById(R.id.tv_heading_time_picker);
+        tv_h = findViewById(R.id.tv_h_time_picker);
+        b_add_h = findViewById(R.id.b_add_h_time_picker);
+        b_sub_h = findViewById(R.id.b_sub_h_time_picker);
+        tv_min = findViewById(R.id.tv_min_time_picker);
+        b_add_min = findViewById(R.id.b_add_min_time_picker);
+        b_sub_min = findViewById(R.id.b_sub_min_time_picker);
 
-        b_add_h.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick_add_h();
-            }
-        });
-        b_sub_h.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick_sub_h();
-            }
-        });
-        b_add_min.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick_add_min();
-            }
-        });
-        b_sub_min.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick_sub_min();
-            }
-        });
+        b_add_h.setOnClickListener(v -> onclick_add_h());
+        b_sub_h.setOnClickListener(v -> onclick_sub_h());
+        b_add_min.setOnClickListener(v -> onclick_add_min());
+        b_sub_min.setOnClickListener(v -> onclick_sub_min());
     }
     
     /*

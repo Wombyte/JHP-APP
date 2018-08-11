@@ -23,7 +23,7 @@
 
     <ImageView
         android:id="@+id/image_setup_text_fragment"
-        android:layout_width="180dp"
+        android:layout_width="150dp"
         android:layout_height="180dp"
         android:layout_above="@+id/tv_message_setup_text_fragment"
         android:layout_centerHorizontal="true"
@@ -31,6 +31,6 @@
         android:adjustViewBounds="true"
         android:foregroundGravity="bottom"
         android:scaleType="fitCenter"
-        android:src="@drawable/symbol" />
+        android:src="@drawable/symbolsmall" />
 
 </RelativeLayout>
