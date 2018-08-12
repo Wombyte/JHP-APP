@@ -88,6 +88,34 @@
     <string name="subject_dialog_heading">Neues Fach erstellen</string>
     <string name="subject_dialog_cancel">Abbrechen</string>
     <string name="subject_dialog_create">Erstellen</string>
+    <string-array name="subject_predefined_subjects">
+        <item>Astronomie</item>
+        <item>Biologie</item>
+        <item>Chemie</item>
+        <item>D&amp;G</item>
+        <item>Deutsch</item>
+        <item>Englisch</item>
+        <item>Ethik</item>
+        <item>Französisch</item>
+        <item>Geografie</item>
+        <item>Geography</item>
+        <item>Geschichte</item>
+        <item>History</item>
+        <item>Informatik</item>
+        <item>Kunst</item>
+        <item>Latein</item>
+        <item>Mathematik</item>
+        <item>MNT</item>
+        <item>Musik</item>
+        <item>Nawi</item>
+        <item>Physik</item>
+        <item>Religion</item>
+        <item>Russisch</item>
+        <item>Seminarfach</item>
+        <item>Sozialkunde</item>
+        <item>Sport</item>
+        <item>W&amp;R</item>
+    </string-array>
 
     <!-- Subject Activity -->
     <string name="schedule_subject_menu">Stunden</string>

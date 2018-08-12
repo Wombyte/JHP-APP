@@ -34,51 +34,52 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/ed_name_subject_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/tv_name_subject_dialog"
             android:layout_marginBottom="8dp"
+            android:completionThreshold="1"
             android:gravity="bottom"
+            android:inputType="textPersonName"
             android:maxLines="1"
             android:paddingTop="8dp"
-            android:textSize="16sp"
-            android:inputType="textPersonName"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_add_color_subjects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/b_color_subjects_dialog"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/ed_name_subject_dialog"
             android:gravity="center_vertical"
             android:paddingEnd="20dp"
             android:paddingStart="5dp"
             android:paddingTop="8dp"
+            android:text="@string/subject_dialog_color"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_alignBottom="@+id/b_color_subjects_dialog"
-            android:text="@string/subject_dialog_color"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/b_color_subjects_dialog"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginTop="8dp"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/ed_name_subject_dialog"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/tv_add_color_subjects"
             android:background="@drawable/button_color" />
 
         <GridView
-            android:layout_marginTop="8dp"
-            android:layout_below="@+id/b_color_subjects_dialog"
             android:id="@+id/gridview_color_subject_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="5">
+            android:layout_below="@+id/b_color_subjects_dialog"
+            android:layout_marginTop="8dp"
+            android:numColumns="6">
 
         </GridView>
 

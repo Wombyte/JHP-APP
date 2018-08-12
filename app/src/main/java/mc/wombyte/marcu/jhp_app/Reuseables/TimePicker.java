@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
+import mc.wombyte.marcu.jhp_app.Classes.Schedule;
 import mc.wombyte.marcu.jhp_app.R;
 import mc.wombyte.marcu.jhp_app.Storage;
 
@@ -205,6 +206,10 @@ public class TimePicker extends RelativeLayout {
             if( timeIsSet(lesson_count, time)) {
                 h = Storage.schedule.getTime(lesson_count, time, 0);
                 min = Storage.schedule.getTime(lesson_count, time, 1);
+            }
+            else {
+                h = Schedule.predef_time[lesson_count][time][0];
+                min = Schedule.predef_time[lesson_count][time][1];
             }
         }
         tv_h.setText(df.format(h));

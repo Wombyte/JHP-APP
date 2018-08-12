@@ -5,6 +5,7 @@ package mc.wombyte.marcu.jhp_app;
  */
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +46,19 @@ public class Subjects_color_gridview_adapter extends ArrayAdapter<Integer> {
             container = view.findViewById(R.id.container_subject_color_gridview);
 
             int color = p;
-            container.setBackgroundColor(color);
+            changeBackgroundColor(container, p);
         }
 
         return view;
+    }
+
+    /**
+     * changes the background color of a drawable only bounded to <shape></shape>
+     * @param v: view
+     * @param color: new color for the background
+     */
+    private void changeBackgroundColor(View v, int color) {
+        GradientDrawable drawable = (GradientDrawable) v.getBackground();
+        drawable.setColor(color);
     }
 }

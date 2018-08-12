@@ -10,13 +10,15 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by marcu on 13.03.2018.
@@ -27,9 +29,9 @@ public class Subject_dialog extends Dialog {
     Context context;
     ColorPickerDialog cpd;
     Subjects_color_gridview_adapter adapter;
-    ArrayList<Integer> colors = new ArrayList<>();
+    ArrayList<Integer> colors;
 
-    EditText ed_name;
+    AutoCompleteTextView ed_name;
     Button b_color;
     Button b_cancel;
     Button b_ok;
@@ -50,7 +52,12 @@ public class Subject_dialog extends Dialog {
         b_ok = findViewById(R.id.b_finish_subject_dialog);
         gridView = findViewById(R.id.gridview_color_subject_dialog);
 
-        //content
+        //auto complete name
+        String[] list = context.getResources().getStringArray(R.array.subject_predefined_subjects);
+        ArrayList<String> subject_names = new ArrayList<>(Arrays.asList(list));
+        ed_name.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, subject_names));
+
+        //color
         changeCurrentColor(color);
 
         //gridview adapter

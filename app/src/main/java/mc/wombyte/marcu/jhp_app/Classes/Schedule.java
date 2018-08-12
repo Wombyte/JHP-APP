@@ -19,7 +19,18 @@ import mc.wombyte.marcu.jhp_app.Storage;
 
 public class Schedule implements Serializable {
 
-    int[][][] times = new int[9][2][2]; //9 lessons, 2 times (start, end), 2 values (h, min)
+    int[][][] times = new int[9][2][2];
+    public static int[][][] predef_time = new int[][][] {
+            {{ 7, 40}, { 8, 25}},
+            {{ 8, 35}, { 9, 20}},
+            {{ 9, 30}, {10, 15}},
+            {{10, 35}, {11, 20}},
+            {{11, 30}, {12, 15}},
+            {{12, 20}, {13,  5}},
+            {{13, 10}, {13, 55}},
+            {{14,  0}, {14, 45}},
+            {{14, 50}, {15, 35}},
+    };
     static Lesson[][] schedule = new Lesson[5][9];
 
     public Schedule() {}
