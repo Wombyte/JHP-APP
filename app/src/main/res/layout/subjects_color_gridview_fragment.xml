@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="6dp">
 
-    <mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout
-        xmlns:custom="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/container_subject_color-gridview"
+    <mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/container_subject_color_gridview"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:background="@drawable/subjects_color_gridview_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         custom:square="vertically">
 
     </mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout>

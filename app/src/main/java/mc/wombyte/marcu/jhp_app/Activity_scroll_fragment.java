@@ -215,12 +215,12 @@ class DrawLayout extends View {
     }
 
     /*
-     * set a new option array and calculate all necessay values
+     * set a new option array and calculate all necessary values
      */
     public void setOption(Option[] option) {
         this.option = option;
 
-        size = option.length;
+        size = option == null? 0 : option.length;
         alpha = new double[size];
         option_x = new int[size];
         option_y = new int[size];

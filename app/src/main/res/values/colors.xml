@@ -15,6 +15,37 @@
     <color name="first_use_next">#ffc91d</color>
     <color name="first_use_next_disabled">#ffeaa3</color>
 
+    <!-- subject -->
+    <array name="subject_suggestion_color">
+        <item>#000f70</item>
+        <item>#7bef00</item>
+        <item>#ff9500</item>
+        <item>#ff5900</item>
+        <item>#ff0d00</item>
+        <item>#8800ff</item>
+        <item>#ff00d0</item>
+        <item>#4882ff</item>
+        <item>#bc4b00</item>
+        <item>#bc4b00</item>
+        <item>#b600df</item>
+        <item>#b600df</item>
+        <item>#8a8a8a</item>
+        <item>#774a00</item>
+        <item>#ffc800</item>
+        <item>#005eff</item>
+        <item>#83ca00</item>
+        <item>#00d35b</item>
+        <item>#469700</item>
+        <item>#0017ad</item>
+        <item>#5b5b5b</item>
+        <item>#8d0500</item>
+        <item>#000000</item>
+        <item>#00e394</item>
+        <item>#00a462</item>
+        <item>#0d6400</item>
+        <item>#968f6c</item>
+    </array>
+
     <!-- radio button -->
     <color name="radio_button_inactive">#b3b3b3</color>
 
@@ -44,9 +75,6 @@
     <!-- schedule -->
     <color name="schedule_lesson_count_active">#b9b9b9</color>
     <color name="schedule_lesson_count_inactive">#eaeaea</color>
-
-    <!-- add subject button -->
-    <color name="cancel_subject">#c50000</color>
 
     <!-- test -->
     <color name="test_light">#ff0d00</color>

@@ -56,11 +56,7 @@ public class Subjects_pl_fragment extends FragmentMain {
                 }
             });
 
-            listview_adapter = new Subject_listview_adapter(
-                    getActivity(),
-                    R.id.container_list_subjects,
-                    (ArrayList<Subject>) Storage.subjects.clone());
-            listview.setAdapter(listview_adapter);
+            updateList();
             setRetainInstance(true);
         }
         else {
@@ -82,10 +78,15 @@ public class Subjects_pl_fragment extends FragmentMain {
         return view;
     }
 
-    //************************************************* OnClick-Listener ***********************************************************//
 
-    /*
-     * opens a boolean dialog to ask the user if (s)he is sure to delete subject
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// onclick methods ////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+    /**
+     * opens a Dialog which asks the user whether the long clicked
+     * subject should be deleted
+     * @param i: subject_index of the subject
      */
     public void openBooleanDialog(final int i) {
         String string = getResources().getString(R.string.subject_delete_question);
@@ -94,25 +95,35 @@ public class Subjects_pl_fragment extends FragmentMain {
         booleanDialog.setAnswerListener(new BooleanDialog.AnswerListener() {
             @Override public void onYes() {
                 FileSaver.deleteSubject(Storage.subjects.get(i));
-                listview_adapter.notifyDataSetChanged();
+                updateList();
             }
             @Override public void onNo() {}
         });
         booleanDialog.show();
     }
 
-    /*
+    /**
      * opens a subject dialog to create a new Subject
      */
     private void openSubjectDialog() {
         Subject_dialog dialog = new Subject_dialog(context);
-        dialog.setCreateSubjectListener(new Subject_dialog.OnCreateSubjectListener() {
-            @Override public void onCreateSubject(String name, int color) {
-                Subject subject = new Subject(name, color, Storage.subjects.size());
-                Storage.addSubject(subject);
-                listview_adapter.notifyDataSetChanged();
-            }
+        dialog.setCreateSubjectListener((name, color) -> {
+            Subject subject = new Subject(name, color, Storage.subjects.size());
+            Storage.addSubject(subject);
+            updateList();
         });
         dialog.show();
+    }
+
+    /**
+     * sets a new adapter which contains the subject list
+     * from the Storage
+     */
+    private void updateList() {
+        listview_adapter = new Subject_listview_adapter(
+                getActivity(),
+                R.id.container_list_subjects,
+                (ArrayList<Subject>) Storage.subjects.clone());
+        listview.setAdapter(listview_adapter);
     }
 }

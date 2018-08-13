@@ -49,7 +49,13 @@ public class Subject_listview_adapter extends ArrayAdapter<Subject> {
         }
 
         int lesson = p.getLessonAmount();
-        int tasks = Storage.homework.get(p.getIndex()).size();
+        int tasks;
+        if(Storage.homework.size() > p.getIndex()) {
+            tasks = Storage.homework.get(p.getIndex()).size();
+        }
+        else {
+            tasks = 0;
+        }
 
         //name
         holder.tv_name.setText(p.getName());

@@ -7,10 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -18,7 +15,8 @@ import android.widget.GridView;
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import mc.wombyte.marcu.jhp_app.Classes.SubjectSuggestion;
 
 /**
  * Created by marcu on 13.03.2018.
@@ -26,18 +24,19 @@ import java.util.Arrays;
 
 public class Subject_dialog extends Dialog {
 
-    Context context;
-    ColorPickerDialog cpd;
-    Subjects_color_gridview_adapter adapter;
-    ArrayList<Integer> colors;
+    private Context context;
+    private ColorPickerDialog cpd;
+    private Subjects_suggestion_listview_adapter suggestion_adapter;
+    private Subjects_color_gridview_adapter adapter;
+    private ArrayList<Integer> colors;
 
-    AutoCompleteTextView ed_name;
-    Button b_color;
-    Button b_cancel;
-    Button b_ok;
-    GridView gridView;
+    private AutoCompleteTextView ed_name;
+    private Button b_color;
+    private Button b_cancel;
+    private Button b_ok;
+    private GridView gridView;
 
-    int color = Color.BLACK;
+    private int color = Color.BLACK;
 
     public Subject_dialog(Context context) {
         super(context);
@@ -53,9 +52,15 @@ public class Subject_dialog extends Dialog {
         gridView = findViewById(R.id.gridview_color_subject_dialog);
 
         //auto complete name
-        String[] list = context.getResources().getStringArray(R.array.subject_predefined_subjects);
-        ArrayList<String> subject_names = new ArrayList<>(Arrays.asList(list));
-        ed_name.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, subject_names));
+        suggestion_adapter = new Subjects_suggestion_listview_adapter(
+                context,
+                R.layout.subjects_suggestion_listview_fragment,
+                SubjectSuggestion.getSuggestionList(context)
+        );
+        ed_name.setAdapter(suggestion_adapter);
+        ed_name.setOnItemClickListener((adapterView, view, i, l) ->
+            changeCurrentColor(suggestion_adapter.getSuggestionItem(i).getColor())
+        );
 
         //color
         changeCurrentColor(color);
@@ -70,40 +75,26 @@ public class Subject_dialog extends Dialog {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String string = charSequence.toString();
-                b_cancel.setEnabled( !string.equals("") );
+                b_ok.setEnabled( !string.equals("") );
             }
             @Override public void afterTextChanged(Editable editable) {}
         });
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                changeCurrentColor(colors.get(i));
-            }
-        });
-        b_color.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                onclick_color();
-            }
-        });
-        b_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                onclick_cancel_subject();
-            }
-        });
-        b_ok.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                onclick_ok_subject();
-            }
-        });
+        gridView.setOnItemClickListener(((adapterView, view, i, l) -> changeCurrentColor(colors.get(i))));
+        b_color.setOnClickListener((v) -> onclick_color());
+        b_cancel.setOnClickListener((v) -> dismiss());
+        b_ok.setOnClickListener((v) -> onclick_ok_subject());
     }
 
-    //******************************************************* onclick listener *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// onclick listener ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    /*
+    /**
      * onClick-Listener for the add_subject Button
      * creates the Fragment, where the datas for a new Subject can be added
      * changes to a finish button afterwards
      */
-    public void onclick_ok_subject() {
+    private void onclick_ok_subject() {
         String name = ed_name.getText().toString();
 
         if(listener != null) {
@@ -113,34 +104,25 @@ public class Subject_dialog extends Dialog {
         dismiss();
     }
 
-    /*
-     * onClick-Listener for the cancel-button appearing after New-Button is clicked
-     */
-    public void onclick_cancel_subject() {
-        dismiss();
-    }
-
-    /*
+    /**
      * onClick-Listener for the Color button in the add-container
      * provides a colorpicker
      */
-    public void onclick_color() {
+    private void onclick_color() {
         cpd = new ColorPickerDialog(context, color);
         cpd.setAlphaSliderVisible(false);
         cpd.setTitle("Farbe des Faches:");
-        cpd.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
-            public void onColorChanged(int i) {
-                changeCurrentColor(i);
-            }
-        });
+        cpd.setOnColorChangedListener(this::changeCurrentColor);
         cpd.show();
     }
 
-    //******************************************************* methods *******************************************************//
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// methods ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    /*
+    /**
      * changes the current color to the transferred one
-     * changes: the background color of the color button
+     * changes the background color of the color button
      */
     private void changeCurrentColor(int color) {
         this.color = color;
@@ -148,7 +130,10 @@ public class Subject_dialog extends Dialog {
         gd.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 
-    //******************************************************* callback *******************************************************//
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////// interface ///////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     public OnCreateSubjectListener listener = null;
     public interface OnCreateSubjectListener {

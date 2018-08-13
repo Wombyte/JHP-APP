@@ -348,9 +348,13 @@ public class Homework_facts_fragment extends Fragment{
      * looks for the currently active kind radio button
      * iterates through all radio buttons and searches the one
      * which description is equals to {@link this#short_description}
-     * @return
+     * @return int: button id of the short description
      */
     private int getActiveKindRadioButton() {
+        if(short_description == null) {
+            return R.id.radio_b_homework;
+        }
+
         int i = 0;
         RadioButton radio_button = (RadioButton) radiogroup_kind.getChildAt(i);
         while(!short_description.equals(radio_button.getText().toString())) {
