@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import mc.wombyte.marcu.jhp_app.Classes.SubjectSuggestion;
+import mc.wombyte.marcu.jhp_app.classes.SubjectSuggestion;
 
 /**
  * Created by marcus on 13.08.2018.

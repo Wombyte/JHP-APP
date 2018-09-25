@@ -1,7 +1,6 @@
 package mc.wombyte.marcu.jhp_app;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -20,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
-import mc.wombyte.marcu.jhp_app.Reuseables.DatePicker;
-import mc.wombyte.marcu.jhp_app.Reuseables.ImageListView;
-import mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberPicker;
-import mc.wombyte.marcu.jhp_app.Reuseables.TextArea;
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
+import mc.wombyte.marcu.jhp_app.reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.reuseables.DatePicker;
+import mc.wombyte.marcu.jhp_app.reuseables.ImageListView;
+import mc.wombyte.marcu.jhp_app.reuseables.TextArea;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.reuseables.numberPicker.NumberPicker;
 
 /**
  * Created by marcu on 29.07.2017.
@@ -133,12 +132,18 @@ public class Grade_activity extends JHP_Activity {
         image_description.setColorFilter(dark_color);
         b_add_image.setColorFilter(dark_color);
 
+        //handling the grade selector
         if(Storage.settings.grades_isRatingInGrades()) {
-            number_picker.setRange(1, 6);
+            number_picker.setNumberList(1, 6);
             number_picker.setMode(NumberPicker.DESCENDING);
+        } else {
+            number_picker.setNumberList(0, 15);
         }
-        else {
-            number_picker.setRange(0, 15);
+
+        if(existing) {
+            number_picker.setSelectionByNumber( Storage.grades.get(subject_index).get(index).getNumber());
+        } else {
+            number_picker.setSelectionByNumber( Grade.getPredictedGrade(subject_index) );
         }
         number_picker.setColors(dark_color, light_color);
         number_picker.applyChanges();
@@ -148,38 +153,38 @@ public class Grade_activity extends JHP_Activity {
 
         //options
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_back),
                 getResources().getString(R.string.option_back_home)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_add_image),
                 getResources().getString(R.string.homework_option_add_image)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_calendar_1),
                 getResources().getString(R.string.grades_option_calendar1)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_calendar_2),
                 getResources().getString(R.string.grades_option_calendar2)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_arrow_left),
                 getResources().getString(R.string.grades_option_last_grade)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_arrow_right),
                 getResources().getString(R.string.grades_option_next_grade)
         ));
@@ -197,7 +202,7 @@ public class Grade_activity extends JHP_Activity {
     /**
      * defines the actions that are triggered after the options are clicked
      * 0: back to Main Activity
-     * 1/2: open date written/got DateDialog
+     * 1/2: execute date written/got DateDialog
      * 3:4: get the next grade to the left/right
      * @param i: index of the option, which was clicked
      */
@@ -453,7 +458,7 @@ public class Grade_activity extends JHP_Activity {
 
             int index = grade.getNumber();
             if(Storage.settings.grades_isRatingInGrades()) index--;
-            number_picker.setSelection(index);
+            number_picker.setSelectionByIndex(index);
 
             ta_description.setText( grade.getDescription());
             des_images = Grade.readGradeImages( grade.getFileName());
@@ -476,7 +481,7 @@ public class Grade_activity extends JHP_Activity {
 
             int index = Grade.getPredictedGrade(subject_index);
             if(Storage.settings.grades_isRatingInGrades()) index--; //grades starts with 1 -> -1 to get the index of average
-            number_picker.setSelection(index);
+            number_picker.setSelectionByIndex(index);
 
             spinner_date_got.switchToSpinner();
             dates_written = Storage.getPastDates(subject_index);
@@ -500,7 +505,7 @@ public class Grade_activity extends JHP_Activity {
      */
     private void saveData() {
         FileSaver fileSaver = new FileSaver(this);
-        int number = number_picker.getSelectedIndex();
+        int number = number_picker.getSelectedNumber();
         number += Storage.settings.grades_isRatingInGrades()? 1 : 0;
 
         if(existing) {

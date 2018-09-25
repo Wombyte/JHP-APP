@@ -16,7 +16,7 @@
         android:paddingTop="5dp"
         android:translationZ="5dp">
 
-        <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+        <mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher
             android:id="@+id/viewswitcher_heading_subject"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -33,24 +33,25 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textColor="@color/font"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/ed_heading_subject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:background="@drawable/textarea"
+                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="0dp"
+                android:background="@drawable/textarea"
+                android:gravity="center_vertical"
                 android:inputType="text|textMultiLine"
+                android:paddingEnd="0dp"
+                android:paddingStart="10dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
-        </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+        </mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher>
 
     </RelativeLayout>
 
@@ -69,8 +70,8 @@
             android:id="@+id/menu_schedule_container_subject"
             android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="0.5dp"
+            android:layout_weight="1"
             android:background="@color/transparent"
             android:gravity="center"
             android:paddingBottom="10dp"
@@ -101,10 +102,10 @@
             android:id="@+id/menu_subjects_container_subject"
             android:layout_width="0px"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
             android:layout_weight="1"
             android:background="@color/transparent"
             android:gravity="center"
-            android:layout_marginTop="0.5dp"
             android:paddingBottom="10dp"
             android:paddingTop="8dp">
 
@@ -133,8 +134,8 @@
             android:id="@+id/menu_homework_container_subject"
             android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="0.5dp"
+            android:layout_weight="1"
             android:background="@color/transparent"
             android:gravity="center"
             android:paddingBottom="10dp"
@@ -165,8 +166,8 @@
             android:id="@+id/menu_grades_container_subject"
             android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="0.5dp"
+            android:layout_weight="1"
             android:background="@color/transparent"
             android:gravity="center"
             android:paddingBottom="10dp"

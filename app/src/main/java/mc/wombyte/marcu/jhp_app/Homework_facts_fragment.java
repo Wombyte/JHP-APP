@@ -25,13 +25,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import mc.wombyte.marcu.jhp_app.Classes.HomeworkDate;
-import mc.wombyte.marcu.jhp_app.Classes.Lesson;
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
-import mc.wombyte.marcu.jhp_app.Reuseables.DatePicker;
-import mc.wombyte.marcu.jhp_app.Reuseables.ImageListView;
-import mc.wombyte.marcu.jhp_app.Reuseables.TextArea;
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.classes.HomeworkDate;
+import mc.wombyte.marcu.jhp_app.classes.Lesson;
+import mc.wombyte.marcu.jhp_app.reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.reuseables.DatePicker;
+import mc.wombyte.marcu.jhp_app.reuseables.ImageListView;
+import mc.wombyte.marcu.jhp_app.reuseables.TextArea;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 /**
  * Created by marcu on 08.05.2018.
@@ -164,6 +164,10 @@ public class Homework_facts_fragment extends Fragment{
      * save data
      */
     @Override public void onPause() {
+        if(methods == null) {
+            super.onPause();
+            return;
+        }
         methods.setSubjectIndex(subject_index);
         methods.setDate(new HomeworkDate(spinner_date.getDate(), getLesson(spinner_date.getDate(), subject_index)));
         methods.setDescription(ta_description.getText().toString());
@@ -251,7 +255,7 @@ public class Homework_facts_fragment extends Fragment{
         radiogroup_kind.check(active_kind_id);
         onclick_kind(radiogroup_kind.getCheckedRadioButtonId());
 
-        methods.onSubjectChanged(subject_index);
+        if(methods != null) methods.onSubjectChanged(subject_index);
     }
 
     /**
@@ -276,7 +280,7 @@ public class Homework_facts_fragment extends Fragment{
         changeRadioButtonColor(active_kind_id, color_dark);
 
         short_description = ((TextView) view.findViewById(i)).getText().toString();
-        methods.onKindChanged(short_description);
+        if(methods != null) methods.onKindChanged(short_description);
         if(i == R.id.radio_b_misc) {
             ed_misc.setEnabled(true);
         }
@@ -453,12 +457,13 @@ public class Homework_facts_fragment extends Fragment{
     public void setExisting(boolean existing) { this.existing = existing; }
     public void setMode(boolean is_single_mode) { this.is_single_mode = is_single_mode; }
     public void getHomework() {
-        if(methods != null) {
-            methods.setSubjectIndex(subject_index);
-            methods.setDate(new HomeworkDate(spinner_date.getDate(), getLesson(spinner_date.getDate(), subject_index)));
-            methods.setDescription(ta_description.getText().toString());
-            methods.setShortDescription(short_description);
-            methods.setMisc(ed_misc.getText().toString());
+        if(methods == null) {
+            return;
         }
+        methods.setSubjectIndex(subject_index);
+        methods.setDate(new HomeworkDate(spinner_date.getDate(), getLesson(spinner_date.getDate(), subject_index)));
+        methods.setDescription(ta_description.getText().toString());
+        methods.setShortDescription(short_description);
+        methods.setMisc(ed_misc.getText().toString());
     }
 }

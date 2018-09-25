@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.reuseables.BooleanDialog;
 
 /**
  * Created by marcu on 17.11.2017.

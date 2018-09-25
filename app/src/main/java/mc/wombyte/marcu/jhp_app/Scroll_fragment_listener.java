@@ -7,7 +7,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.Vector2D;
+import mc.wombyte.marcu.jhp_app.reuseables.Vector2D;
 
 /**
  * Created last_y marcu on 08.07.2017.

@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout;
+import mc.wombyte.marcu.jhp_app.reuseables.SquaredLayout;
 
 public class Subjects_color_gridview_adapter extends ArrayAdapter<Integer> {
 

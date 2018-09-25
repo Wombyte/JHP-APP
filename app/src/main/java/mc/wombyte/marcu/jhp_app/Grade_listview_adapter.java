@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
 
 /**
  * Created by marcu on 07.07.2017.

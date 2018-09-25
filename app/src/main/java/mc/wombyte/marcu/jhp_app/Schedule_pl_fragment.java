@@ -102,7 +102,5 @@ public class Schedule_pl_fragment extends FragmentMain {
         });
     }
 
-    @Override public void extraFunction() {
-
-    }
+    @Override public void extraFunction() { }
 }

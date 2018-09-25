@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Semester;
+import mc.wombyte.marcu.jhp_app.classes.Semester;
 
 /**
  * Created by marcu on 08.10.2017.
@@ -105,7 +105,7 @@ public class Settings extends SettingGroup {
     private static final String GENERAL_SETUP = "ASP";
     private static final String GENERAL_BACKUP = "ABP";
 
-    private SettingField f_about;
+    private static SettingField f_about;
 
     public Settings() {
         setFragmentToThis();
@@ -225,11 +225,12 @@ public class Settings extends SettingGroup {
         f_general_menu.addLongDescription(R.string.settings_general_scrollmenu_long);
         f_general_menu.setFragment(new Settings_menu_fragment().inSettingActivity());
         f_general_menu.setValue(new int[] {0, 0, 0, LEFT_HAND_SIDE});
+        f_general_backup = new SettingField(GENERAL_BACKUP, SettingField.NONE, R.string.settings_general_backup, R.drawable.symbol_backup);
+        f_general_backup.addLongDescription(R.string.settings_general_backup_long);
+        f_general_backup.setFragment(new Settings_backup_fragment());
         f_general_setup = new SettingField(GENERAL_SETUP, SettingField.BOOLEAN, R.string.settings_general_setup, R.drawable.symbol_setting_setup);
         f_general_setup.setLongDescriptionId(R.string.settings_general_setup_long);
         f_general_setup.setValue(true);
-        f_general_backup = new SettingField(GENERAL_BACKUP, SettingField.BOOLEAN, R.string.settings_general_backup, R.drawable.symbol_backup);
-        f_general_backup.addLongDescription(R.string.settings_general_backup_long);
 
         //about the app
         f_about = new SettingField("", SettingField.NONE, R.string.settings_about, R.drawable.symbol_settings_about);
@@ -279,8 +280,8 @@ public class Settings extends SettingGroup {
         this.addChild(g_general);
         {
             g_general.addChild(f_general_menu);
+            g_general.addChild(f_general_backup);
             g_general.addChild(f_general_setup);
-            //g_general.addChild(f_general_backup);
         }
         this.addChild(f_about);
 

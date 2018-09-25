@@ -163,6 +163,10 @@
     <string name="schedule_lesson_subject">Fach:</string>
     <string name="schedule_lesson_room">Raum:</string>
     <string name="schedule_lesson_teacher">Lehrer:</string>
+    <string name="schedule_lesson_option_left">Vorheriger Tag</string>
+    <string name="schedule_lesson_option_right">Nächster Tag</string>
+    <string name="schedule_lesson_option_up">Vorherige Stunde</string>
+    <string name="schedule_lesson_option_down">Nächste Stunde</string>
 
     <!-- boolean Dialog -->
     <string name="boolean_dialog_yes">Ja</string>
@@ -294,7 +298,7 @@
         </string-array>
     <string name="settings_subjects_color">Farben einzeln bestimmen</string>
     <string name="settings_subjects_color_long">Dadurch können die Farben unabhängig voneinander verändert werden</string>
-    <string name="settings_subjects_average">Nachkommastellen beim Durchschnitt (1&#8211;2)</string>
+    <string name="settings_subjects_average">Nachkommastellen beim Durchschnitt</string>
     <string name="settings_subjects_average_long">Aus Platzgründen sind mehr als 2 Nachkommastellen bei der Listenansicht nicht zu empfehlen</string>
     
     <string name="settings_homework">Hausaufgaben</string>
@@ -339,8 +343,9 @@
     <string name="settings_general_backup">Backup erstellen</string>
     <string name="settings_general_backup_long">
         speichert alle aktuellen Daten in einen Unterodner des "JHP"-Ordners in den Eigenen Dateien.
-        Wird ausgeführt, sobald du die Einstellungen verlässt.
     </string>
+    <string name="settings_general_backup_start_text">Klicke auf das Symbol um ein Backup in "JHP Backup" zu erstellen</string>
+    <string name="settings_general_backup_text">&#8230; Backup wird gespeichert</string>
 
     <string name="settings_app_heading">Über die App</string>
     <string name="settings_app_text">
@@ -352,14 +357,14 @@
     <string name="settings_developer_text">
         Der Entwickler dieser App ist ein wunderlicher Typ, der fast nie aus seinem Programmier-Keller heraus kommt und deswegen
         offensichtlich etwas zu viel Freizeit hat. Wenn man den seltenen Berichten glauben möchte, in denen er sich mal raus
-        getraut hat, dann ist er den echt kommunikativ und freut sich über jegliche positive und negative Kritik. Vorallem weil sich
+        getraut hat, dann ist er echt kommunikativ und freut sich über jegliche positive und negative Kritik. Vorallem weil sich
         die App noch in der Beta befindet. Wenn du also Ideen hast, wie die App verbessert werden kann (Design, Funktion,
         Einstellungen, Bugs entfernen, &#8230;) dann schreib sie dem wunderlichen Typen und er versucht sich sofort darum zu kümmern.
     </string>
     <string name="settings_developer_contact">Kontakt: <a href="marcuspiele@gmail.com">marcuspiele@gmail.com</a></string>
     <string name="settings_project_heading">Über dieses Projekt</string>
     <string name="settings_project_text">
-        Diese Projekt ist mehr oder weniger ein Open Source Projekt. Das heißt, dass du dir den gesamten Code
+        Diese Projekt ist ein Open Source Projekt. Das heißt, dass du dir den gesamten Code
         <a href="https://github.com/Wombyte/JHP-APP/tree/master/app/src/main/java/mc/wombyte/marcu/jhp_app">hier</a>
         anschauen kannst. Darin befinden sich sicherlich Rechtschreibfehler, die nicht alle gemeldet werden müssen. Wenn es aber
         wirklich grobe Fehler gibt, freut sich der wunderliche Typ auch über diese und korrigiert sie gerne.

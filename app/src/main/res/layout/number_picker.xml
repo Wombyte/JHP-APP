@@ -19,13 +19,13 @@
         android:layout_toEndOf="@id/b_left_number_number_picker"
         android:layout_toStartOf="@id/b_right_number_number_picker">
 
-        <mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberRecyclerView
+        <mc.wombyte.marcu.jhp_app.reuseables.numberPicker.NumberRecyclerView
             android:id="@+id/number_list_number_picker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background">
 
-        </mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberRecyclerView>
+        </mc.wombyte.marcu.jhp_app.reuseables.numberPicker.NumberRecyclerView>
 
         <RelativeLayout
             android:layout_width="match_parent"

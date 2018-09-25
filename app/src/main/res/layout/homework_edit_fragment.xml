@@ -81,7 +81,7 @@
 
     </LinearLayout>
 
-    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+    <mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher
         android:id="@+id/vs_solution_homework"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -89,7 +89,7 @@
         android:background="@drawable/solution_area"
         android:padding="6dp">
 
-        <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+        <mc.wombyte.marcu.jhp_app.reuseables.TextArea
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -97,13 +97,13 @@
             android:gravity="top|start"
             android:textSize="16sp" />
 
-        <mc.wombyte.marcu.jhp_app.Reuseables.ImageListView
+        <mc.wombyte.marcu.jhp_app.reuseables.ImageListView
             android:id="@+id/image_listview_solution_homework"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             custom:mode="vertically">
 
-        </mc.wombyte.marcu.jhp_app.Reuseables.ImageListView>
+        </mc.wombyte.marcu.jhp_app.reuseables.ImageListView>
 
         <ListView
             android:id="@+id/file_listview_solution_homework"
@@ -114,6 +114,6 @@
         </ListView>
 
 
-    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+    </mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher>
 
 </RelativeLayout>

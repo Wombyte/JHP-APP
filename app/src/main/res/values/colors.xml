@@ -9,6 +9,10 @@
     <color name="transparent_background">#b4ffffff</color>
     <color name="transparent">#00FFFFFF</color>
 
+    <!-- option -->
+    <color name="option_default_background">#c8c8c8</color>
+    <color name="option_default_foreground">#787878</color>
+
     <!-- first use -->
     <color name="first_use_back">#492bff</color>
     <color name="first_use_back_disabled">#afa3ff</color>

@@ -20,11 +20,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.HomeworkSolution;
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
-import mc.wombyte.marcu.jhp_app.Reuseables.ImageListView;
-import mc.wombyte.marcu.jhp_app.Reuseables.TextArea;
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.classes.HomeworkSolution;
+import mc.wombyte.marcu.jhp_app.reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.reuseables.ImageListView;
+import mc.wombyte.marcu.jhp_app.reuseables.TextArea;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 /**
  * Created by marcus on 12.05.2018.
@@ -284,29 +284,12 @@ public class Homework_edit_fragment extends Fragment {
      * onclick for listview
      */
     private void onclick_list(int i) {
-        if(current_solution == 1) {
-            if(i == 0) {
-                pickImage();
-            }
-            else {
-                enlargePicture(i-1);
-            }
+        if(i == 0) {
+            openDialog(current_solution-2);
         }
         else {
-            if(i == 0) {
-                openDialog(current_solution-2);
-            }
-            else {
-                openFile(i-1);
-            }
+            openFile(i-1);
         }
-    }
-
-    /*
-     * opens a new activity to let the user select a picture or take one
-     */
-    private void pickImage() {
-        new ImagePickerDialog(context, getActivity(), ImagePickerDialog.HOMEWORK_SOLUTION_IMAGE).show();
     }
 
     /*
@@ -316,13 +299,6 @@ public class Homework_edit_fragment extends Fragment {
     public void addImage(Uri uri) {
         solution.addImage(uri);
         activateImagesView();
-    }
-
-    /*
-     * shows the clicked image larger and able for zooming
-     */
-    private void enlargePicture(int i) {
-
     }
 
     /*

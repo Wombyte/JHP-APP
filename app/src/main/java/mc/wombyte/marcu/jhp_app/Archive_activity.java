@@ -1,7 +1,6 @@
 package mc.wombyte.marcu.jhp_app;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +9,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Semester;
+import mc.wombyte.marcu.jhp_app.classes.Semester;
 
 /**
  * Created by marcu on 26.01.2018.
@@ -66,14 +65,14 @@ public class Archive_activity extends JHP_Activity {
 
         //options
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120,120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_back),
                 getResources().getString(R.string.option_back_home)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120,120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_add),
                 getResources().getString(R.string.archive_option_new_semester)
         ));
@@ -205,7 +204,7 @@ public class Archive_activity extends JHP_Activity {
         }
         else {
             for(int i = 0; i < Storage.subjects.size(); i++) {
-                Storage.deleteSubject(i);
+                FileSaver.deleteSubject(Storage.subjects.get(i));
             }
         }
 

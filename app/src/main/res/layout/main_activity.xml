@@ -52,12 +52,12 @@
             android:background="@color/background"
             android:src="@drawable/symbol_semesters" />
 
-        <!--Button
+        <Button
             android:id="@+id/b_test"
             android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@id/b_archive"/-->
+            android:layout_toStartOf="@id/b_archive"/>
 
     </RelativeLayout>
 

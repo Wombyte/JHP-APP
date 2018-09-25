@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+    <mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher
         android:id="@+id/vs_date_picker"
         android:layout_width="0dp"
         android:layout_height="24dp"
@@ -25,7 +25,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+    </mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher>
 
     <ImageButton
         android:id="@+id/b_dialog_date_picker"

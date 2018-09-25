@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import mc.wombyte.marcu.jhp_app.Classes.Homework;
-import mc.wombyte.marcu.jhp_app.Classes.Lesson;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
+import mc.wombyte.marcu.jhp_app.classes.Lesson;
 
 /**
  * Created by marcu on 18.02.2018.

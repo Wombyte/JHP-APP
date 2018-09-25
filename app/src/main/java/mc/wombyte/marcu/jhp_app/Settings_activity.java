@@ -142,7 +142,7 @@ public class Settings_activity extends JHP_Activity {
     /*
      * returns to the parent settinggroup
      */
-    private void returnToParent() {
+    public void returnToParent() {
         ArrayList<Integer> path = (ArrayList<Integer>) fragment.getPath().clone();
         if(path.equals(Storage.settings.path)) {
             return;

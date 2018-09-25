@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.Vector2D;
+import mc.wombyte.marcu.jhp_app.reuseables.Vector2D;
 
 /**
  * Created by marcu on 09.07.2017.
@@ -349,6 +349,10 @@ class DrawLayout extends View {
      */
     @Override public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        if(option == null || option.length == 0 || drawable_option.length == 0) {
+            return;
+        }
 
         if(menu_active) {
             for(int i = 0; i < size; i++) {

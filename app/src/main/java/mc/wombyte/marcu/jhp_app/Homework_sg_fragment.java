@@ -11,8 +11,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Homework;
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
+import mc.wombyte.marcu.jhp_app.reuseables.BooleanDialog;
 
 /**
  * Created by marcu on 12.07.2017.

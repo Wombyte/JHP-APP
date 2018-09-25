@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingTop="5dp">
 
@@ -44,12 +42,12 @@
         android:id="@+id/solution_list_listview_homework"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
+        android:layout_alignBottom="@id/tv_short_description_listview_homework"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/tv_date_listview_homework"
         android:layout_toEndOf="@id/tv_short_description_listview_homework"
-        android:layout_alignBottom="@id/tv_short_description_listview_homework"
-        android:orientation="horizontal"
         android:gravity="center_vertical|end"
-        android:layout_alignParentEnd="true">
+        android:orientation="horizontal">
 
     </mc.wombyte.marcu.jhp_app.Homework_solution_list>
 
@@ -59,15 +57,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/tv_short_description_listview_homework"
-        android:layout_toEndOf="@+id/tv_abbreviation_listview_homework"/>
+        android:layout_toEndOf="@+id/tv_abbreviation_listview_homework" />
 
     <RelativeLayout
         android:id="@+id/cover_done_homework_listview_homework"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:layout_alignBottom="@id/tv_long_description_listview_homework"
         android:layout_below="@+id/tv_date_listview_homework"
-        android:layout_alignBottom="@id/tv_long_description_listview_homework">
+        android:background="@color/transparent">
 
     </RelativeLayout>
 

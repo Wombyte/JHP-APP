@@ -3,20 +3,20 @@ package mc.wombyte.marcu.jhp_app;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
 
 public class MainActivity extends JHP_Activity {
 
@@ -26,7 +26,7 @@ public class MainActivity extends JHP_Activity {
     RelativeLayout toolbar;
     ImageButton b_settings;
     ImageButton b_archive;
-    //Button b_test;
+    Button b_test;
     RelativeLayout fragment_container;
     LinearLayout menu_container;
     RelativeLayout scroll_container;
@@ -71,7 +71,7 @@ public class MainActivity extends JHP_Activity {
         toolbar = (RelativeLayout) findViewById(R.id.toolbar);
         b_archive = findViewById(R.id.b_archive);
         b_settings = (ImageButton) findViewById(R.id.b_settings);
-        //b_test = findViewById(R.id.b_test);
+        b_test = findViewById(R.id.b_test);
         fragment_container = (RelativeLayout) findViewById(R.id.fragment_container);
         menu_container = (LinearLayout) findViewById(R.id.menu_container);
         scroll_container = (RelativeLayout) findViewById(R.id.scroll_container);
@@ -118,20 +118,20 @@ public class MainActivity extends JHP_Activity {
 
         //options
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_home),
                 getResources().getString(R.string.main_option_home)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_semesters),
                 getResources().getString(R.string.main_option_archive)
         ));
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_settings),
                 getResources().getString(R.string.main_option_settings)
         ));
@@ -156,7 +156,7 @@ public class MainActivity extends JHP_Activity {
                 openArchiveActivity();
             }
         });
-        //b_test.setOnClickListener((v) -> openTestAcivity());
+        b_test.setOnClickListener((v) -> openTestActivity());
         menu_container.setOnTouchListener(new Menu_listener(getApplicationContext()) {
             @Override public void onSwipeLeft() {
                 swipeToRight();
@@ -240,9 +240,9 @@ public class MainActivity extends JHP_Activity {
         this.startActivity(toSettingsActivity);
     }
 
-    private void openTestAcivity() {
+    private void openTestActivity() {
         Intent toTestActivity = new Intent();
-        toTestActivity.setClass(this, DriveActivity.class);
+        toTestActivity.setClass(this, JHPSettingActivity.class);
         this.startActivity(toTestActivity);
     }
 
@@ -322,7 +322,7 @@ public class MainActivity extends JHP_Activity {
     }
 
     /*
-     * disenable the second function of the menu part
+     * disable the second function of the menu part
      * and enables the fist one to swap to the fragment
      * changes color, text and symbol
      */

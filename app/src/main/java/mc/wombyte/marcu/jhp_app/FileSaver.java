@@ -2,6 +2,7 @@ package mc.wombyte.marcu.jhp_app;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedWriter;
@@ -13,13 +14,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
-import mc.wombyte.marcu.jhp_app.Classes.Homework;
-import mc.wombyte.marcu.jhp_app.Classes.Lesson;
-import mc.wombyte.marcu.jhp_app.Classes.Schedule;
-import mc.wombyte.marcu.jhp_app.Classes.Semester;
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
-import mc.wombyte.marcu.jhp_app.Reuseables.BitmapSaveTask;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
+import mc.wombyte.marcu.jhp_app.classes.Lesson;
+import mc.wombyte.marcu.jhp_app.classes.Schedule;
+import mc.wombyte.marcu.jhp_app.classes.Semester;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
+import mc.wombyte.marcu.jhp_app.reuseables.BitmapSaveTask;
 
 
 /**
@@ -29,6 +30,7 @@ import mc.wombyte.marcu.jhp_app.Reuseables.BitmapSaveTask;
 public class FileSaver {
 
     private Context context;
+    private static File jhp_folder  = new File(Environment.getExternalStorageDirectory().getPath(), "JHP");
 
     /**
      * Constructor
@@ -64,8 +66,9 @@ public class FileSaver {
             Storage.semester.add(new Semester(Storage.current_semester, Storage.subjects.size(), Semester.calculateTotalAverage()));
         }
 
-        createFile(new File("/storage/emulated/0/JHP"));
-        createFile(new File("/storage/emulated/0/JHP/" + Storage.current_semester));
+        //parent folders
+        createFile(jhp_folder);
+        createFile(new File(jhp_folder, Storage.current_semester));
         writeOnlySemester();
 
         //schedule
@@ -163,7 +166,7 @@ public class FileSaver {
         }
 
         boolean success = structure.delete();
-        Log.d("homework", "deleting file" + structure.getName() + " was successfully: " + success);
+        Log.d("homework", "Renaming: deleting file " + structure.getPath() + " was successfully: " + success);
 
 
     }
@@ -183,14 +186,14 @@ public class FileSaver {
             return;
         }
 
-        File schedule_folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/schedule");
+        File schedule_folder = new File(jhp_folder, Storage.current_semester + "/schedule");
         if(!schedule_folder.exists()) {
             if(!schedule_folder.mkdirs()) {
                 return;
             }
         }
 
-        File time_file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/schedule/times.txt");
+        File time_file = new File(jhp_folder, Storage.current_semester + "/schedule/times.txt");
         if(time_file.exists() || time_file.createNewFile()) {
             Schedule.writeTimes( time_file, Storage.schedule.getTime() );
         }
@@ -198,7 +201,7 @@ public class FileSaver {
             throw new IOException("error while creating/writing to the time file");
         }
 
-        File lesson_file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/schedule/lessons.txt");
+        File lesson_file = new File(jhp_folder, Storage.current_semester + "/schedule/lessons.txt");
         if(lesson_file.exists() || lesson_file.createNewFile()) {
             Schedule.writeLessons( lesson_file, Storage.schedule.getLessons());
         }
@@ -222,17 +225,17 @@ public class FileSaver {
             return;
         }
 
-        File subject_folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/subjects");
+        File subject_folder = new File(jhp_folder, Storage.current_semester + "/subjects");
         if(!subject_folder.exists()) {
             boolean success = subject_folder.mkdir();
             Log.d("write subjects", "creating subject folder successful? " + success);
         }
 
         for(Subject subject: Storage.subjects) {
-            File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/subjects/" + subject.getIndex());
+            File folder = new File(jhp_folder, Storage.current_semester + "/subjects/" + subject.getIndex());
             if(!folder.exists()) {
                 boolean success = folder.mkdirs();
-                Log.d("write subject", "creating a specific subject folder successful? " + success);
+                Log.d("write subject", "Renaming: creating a specific subject folder (" + subject.getIndex() + ") successful? " + success);
             }
 
             File file = new File(folder, "data.txt");
@@ -250,14 +253,37 @@ public class FileSaver {
      * @param subject: object that is deleted
      */
     public static void deleteSubject(Subject subject) {
-        Storage.deleteSubject(subject.getIndex());
-
-        File subject_folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/subjects");
+        File subject_folder = new File(jhp_folder, Storage.current_semester + "/subjects");
         for (File f : subject_folder.listFiles()) {
-            if (f.getName().equals(String.valueOf(subject.getIndex()))) {
+            int sid = Integer.parseInt(f.getName());
+            Log.d("rename subject folder", "Renaming: " + sid + " -> " + subject.getIndex());
+            if(sid == subject.getIndex()) {
                 deleteFolderOrFile(f);
             }
+            if(sid > subject.getIndex()) {
+                renameSubjectFolder(sid);
+            }
         }
+
+        Storage.deleteSubject(subject.getIndex());
+    }
+
+    /**
+     * decreases the subject index (name of the folder) by one
+     * by renaming the folder via {@link File#renameTo(File)}
+     * if the index is out of bounds, nothing happens
+     * @param index: current index of the file
+     */
+    private static void renameSubjectFolder(int index) {
+        if(index < 0 || index >= Storage.subjects.size()) {
+            Log.d("rename subject folder", "Renaming: " + index + " wont be changed" );
+            return;
+        }
+
+        File src = new File(jhp_folder, Storage.current_semester + "/subjects/" + String.valueOf(index));
+        Log.d("rename subject folder", "Renaming: " + src.getName() + " exists: " + src.exists());
+        File des = new File(jhp_folder, Storage.current_semester + "/subjects/" + String.valueOf(index-1));
+        Log.d("rename subject folder", "Renaming the subject folder was: " + src.renameTo(des));
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,7 +297,7 @@ public class FileSaver {
      * and the folder can be reused
      */
     public void prepareNewGradeFolder() {
-        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/newGrade");
+        File folder = new File(jhp_folder, Storage.current_semester + "/grades/newGrade");
 
         if(!folder.exists()) {
             boolean success = folder.mkdirs();
@@ -284,8 +310,8 @@ public class FileSaver {
      * @param name: name of the new folder
      */
     public void renameNewGradeFolderTo(String name) {
-        File old = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/newGrade");
-        File file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/" + name);
+        File old = new File(jhp_folder, Storage.current_semester + "/grades/newGrade");
+        File file = new File(jhp_folder, Storage.current_semester + "/grades/" + name);
         Log.d("rename new grade folder", "renaming the new homework folder was: " + old.renameTo(file));
     }
 
@@ -299,14 +325,14 @@ public class FileSaver {
      * @param mode: kind of name change
      */
     public static void renameGradeFolder(Grade grade, int mode) {
-        File old = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/" + grade.getFileName());
+        File old = new File(jhp_folder, Storage.current_semester + "/grades/" + grade.getFileName());
         if(mode == GRADE_MINUS_SUBJECT_INDEX) {
-            grade.setSubjectIndex( grade.getSubjectindex()-1);
+            grade.subSubjectIndex();
         }
         if(mode == GRADE_MINUS_GRADE_INDEX) {
             grade.setIndex( grade.getIndex()-1);
         }
-        File file = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/" + grade.getFileName());
+        File file = new File(jhp_folder, Storage.current_semester + "/grades/" + grade.getFileName());
 
         renameGradeImages(old.getName(), file.getName());
 
@@ -322,7 +348,7 @@ public class FileSaver {
      * @param new_name: new name for it
      */
     private static void renameGradeImages(String old_name, String new_name) {
-        File folder = new File("/storage/emulated/0/JHP/images");
+        File folder = new File(jhp_folder, "images");
         if(!folder.exists()) {
             return;
         }
@@ -344,8 +370,8 @@ public class FileSaver {
     public void saveGradeDescriptionImage(Uri uri, String grade_name) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
         String name = "GDE" + Storage.current_semester + grade_name + "_" + timeStamp + ".png";
-        File images = new File("/storage/emulated/0/JHP/images");
-        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File images = new File(jhp_folder, "images");
+        File temp = new File(jhp_folder, "images/temp");
         File des = grade_name.equals("newGrade")? temp : images;
 
         if(!des.exists()) {
@@ -367,7 +393,7 @@ public class FileSaver {
             return;
         }
 
-        File grades_folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades");
+        File grades_folder = new File(jhp_folder, Storage.current_semester + "/grades");
         if(!grades_folder.exists()) {
             boolean success = grades_folder.mkdir();
             Log.d("write subjects", "creating subject folder successful? " + success);
@@ -375,7 +401,7 @@ public class FileSaver {
 
         for(ArrayList<Grade> list: Storage.grades) {
             for(Grade grade: list) {
-                File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades/" + grade.getFileName());
+                File folder = new File(jhp_folder, Storage.current_semester + "/grades/" + grade.getFileName());
                 if(!folder.exists()) {
                     boolean success = folder.mkdirs();
                     Log.d("write grade", "creating a specific grade folder successful? " + success);
@@ -396,7 +422,7 @@ public class FileSaver {
      * @param grade: object which contains the data that has to be deleted
      */
     public static void deleteGrade(Grade grade) {
-        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/grades");
+        File folder = new File(jhp_folder, Storage.current_semester + "/grades");
         deleteGradeImages(new File(folder, grade.getFileName()));
         Storage.deleteGrade(grade);
 
@@ -412,7 +438,7 @@ public class FileSaver {
      * @param grade_folder: content grade folder
      */
     private static void deleteGradeImages(File grade_folder) {
-        File folder = new File("/storage/emulated/0/JHP/images");
+        File folder = new File(jhp_folder, "images");
         if(!folder.exists()) {
             return;
         }
@@ -431,7 +457,7 @@ public class FileSaver {
     /////////////////////////////////////////////////// homework methods ///////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-    private static File folder_homework = new File("/storage/emulated/0/JHP/homework");
+    private static File folder_homework = new File(jhp_folder, "homework");
 
     /**
      * preparing a new homework folder, when the homework activity is opened
@@ -440,7 +466,7 @@ public class FileSaver {
      * and the folder can be reused
      */
     public void prepareNewHomeworkFolder() {
-        File folder = new File("/storage/emulated/0/JHP/" + Storage.current_semester + "/homework/newHomework");
+        File folder = new File(jhp_folder, "homework/newHomework");
 
         if(!folder.exists()) {
             boolean success = folder.mkdirs();
@@ -453,8 +479,8 @@ public class FileSaver {
      * @param name: name of the new folder
      */
     public void renameNewHomeworkFolderTo(String name) {
-        File old = new File("/storage/emulated/0/JHP/homework/newHomework");
-        File file = new File("/storage/emulated/0/JHP/homework/" + name);
+        File old = new File(jhp_folder, "homework/newHomework");
+        File file = new File(jhp_folder, "homework/" + name);
         Log.d("FileSaver", "renaming the new homework folder was: " + old.renameTo(file));
     }
 
@@ -469,14 +495,14 @@ public class FileSaver {
      * @param mode: kind of name change
      */
     public static void renameHomeworkFolder(Homework homework, int mode) {
-        File old = new File("/storage/emulated/0/JHP/homework/" + homework.getFileName());
+        File old = new File(jhp_folder, "homework/" + homework.getFileName());
         if(mode == HOMEWORK_MINUS_SUBJECT_INDEX) {
-            homework.setSubjectIndex( homework.getSubjectindex()-1);
+            homework.subSubjectIndex();
         }
         if(mode == HOMEWORK_MINUS_HOMEWORK_INDEX) {
             homework.setIndex( homework.getIndex()-1);
         }
-        File file = new File("/storage/emulated/0/JHP/homework/"  + homework.getFileName());
+        File file = new File(jhp_folder, "homework/"  + homework.getFileName());
 
         renameHomeworkImages(old.getName(), file.getName());
 
@@ -492,7 +518,7 @@ public class FileSaver {
      * @param new_name: new name for it
      */
     private static void renameHomeworkImages(String old_name, String new_name) {
-        File folder = new File("/storage/emulated/0/JHP/images");
+        File folder = new File(jhp_folder, "images");
         if(!folder.exists()) {
             return;
         }
@@ -517,8 +543,8 @@ public class FileSaver {
     public void saveHomeworkSolutionImage(Uri uri, String homework_name) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
         String name = "HSO" + homework_name + "_" + timeStamp + ".png";
-        File images = new File("/storage/emulated/0/JHP/images");
-        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File images = new File(jhp_folder, "images");
+        File temp = new File(jhp_folder, "images/temp");
         File des = homework_name.equals("newHomework")? temp : images;
 
         if(!des.exists()) {
@@ -540,8 +566,8 @@ public class FileSaver {
     public void saveHomeworkDescriptionImage(Uri uri, String homework_name) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
         String name = "HDE" + homework_name + "_" + timeStamp + ".png";
-        File images = new File("/storage/emulated/0/JHP/images");
-        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File images = new File(jhp_folder, "images");
+        File temp = new File(jhp_folder, "images/temp");
         File des = homework_name.equals("newHomework")? temp : images;
 
         if(!des.exists()) {
@@ -585,16 +611,16 @@ public class FileSaver {
      * @param homework: object which contains the data that has to be deleted
      */
     public static void deleteHomework(Homework homework) {
-        File folder = new File("/storage/emulated/0/JHP/homework");
+        File folder = new File(jhp_folder, "homework");
         Log.d("FileSaver", "DeleteHomework: " + homework.getFileName());
         deleteHomeworkImages(new File(folder, homework.getFileName()));
-        Storage.deleteHomework(homework);
 
         for(File file: folder_homework.listFiles()) {
             if(file.getName().equals(homework.getFileName())) {
                 deleteFolderOrFile(file);
             }
         }
+        Storage.deleteHomework(homework);
     }
 
     /**
@@ -602,7 +628,7 @@ public class FileSaver {
      * @param folder_homework: content grade folder
      */
     private static void deleteHomeworkImages(File folder_homework) {
-        File folder = new File("/storage/emulated/0/JHP/images");
+        File folder = new File(jhp_folder, "images");
         if(!folder.exists()) {
             return;
         }
@@ -634,7 +660,7 @@ public class FileSaver {
             return;
         }
 
-        File file = new File("/storage/emulated/0/JHP/settings.txt");
+        File file = new File(jhp_folder, "settings.txt");
         if(!file.exists()) {
             boolean success = file.delete();
             Log.d("delete Homework", "creating settings file successful? " + success);
@@ -664,7 +690,7 @@ public class FileSaver {
         BufferedWriter bw;
 
         for(Semester semester: Storage.semester) {
-            File file = new File("/storage/emulated/0/JHP/" + semester.getName() + "/semester.txt");
+            File file = new File(jhp_folder, semester.getName() + "/semester.txt");
             try {
                 if(!file.exists()) {
                     System.out.println("subjects created: " + file.createNewFile());
@@ -720,7 +746,7 @@ public class FileSaver {
      * if the folder does not exist, nothing happens
      */
     public void clearTempFolder() {
-        File temp = new File("/storage/emulated/0/JHP/images/temp");
+        File temp = new File(jhp_folder, "images/temp");
         if(!temp.exists()) {
             return;
         }
@@ -743,8 +769,8 @@ public class FileSaver {
      * @param image_type: decides which keyword is replaced (homework | grade)
      */
     public void renameTempImages(String name, int image_type) {
-        File temp = new File("/storage/emulated/0/JHP/images/temp");
-        File images = new File("/storage/emulated/0/JHP/images");
+        File temp = new File(jhp_folder, "images/temp");
+        File images = new File(jhp_folder, "images");
         if(!images.exists() || !temp.exists()) {
             return;
         }
@@ -781,7 +807,7 @@ public class FileSaver {
      * delete all files that arn't needed anymore
      */
     private void deleteUnnecessaryFiles() {
-        File schedule_folder = new File("/storage/emulated/0/JHP/schedule");
+        File schedule_folder = new File(jhp_folder, "schedule");
         if(schedule_folder.exists()) {
             boolean success = schedule_folder.delete();
             Log.d("FileSaver", "deleting the schedule folder was successful? " + success);

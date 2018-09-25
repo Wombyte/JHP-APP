@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import mc.wombyte.marcu.jhp_app.Classes.Homework;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
 
 /**
  * Created by marcu on 19.7.2017.

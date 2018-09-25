@@ -16,7 +16,7 @@ import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.SubjectSuggestion;
+import mc.wombyte.marcu.jhp_app.classes.SubjectSuggestion;
 
 /**
  * Created by marcu on 13.03.2018.

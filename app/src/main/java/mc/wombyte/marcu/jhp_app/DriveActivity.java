@@ -271,7 +271,7 @@ public class DriveActivity extends Activity implements GoogleApiClient.Connectio
 
                     Log.e("file id", mFileId.getResourceId() + "");
 
-                    String url = "https://drive.google.com/open?id="+ mFileId.getResourceId();
+                    String url = "https://drive.google.com/execute?id="+ mFileId.getResourceId();
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);

@@ -98,14 +98,14 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberPicker
+                <mc.wombyte.marcu.jhp_app.reuseables.numberPicker.NumberPicker
                     android:id="@+id/number_picker_grade"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_toEndOf="@id/tv_grade_grades"
                     android:layout_alignParentEnd="true">
 
-                </mc.wombyte.marcu.jhp_app.Reuseables.NumberPicker.NumberPicker>
+                </mc.wombyte.marcu.jhp_app.reuseables.numberPicker.NumberPicker>
             </RelativeLayout>
 
             <!-- description -->
@@ -151,7 +151,7 @@
 
                 </RelativeLayout>
 
-                <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+                <mc.wombyte.marcu.jhp_app.reuseables.TextArea
                     android:id="@+id/ed_description_grade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
 
                 </RelativeLayout>
 
-                <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+                <mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher
                     android:id="@+id/vs_description_grade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -201,15 +201,15 @@
                         android:text="@string/homework_description_image"
                         android:textSize="14sp" />
 
-                    <mc.wombyte.marcu.jhp_app.Reuseables.ImageListView
+                    <mc.wombyte.marcu.jhp_app.reuseables.ImageListView
                         android:id="@+id/listview_description_grade"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         custom:mode="horizontally">
 
-                    </mc.wombyte.marcu.jhp_app.Reuseables.ImageListView>
+                    </mc.wombyte.marcu.jhp_app.reuseables.ImageListView>
 
-                </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+                </mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher>
 
             </RelativeLayout>
 
@@ -233,7 +233,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <mc.wombyte.marcu.jhp_app.Reuseables.DatePicker
+                <mc.wombyte.marcu.jhp_app.reuseables.DatePicker
                     android:id="@+id/spinner_date_written_grade"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
@@ -254,7 +254,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <mc.wombyte.marcu.jhp_app.Reuseables.DatePicker
+                <mc.wombyte.marcu.jhp_app.reuseables.DatePicker
                     android:id="@+id/spinner_date_got_grade"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"

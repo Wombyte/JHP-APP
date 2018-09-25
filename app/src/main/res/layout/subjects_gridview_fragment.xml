@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout
+<mc.wombyte.marcu.jhp_app.reuseables.SquaredLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/background_subjects_gridview"
@@ -26,4 +26,4 @@
         android:textAlignment="center"
         android:textSize="22sp" />
 
-</mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout>
+</mc.wombyte.marcu.jhp_app.reuseables.SquaredLayout>

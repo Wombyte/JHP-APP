@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Lesson;
+import mc.wombyte.marcu.jhp_app.classes.Lesson;
 
 /**
  * Created by marcu on 5.8.2017.

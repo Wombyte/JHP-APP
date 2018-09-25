@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
-import mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
+import mc.wombyte.marcu.jhp_app.reuseables.SquaredLayout;
 
 /**
  * Created by Marcus Wunderlich on 21.12.2017.

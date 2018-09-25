@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import mc.wombyte.marcu.jhp_app.Classes.HomeworkSolution;
+import mc.wombyte.marcu.jhp_app.classes.HomeworkSolution;
 
 /**
  * Created by marcus on 11.07.2018.

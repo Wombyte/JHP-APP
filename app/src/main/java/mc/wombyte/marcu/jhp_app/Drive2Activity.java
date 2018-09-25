@@ -119,7 +119,7 @@ public class Drive2Activity extends Activity {
 
     //TODO: https://stackoverflow.com/questions/36612170/get-resource-id-for-google-drive-api-android
     public void openLink(String id) {
-        String link = "https://drive.google.com/open?id="+ id;
+        String link = "https://drive.google.com/execute?id="+ id;
 
         System.out.println(link);
         Intent toDriveFile = new Intent(Intent.ACTION_VIEW);

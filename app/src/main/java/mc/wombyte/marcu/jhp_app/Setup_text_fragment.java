@@ -17,7 +17,7 @@ public class Setup_text_fragment extends SettingFragment {
 
     TextView tv_message;
 
-    int message_id;
+    int message_id = R.string.first_use_welcome;
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setup_text_fragment, container, false);

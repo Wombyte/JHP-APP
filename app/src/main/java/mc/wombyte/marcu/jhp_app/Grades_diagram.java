@@ -10,7 +10,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
 
 /**
  * Created by marcu on 27.12.2017.

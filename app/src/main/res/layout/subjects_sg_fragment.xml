@@ -160,7 +160,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <mc.wombyte.marcu.jhp_app.Reuseables.TextArea
+            <mc.wombyte.marcu.jhp_app.reuseables.TextArea
                 android:id="@+id/ed_notice_subject_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

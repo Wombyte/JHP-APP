@@ -17,9 +17,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
+import mc.wombyte.marcu.jhp_app.reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 /**
  * Created by marcus on 23.07.2018.

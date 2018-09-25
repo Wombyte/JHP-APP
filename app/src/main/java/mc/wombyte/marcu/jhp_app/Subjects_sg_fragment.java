@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.TextArea;
+import mc.wombyte.marcu.jhp_app.reuseables.TextArea;
 
 /**
  * Created by marcu on 12.07.2017.

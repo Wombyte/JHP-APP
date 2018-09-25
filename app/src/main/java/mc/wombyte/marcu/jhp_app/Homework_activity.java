@@ -3,7 +3,6 @@ package mc.wombyte.marcu.jhp_app;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,9 +12,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Homework;
-import mc.wombyte.marcu.jhp_app.Classes.HomeworkDate;
-import mc.wombyte.marcu.jhp_app.Classes.HomeworkSolution;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
+import mc.wombyte.marcu.jhp_app.classes.HomeworkDate;
+import mc.wombyte.marcu.jhp_app.classes.HomeworkSolution;
 
 /**
  * Created by marcu on 19.07.2017.
@@ -154,46 +153,46 @@ public class Homework_activity extends JHP_Activity {
 
         //options
         facts_options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_back),
                 getResources().getString(R.string.option_back_home)
         ));
         facts_options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_edit),
                 getResources().getString(R.string.homework_option_fragment_edit)
         ));
         facts_options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_date_picker),
                 getResources().getString(R.string.homework_option_calendar)
         ));
         facts_options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_add_image),
                 getResources().getString(R.string.homework_option_add_image)
         ));
         options = (ArrayList<Option>) facts_options.clone();
 
         edit_options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_back),
                 getResources().getString(R.string.option_back_home)
         ));
         edit_options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_homework_facts),
                 getResources().getString(R.string.homework_option_fragment_facts)
         ));
         edit_options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_homework_text),
                 getResources().getString(R.string.homework_option_edit_text)
         ));

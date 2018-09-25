@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.TimePicker;
+import mc.wombyte.marcu.jhp_app.reuseables.TimePicker;
 
 /**
  * Created by marcu on 19.12.2017.
@@ -90,7 +90,7 @@ public class Settings_schedule_times_fragment extends SettingFragment {
      * {@link this#lesson_count} is set to the new one
      * @param new_lc: number of the next lesson
      */
-    private void setLessonCountTo(int new_lc) {
+    public void setLessonCountTo(int new_lc) {
         saveData();
 
         new_lc = Math.min(new_lc, 8);

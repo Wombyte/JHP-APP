@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
 
 /**
  * Created by marcus on 24.07.2018.

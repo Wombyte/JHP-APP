@@ -3,9 +3,7 @@ package mc.wombyte.marcu.jhp_app;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +13,8 @@ import android.widget.TextView;
  */
 
 public class Schedule_time_activity extends JHP_Activity {
+
+    FragmentManager fm = getFragmentManager();
 
     TextView tv_heading;
     ImageButton b_back;
@@ -31,9 +31,9 @@ public class Schedule_time_activity extends JHP_Activity {
         setContentView(R.layout.schedule_time_activity);
 
         //initialisation
-        tv_heading = (TextView) findViewById(R.id.tv_heading_schedule_time);
-        b_back = (ImageButton) findViewById(R.id.b_back_schedule_time);
-        container = (RelativeLayout) findViewById(R.id.fragment_container_schedule_time);
+        tv_heading = findViewById(R.id.tv_heading_schedule_time);
+        b_back = findViewById(R.id.b_back_schedule_time);
+        container = findViewById(R.id.fragment_container_schedule_time);
 
         //Extras from Intent
         lesson_count = (int) getIntent().getSerializableExtra("LESSONCOUNT");
@@ -42,15 +42,10 @@ public class Schedule_time_activity extends JHP_Activity {
             subject_index = (int) getIntent().getSerializableExtra("SUBJECT_INDEX");
         }
 
-        //open fragment
-        FragmentManager fm = getFragmentManager();
+        //execute fragment
         FragmentTransaction ft = fm.beginTransaction();
         fragment.setLessonCount(lesson_count);
-        fragment.setOnLessonChangeListener(new Settings_schedule_times_fragment.OnLessonCountChangeListener() {
-            @Override public void onLessonCountChange(int lesson_count) {
-                tv_heading.setText((1+lesson_count) + ". " + getResources().getString(R.string.schedule_time_lesson));
-            }
-        });
+        fragment.setOnLessonChangeListener((lesson_count -> tv_heading.setText((1+lesson_count) + ". " + getResources().getString(R.string.schedule_time_lesson))));
         ft.add(R.id.fragment_container_schedule_time, fragment);
         ft.commit();
 
@@ -58,19 +53,26 @@ public class Schedule_time_activity extends JHP_Activity {
         tv_heading.setText((1+lesson_count) + ". " + getResources().getString(R.string.schedule_time_lesson));
 
         //input_listener
-        b_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclick_back();
-            }
-        });
+        b_back.setOnClickListener((v) -> onclick_back());
 
         //options
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_back),
                 getResources().getString(R.string.option_back_home)
+        ));
+        options.add(new Option(
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
+                getResources().getDrawable(R.drawable.symbol_arrow_down),
+                getResources().getString(R.string.schedule_lesson_option_down)
+        ));
+        options.add(new Option(
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
+                getResources().getDrawable(R.drawable.symbol_arrow_up),
+                getResources().getString(R.string.schedule_lesson_option_up)
         ));
 
         setMenuContainerId(R.id.time_scroll_container);
@@ -78,17 +80,23 @@ public class Schedule_time_activity extends JHP_Activity {
         setOptions();
     }
 
-    //******************************************************* option *******************************************************//
-    /*
-     * actions for option list
-     */
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// option action /////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
     @Override public void optionActions(int i) {
         switch(i) {
             case 0: onclick_back(); break;
+            case 1: toNextLesson(); break;
+            case 2: toPreviousLesson(); break;
         }
     }
 
-    //******************************************************* method *******************************************************//
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// methods ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
     @Override public void onPause() {
         super.onPause();
@@ -96,7 +104,25 @@ public class Schedule_time_activity extends JHP_Activity {
         fileSaver.saveData();
     }
 
-    /*
+    /**
+     * forces the time fragment to display the previous time
+     * {@link Math#max(int, int)} forces the new lesson count to be > -1
+     */
+    private void toPreviousLesson() {
+        lesson_count = Math.max(0, lesson_count-1);
+        fragment.setLessonCountTo(lesson_count);
+    }
+
+    /**
+     * forces the time fragment to display the next time
+     * {@link Math#max(int, int)} forces the new lesson count to be < 9
+     */
+    private void toNextLesson() {
+        lesson_count = Math.min(8, lesson_count-1);
+        fragment.setLessonCountTo(lesson_count);
+    }
+
+    /**
      * onclick input_listener for the button back
      */
     private void onclick_back() {

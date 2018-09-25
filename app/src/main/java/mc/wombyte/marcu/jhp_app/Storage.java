@@ -8,12 +8,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
-import mc.wombyte.marcu.jhp_app.Classes.Homework;
-import mc.wombyte.marcu.jhp_app.Classes.HomeworkDate;
-import mc.wombyte.marcu.jhp_app.Classes.Schedule;
-import mc.wombyte.marcu.jhp_app.Classes.Semester;
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
+import mc.wombyte.marcu.jhp_app.classes.HomeworkDate;
+import mc.wombyte.marcu.jhp_app.classes.Schedule;
+import mc.wombyte.marcu.jhp_app.classes.Semester;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
 
 /**
  * Created by marcu on 05.07.2017.
@@ -21,7 +21,7 @@ import mc.wombyte.marcu.jhp_app.Classes.Subject;
 
 public class Storage {
 
-    static boolean read_already = false;
+    public static boolean read_already = false;
 
     public static final int ALL_SUBJECTS = -2;
 
@@ -56,36 +56,15 @@ public class Storage {
     }
 
     /*
-     * deletes the subject with the index i and all itema
+     * deletes the subject with the index i and all items
      * belonging to it: lessons, homework, grades
      */
     public static void deleteSubject(int i) {
-        //delete grades
-        grades.remove(i);
-        for(ArrayList<Grade> list: grades) {
-            for(Grade grade: list) {
-                if(grade.getSubjectindex() > i) {
-                    FileSaver.renameGradeFolder(grade, FileSaver.GRADE_MINUS_SUBJECT_INDEX);
-                    grade.setSubjectIndex(grade.getSubjectindex()-1);
-                }
-            }
-        }
-
-        //delete homework
-        homework.remove(i);
-        for(ArrayList<Homework> list: homework) {
-            for(Homework homework: list) {
-                if(homework.getSubjectindex() > i) {
-                    FileSaver.renameHomeworkFolder(homework, FileSaver.HOMEWORK_MINUS_SUBJECT_INDEX);
-                    homework.setSubjectIndex(homework.getSubjectindex()-1);
-                }
-            }
-        }
-
         //delete lessons
         for(int x = 0; x < 5; x++) {
-            for(int y = 0; y < 5; y++) {
+            for(int y = 0; y < 9; y++) {
                 if(schedule.getLesson(x, y) != null) {
+                    Log.d("Storage", "Schedule: Lesson " + x + y + ": " + schedule.getLesson(x, y).getSubjectIndex());
                     if (schedule.getLesson(x, y).getSubjectIndex() >= i) {
                         if (schedule.getLesson(x, y).getSubjectIndex() == i) {
                             schedule.setLessonToNull(x, y);
@@ -94,12 +73,47 @@ public class Storage {
                             schedule.getLesson(x, y).setSubjectIndex(schedule.getLesson(x, y).getSubjectIndex()-1);
                         }
                     }
+                    if(schedule.getLesson(x, y) != null) {
+                        Log.d("Storage", "Schedule: Lesson " + x + y + ": " + schedule.getLesson(x, y).getSubjectIndex());
+                    }
+                    else {
+                        Log.d("Storage", "Schedule: Lesson " + x + y + ": null");
+                    }
                 }
             }
         }
 
+        //delete grades
+        for(int n = i; n < Storage.grades.size(); n++) {
+            for(int g = 0; g < Storage.grades.get(n).size(); g++) {
+                if(n == i) {
+                    FileSaver.deleteGrade(Storage.grades.get(n).get(g));
+                }
+                else {
+                    FileSaver.renameGradeFolder(Storage.grades.get(n).get(g), FileSaver.GRADE_MINUS_SUBJECT_INDEX);
+                }
+            }
+        }
+        grades.remove(i);
+
+        //delete homework
+        for(int n = i; n < Storage.homework.size(); n++) {
+            for(int h = 0; h < Storage.homework.get(n).size(); h++) {
+                if(n == i) {
+                    FileSaver.deleteHomework(Storage.homework.get(n).get(h));
+                }
+                else {
+                    FileSaver.renameHomeworkFolder(Storage.homework.get(n).get(h), FileSaver.HOMEWORK_MINUS_SUBJECT_INDEX);
+                }
+            }
+        }
+        homework.remove(i);
+
         //delete subject
         subjects.remove(i);
+        for(int n = i; n < Storage.subjects.size(); n++) {
+            Storage.subjects.get(n).decreaseIndex();
+        }
     }
 
     /*

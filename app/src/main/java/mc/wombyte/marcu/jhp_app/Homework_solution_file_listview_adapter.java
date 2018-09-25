@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewHolder;
-
 /**
  * Created by marcus on 14.5.2018.
  */
@@ -53,10 +51,8 @@ public class Homework_solution_file_listview_adapter extends ArrayAdapter<String
                 view1 = inflater.inflate(R.layout.homework_solution_add_file_listview_fragment, null);
 
                 holder = new ViewHolder();
-                holder.addViewList(new ArrayList<TextView>());
-                holder.addView( view1.findViewById(R.id.tv_file_solution_homework), 0);
-                holder.addViewList(new ArrayList<ImageView>());
-                holder.addView( view1.findViewById(R.id.image_file_solution_homework), 1);
+                holder.tv_name = view1.findViewById(R.id.tv_file_solution_homework);
+                holder.img = view1.findViewById(R.id.image_file_solution_homework);
 
                 view1.setTag(holder);
             }
@@ -64,8 +60,8 @@ public class Homework_solution_file_listview_adapter extends ArrayAdapter<String
                 holder = (ViewHolder) view1.getTag();
             }
 
-            ((TextView) holder.getView(0, 0)).setText(getText());
-            ((ImageView) holder.getView(1, 0)).setImageDrawable(getDrawable());
+            holder.tv_name.setText(getText());
+            holder.img.setImageDrawable(getDrawable());
 
             return view1;
         }
@@ -75,10 +71,8 @@ public class Homework_solution_file_listview_adapter extends ArrayAdapter<String
                 view2 = inflater.inflate(R.layout.homework_solution_file_listview_fragment, null);
 
                 holder = new ViewHolder();
-                holder.addViewList(new ArrayList<TextView>());
-                holder.addView( view2.findViewById(R.id.tv_file_solution_listview_homework), 0);
-                holder.addViewList(new ArrayList<ImageView>());
-                holder.addView( view2.findViewById(R.id.image_file_solution_listview_homework), 1);
+                holder.tv_name = view1.findViewById(R.id.tv_file_solution_listview_homework);
+                holder.img = view1.findViewById(R.id.image_file_solution_listview_homework);
 
                 view2.setTag(holder);
             }
@@ -86,9 +80,8 @@ public class Homework_solution_file_listview_adapter extends ArrayAdapter<String
                 holder = (ViewHolder) view2.getTag();
             }
 
-            System.out.println(getItem(pos));
-            ((TextView) holder.getView(0, 0)).setText( getItem(pos));
-            ((ImageView) holder.getView(1, 0)).setImageDrawable(getDrawable());
+            holder.tv_name.setText(getItem(pos));
+            holder.img.setImageDrawable(getDrawable());
 
             return view2;
         }
@@ -127,6 +120,14 @@ public class Homework_solution_file_listview_adapter extends ArrayAdapter<String
                 id = R.string.homework_solution_add_slides; break;
         }
         return context.getResources().getString(id);
+    }
+
+    /**
+     * ViewHolder for this class
+     */
+    private class ViewHolder {
+        public TextView tv_name;
+        public ImageView img;
     }
 
     //getting title from link https://stackoverflow.com/questions/28503418/is-there-a-way-to-get-the-name-of-a-file-using-the-google-drive-api

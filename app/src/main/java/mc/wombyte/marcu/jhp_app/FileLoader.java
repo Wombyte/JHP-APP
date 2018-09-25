@@ -2,6 +2,7 @@ package mc.wombyte.marcu.jhp_app;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -11,11 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import mc.wombyte.marcu.jhp_app.Classes.Grade;
-import mc.wombyte.marcu.jhp_app.Classes.Homework;
-import mc.wombyte.marcu.jhp_app.Classes.Schedule;
-import mc.wombyte.marcu.jhp_app.Classes.Semester;
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
+import mc.wombyte.marcu.jhp_app.classes.Grade;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
+import mc.wombyte.marcu.jhp_app.classes.Schedule;
+import mc.wombyte.marcu.jhp_app.classes.Semester;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
 
 /**
  * Created by marcu on 13.08.2017.
@@ -24,6 +25,8 @@ import mc.wombyte.marcu.jhp_app.Classes.Subject;
 public class FileLoader {
 
     Activity activity;
+
+    private static File jhp_folder  = new File(Environment.getExternalStorageDirectory().getPath(), "JHP");
 
     String current_semester = "";
 
@@ -36,7 +39,6 @@ public class FileLoader {
      * 2. schedule, subjects, homework, grades and settings are read
      */
     public void readData() {
-        File jhp_folder = new File("/storage/emulated/0/JHP");
         if(!Storage.READ_EXTERNAL_STORAGE_ALLOWED || !jhp_folder.exists()) {
             return;
         }
@@ -105,12 +107,12 @@ public class FileLoader {
         Storage.schedule.clearTimes();
         Storage.schedule.clearLessons();
 
-        File times_file = new File("/storage/emulated/0/JHP/" + current_semester + "/schedule/times.txt");
+        File times_file = new File(jhp_folder, current_semester + "/schedule/times.txt");
         if(times_file.exists()) {
             Storage.schedule.setTimes( Schedule.readTimes(times_file));
         }
 
-        File lessons_file = new File("/storage/emulated/0/JHP/" + current_semester + "/schedule/lessons.txt");
+        File lessons_file = new File(jhp_folder, current_semester + "/schedule/lessons.txt");
         if(lessons_file.exists()) {
             Storage.schedule.setLessons( Schedule.readLessons(lessons_file));
         }
@@ -131,7 +133,7 @@ public class FileLoader {
         Storage.subjects.clear();
         Storage.grades.clear();
 
-        File subjects_folder = new File("/storage/emulated/0/JHP/" + current_semester + "/subjects");
+        File subjects_folder = new File(jhp_folder, current_semester + "/subjects");
         if(!subjects_folder.exists()) {
             return;
         }
@@ -156,7 +158,7 @@ public class FileLoader {
     private void readHomework() throws IOException{
         Storage.clearHomework();
 
-        File homework_folder = new File("/storage/emulated/0/JHP/homework");
+        File homework_folder = new File(jhp_folder, "homework");
         if(!homework_folder.exists()) {
             return;
         }
@@ -174,7 +176,7 @@ public class FileLoader {
         //deleting homework
         for(Homework homework: Storage.getHomeworkList()) {
             if(!c.getTime().before(homework.getDate().date())) {
-                 Storage.deleteHomework(homework);
+                 FileSaver.deleteHomework(homework);
             }
         }
     }
@@ -190,7 +192,7 @@ public class FileLoader {
     public ArrayList<Uri> readHomeworkDescriptionImages(String homework_name) {
         ArrayList<Uri> result = new ArrayList<>();
 
-        File folder = new File("/storage/emulated/0/JHP/images");
+        File folder = new File(jhp_folder, "images");
         if(!folder.exists()) {
             return result;
         }
@@ -218,7 +220,7 @@ public class FileLoader {
     public ArrayList<Uri> readHomeworkSolutionImages(String homework_name) {
         ArrayList<Uri> result = new ArrayList<>();
 
-        File folder = new File("/storage/emulated/0/JHP/images");
+        File folder = new File(jhp_folder, "images");
         if(!folder.exists()) {
             return result;
         }
@@ -248,7 +250,7 @@ public class FileLoader {
      * @throws IOException: readGradeData()
      */
     private void readGrades() throws IOException {
-        File grades_folder = new File("/storage/emulated/0/JHP/" + current_semester + "/grades");
+        File grades_folder = new File(jhp_folder, current_semester + "/grades");
         if(!grades_folder.exists()) {
             return;
         }
@@ -273,7 +275,7 @@ public class FileLoader {
     public ArrayList<Uri> readGradeImages(String grade_name) {
         ArrayList<Uri> result = new ArrayList<>();
 
-        File folder = new File("/storage/emulated/0/JHP/images");
+        File folder = new File(jhp_folder, "images");
         if(!folder.exists()) {
             return result;
         }
@@ -301,7 +303,7 @@ public class FileLoader {
     public void readSettings() throws IOException {
         Storage.settings = new Settings();
 
-        File file_settings = new File("/storage/emulated/0/JHP/settings.txt");
+        File file_settings = new File(jhp_folder, "settings.txt");
         if(!file_settings.exists()) {
             return;
         }
@@ -321,8 +323,7 @@ public class FileLoader {
     private void readSemesterData() {
         Storage.semester.clear();
 
-        File mainfolder = new File("/storage/emulated/0/JHP");
-        for (File file : mainfolder.listFiles()) {
+        for (File file : jhp_folder.listFiles()) {
             if (file.isDirectory()
                     && !file.getName().equals("schedule")
                     && !file.getName().equals("homework")
@@ -339,7 +340,7 @@ public class FileLoader {
      * @param semester_id: index of the semester in the Storage list
      */
     private void readSemester(int semester_id) {
-        File file = new File("/storage/emulated/0/JHP/" + Storage.semester.get(semester_id).getName() + "/semester.txt");
+        File file = new File(jhp_folder, Storage.semester.get(semester_id).getName() + "/semester.txt");
         if(!file.exists()) {
             return;
         }

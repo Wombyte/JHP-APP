@@ -12,9 +12,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
-import mc.wombyte.marcu.jhp_app.Reuseables.BooleanDialog;
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
+import mc.wombyte.marcu.jhp_app.reuseables.BooleanDialog;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 public class Subjects_pl_fragment extends FragmentMain {
 

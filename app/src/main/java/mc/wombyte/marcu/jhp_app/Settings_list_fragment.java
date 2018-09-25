@@ -27,7 +27,6 @@ public class Settings_list_fragment extends SettingFragment {
 
     public Settings_list_fragment() {}
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings_fragment, container, false);

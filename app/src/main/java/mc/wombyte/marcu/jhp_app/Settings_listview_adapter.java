@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 /**
  * Created by marcu on 08.10.2017.
@@ -52,7 +52,7 @@ public class Settings_listview_adapter extends ArrayAdapter<ArrayList<Integer>> 
 
         image = (ImageView) view.findViewById(R.id.image_settings_listview);
         tv_description = (TextView) view.findViewById(R.id.tv_description_settings_listview);
-        tv_value = (TextView) view.findViewById(R.id.tv_value_settings_listview);
+        //tv_value = (TextView) view.findViewById(R.id.tv_value_settings_listview);
         tv_long_description = (TextView) view.findViewById(R.id.tv_long_description_settings_listview);
         vs_setting = ((ViewSwitcher) view.findViewById(R.id.vs_view_settings_listview)).createView(context);
 

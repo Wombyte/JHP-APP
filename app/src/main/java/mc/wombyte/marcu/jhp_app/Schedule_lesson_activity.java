@@ -1,7 +1,6 @@
 package mc.wombyte.marcu.jhp_app;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Lesson;
+import mc.wombyte.marcu.jhp_app.classes.Lesson;
 
 /**
  * Created by marcu on 15.07.2017.
@@ -31,7 +30,7 @@ public class Schedule_lesson_activity extends JHP_Activity {
     EditText ed_room;
     EditText ed_teacher;
 
-    ArrayList<String> subjects = new ArrayList<String>();
+    ArrayList<String> subjects = new ArrayList<>();
     int day, lesson_count;
     int selected_subject = 0;
     boolean allow_spinner = true;
@@ -103,10 +102,34 @@ public class Schedule_lesson_activity extends JHP_Activity {
 
         //options
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_back),
                 getResources().getString(R.string.option_back_home)
+        ));
+        options.add(new Option(
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
+                getResources().getDrawable(R.drawable.symbol_arrow_down),
+                getResources().getString(R.string.schedule_lesson_option_down)
+        ));
+        options.add(new Option(
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
+                getResources().getDrawable(R.drawable.symbol_arrow_up),
+                getResources().getString(R.string.schedule_lesson_option_up)
+        ));
+        options.add(new Option(
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
+                getResources().getDrawable(R.drawable.symbol_number_picker_minus),
+                getResources().getString(R.string.schedule_lesson_option_left)
+        ));
+        options.add(new Option(
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
+                getResources().getDrawable(R.drawable.symbol_number_picker_plus),
+                getResources().getString(R.string.schedule_lesson_option_right)
         ));
 
         setMenuContainerId(R.id.lesson_scroll_container);
@@ -121,6 +144,10 @@ public class Schedule_lesson_activity extends JHP_Activity {
     @Override public void optionActions(int i) {
         switch(i) {
             case 0: onclick_back(); break;
+            case 1: down(); break;
+            case 2: up(); break;
+            case 3: left(); break;
+            case 4: right(); break;
         }
     }
 

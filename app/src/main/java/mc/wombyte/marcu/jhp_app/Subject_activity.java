@@ -3,7 +3,6 @@ package mc.wombyte.marcu.jhp_app;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -15,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 public class Subject_activity extends JHP_Activity {
 
@@ -139,8 +138,8 @@ public class Subject_activity extends JHP_Activity {
 
         //options
         options.add(new Option(
-                Color.rgb(200, 200, 200),
-                Color.rgb(120, 120, 120),
+                getResources().getColor(R.color.option_default_background),
+                getResources().getColor(R.color.option_default_foreground),
                 getResources().getDrawable(R.drawable.symbol_home),
                 getResources().getString(R.string.option_back_home)
         ));

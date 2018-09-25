@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Semester;
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.classes.Semester;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 /**
  * Created by marcu on 23.12.2017.

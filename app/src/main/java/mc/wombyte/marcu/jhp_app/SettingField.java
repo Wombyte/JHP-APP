@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 public class SettingField extends SettingStructure {
 
-    String id = "";
-    int value_int = 0;
-    byte value_byte = (byte) 0;
-    int byte_options_id;
+    private String id = "";
+    private int value_int = 0;
+    private byte value_byte = (byte) 0;
+    private int byte_options_id;
     OptionChangeListener listener = null;
-    double value_double = 0.0;
-    String value_string = "";
-    ArrayList<String> value_string_list = new ArrayList<>();
-    boolean value_boolean = false;
-    int[] value_1d_int_array = new int[] {};
+    private double value_double = 0.0;
+    private String value_string = "";
+    private ArrayList<String> value_string_list = new ArrayList<>();
+    private boolean value_boolean = false;
+    private int[] value_1d_int_array = new int[] {};
 
     double min = Double.MIN_VALUE;
     double max = Double.MAX_VALUE;
@@ -34,14 +34,11 @@ public class SettingField extends SettingStructure {
     final static int STRING = 5;
     final static int STRING_LIST = 6;
 
-    int setting_id;
 
     /*
      * Constructor
      */
-    public SettingField() {
-
-    }
+    public SettingField() { }
 
     public SettingField(String id, int type, int description_id) {
         this.id = id;
@@ -174,7 +171,7 @@ public class SettingField extends SettingStructure {
     }
 
     /*
-     * @param 'array_id': string title_strings the SettingField(with type Byte) includes
+     * @param 'array_id': string title_strings the Setting(with type Byte) includes
      */
     public void setArrayId(int array_id) {
         this.byte_options_id = array_id;

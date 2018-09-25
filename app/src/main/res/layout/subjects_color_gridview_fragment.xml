@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     android:padding="6dp">
 
-    <mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
+    <mc.wombyte.marcu.jhp_app.reuseables.SquaredLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/container_subject_color_gridview"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:background="@drawable/subjects_color_gridview_background"
         custom:square="vertically">
 
-    </mc.wombyte.marcu.jhp_app.Reuseables.SquaredLayout>
+    </mc.wombyte.marcu.jhp_app.reuseables.SquaredLayout>
 
 </LinearLayout>

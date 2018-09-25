@@ -9,7 +9,7 @@
     android:paddingBottom="2dp"
     android:background="@color/background">
 
-    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+    <mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/vs_grade_horizontal_list">
@@ -45,6 +45,6 @@
             android:tint="@color/colorAccent"
             android:src="@drawable/symbol_add"/>
 
-    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+    </mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher>
 
 </RelativeLayout>

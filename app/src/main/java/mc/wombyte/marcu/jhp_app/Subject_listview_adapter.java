@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mc.wombyte.marcu.jhp_app.Classes.Subject;
+import mc.wombyte.marcu.jhp_app.classes.Homework;
+import mc.wombyte.marcu.jhp_app.classes.Subject;
 
 public class Subject_listview_adapter extends ArrayAdapter<Subject> {
 
@@ -49,12 +50,11 @@ public class Subject_listview_adapter extends ArrayAdapter<Subject> {
         }
 
         int lesson = p.getLessonAmount();
-        int tasks;
+        int tasks = 0;
         if(Storage.homework.size() > p.getIndex()) {
-            tasks = Storage.homework.get(p.getIndex()).size();
-        }
-        else {
-            tasks = 0;
+            for(Homework h : Storage.homework.get(p.getIndex())) {
+                tasks += h.getSolution().isFinished()? 0 : 1;
+            }
         }
 
         //name

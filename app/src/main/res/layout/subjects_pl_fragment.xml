@@ -7,7 +7,7 @@
     android:background="@color/background"
     tools:context="mc.wombyte.marcu.jhp_app.Subjects_pl_fragment">
 
-    <mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher
+    <mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vs_view_subjects"
@@ -31,6 +31,6 @@
             android:horizontalSpacing="8dp"
             android:verticalSpacing="8dp"/>
 
-    </mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher>
+    </mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher>
 
 </RelativeLayout>

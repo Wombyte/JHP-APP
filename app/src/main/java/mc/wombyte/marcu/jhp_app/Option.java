@@ -55,6 +55,7 @@ public class Option {
         this.closeMenu = closeMenu;
     }
 
+
     //******************************************************* method *******************************************************//
     public void setSymbolColor() {
         Drawable d = symbol;

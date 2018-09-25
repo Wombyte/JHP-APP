@@ -1,5 +1,7 @@
 package mc.wombyte.marcu.jhp_app;
 
+import android.app.Dialog;
+
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public abstract class SettingStructure{
 
     ArrayList<Integer> path = new ArrayList<>();
     SettingFragment fragment;
+    Dialog dialog;
 
 
     /*

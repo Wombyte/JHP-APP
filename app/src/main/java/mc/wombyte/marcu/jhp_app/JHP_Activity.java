@@ -21,7 +21,7 @@ public abstract class JHP_Activity extends AppCompatActivity implements Activity
 
     private final static int REQUEST_GRANTED = 0;
 
-    ArrayList<Option> options = new ArrayList<>();
+    public ArrayList<Option> options = new ArrayList<>();
     int menu_container_id;
     FragmentManager fm_scroll;
 

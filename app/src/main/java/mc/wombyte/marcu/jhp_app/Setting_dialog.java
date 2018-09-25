@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import mc.wombyte.marcu.jhp_app.Reuseables.ViewSwitcher;
+import mc.wombyte.marcu.jhp_app.reuseables.ViewSwitcher;
 
 /**
  * Created by marcu on 14.10.2017.
@@ -41,7 +41,7 @@ public class Setting_dialog extends Dialog {
         super(context);
         this.context = context;
         requestWindowFeature(Window.FEATURE_NO_TITLE); //disables a title bar, must be called before setContentView
-        setContentView(R.layout.settings_dialog);
+        setContentView(R.layout.settings_old_dialog);
 
         //initialization
         this.settingField = settingField;

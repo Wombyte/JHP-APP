@@ -1,0 +1,25 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <path
+        android:fillColor="@color/schedule_lesson_count_inactive"
+        android:pathData="
+        M9,3
+        h6
+        l-3,-3
+        z
+        M3,9
+        v6
+        l-3,-3
+        z
+        M21,9
+        v6
+        l3,-3
+        z
+        M9,21
+        h6
+        l-3,3
+        "/>
+</vector>

@@ -15,6 +15,7 @@
     <declare-styleable name="NumberPicker">
         <attr name="minValue" format="integer"/>
         <attr name="maxValue" format="integer"/>
+        <attr name="step" format="integer"/>
         <attr name="LtoR_order" format="integer">
             <enum name="ascending" value="0"/>
             <enum name="descending" value="1"/>

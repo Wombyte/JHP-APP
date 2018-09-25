@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,16 +51,8 @@ public class ImagePickerDialog extends Dialog {
         b_gallery = findViewById(R.id.b_gallery_image_picker_dialog);
         b_camera = findViewById(R.id.b_camera_image_picker_dialog);
 
-        b_gallery.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                onclick_gallery();
-            }
-        });
-        b_camera.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                onclick_camera();
-            }
-        });
+        b_gallery.setOnClickListener((v) -> onclick_gallery());
+        b_camera.setOnClickListener((v) -> onclick_camera());
 
         if(!(this.activity.getPackageManager()).hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             image_camera = findViewById(R.id.image_camera_image_picker_dialog);
